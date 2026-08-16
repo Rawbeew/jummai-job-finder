@@ -1,12 +1,50 @@
 [
   {
     "e": "University Health Network (UHN)",
+    "title": "Community Health Worker",
+    "cat": "coordination",
+    "tier": "hospital",
+    "loc": "Toronto",
+    "pay": "$65,919-$82,389/yr",
+    "payMin": 31.69,
+    "type": "Full-time",
+    "link": "https://jobs.smartrecruiters.com/UniversityHealthNetwork/744000143645998-community-health-worker?oga=true",
+    "search": "https://www.google.com/search?q=Community%20Health%20Worker",
+    "hl": [
+      "At minimum, completion of a bachelors degree in a relevant health or social work field, or recognized equivale"
+    ],
+    "req": "Union: Non-Union Number of vacancies : 2 New or Replacement Position: Replacement Site: UHN All Sites & Community Department: Social Medicine & Population Health Reports to: Senior Manager, Social Medicine & Population Health Salary range : $65,919 - $82,389 per annum Hours: 37.5 hours per week Status: Permanent Full-Time Closing Date: August 21, 2026 Gattuso Centre for Social Medicine The Gattuso Centre for Social Medicine seeks to address health inequities, working alongside community organizations, UHN clinicians, marginalized populations, persons with lived experience, patients, and all levels of policymaking to co-design, evaluate, and scale innovative data-driven programs that lead to better health. Applying a social determinants of health approach, the Social Medicine and Population",
+    "live": true,
+    "releasedDate": "2026-08-15",
+    "closes": "2026-08-21"
+  },
+  {
+    "e": "University Health Network (UHN)",
+    "title": "Recreation Therapist",
+    "cat": "restorative",
+    "tier": "hospital",
+    "loc": "Toronto",
+    "pay": "$33.80-$42.25/hr",
+    "payMin": 33.8,
+    "type": "Contract",
+    "link": "https://jobs.smartrecruiters.com/UniversityHealthNetwork/744000143605129-recreation-therapist?oga=true",
+    "search": "https://www.google.com/search?q=Recreation%20Therapist",
+    "hl": [
+      "Bachelor\u2019s degree in Recreation and Leisure studies with a major/emphasis in Therapeutic Recreation or Bachelo"
+    ],
+    "req": "Union: Non-Union Number of vacancies: 1 New or Replacement Position : Replacement Site: Toronto General Hospital Department: Recreation Therapy Reports to: Manager, Program Services Salary Range: $33.80 to $42.25 Per Hour Hours: 37.5 per week Shifts: Days/evening/weekends Status: Temporary Full-Time ( January 2028 ) Closing Date: August 28, 2026 Position Summary As an integral member of the Mental Health and Addiction Team, the RECREATION THERAPIST will develop and implement creative therapeutic recreation programs that promote group interaction and assist in the development of leisure-related skills to meet the needs of the mental health client. The Recreation Therapist will be responsible for both patient care and non-patient care duties, more specifically, for the following: maintaining",
+    "live": true,
+    "releasedDate": "2026-08-14",
+    "closes": "2026-08-28"
+  },
+  {
+    "e": "University Health Network (UHN)",
     "title": "Personal Support Worker",
     "cat": "psw",
     "tier": "hospital",
     "loc": "Toronto",
-    "pay": "See posting",
-    "payMin": null,
+    "pay": "$31.70-$32.61/hr",
+    "payMin": 31.7,
     "type": "Part-time",
     "link": "https://jobs.smartrecruiters.com/UniversityHealthNetwork/744000143319344-personal-support-worker?oga=true",
     "search": "https://www.google.com/search?q=Personal%20Support%20Worker",
@@ -18,7 +56,8 @@
     ],
     "req": "Union: CUPE TW Service Number of Vacancies: 1 New or Replacement : Replacement Site: Toronto Western Hospital Department: 8A ALC Reports to: Nurse Manager Hours: up to 24 hours per week Shifts: Day/Evening/Night/Stat 0730-1530, 1530-2330 2330-0730 Salary: $31.70 - $32.61 (start rate is non-negotiable) Status: Permanent Part-Time Closing Date: August 20, 2026 Position Summary The Personal Support Worker (PSW) is a member of the inter-professional care team and is expected to maintain a collaborative and active working relationship with team members in the provision of patient care. Duties Assist patients with activities of daily living: This includes feeding, lifts and transfers, bathing, skin care, oral hygiene, and toileting. Perform tasks assigned or as delegated by an RN or RPN in compl",
     "live": true,
-    "releasedDate": "2026-08-13"
+    "releasedDate": "2026-08-13",
+    "closes": "2026-08-20"
   },
   {
     "e": "University Health Network (UHN)",
@@ -39,7 +78,8 @@
     ],
     "req": "Union: CUPE Number of Vacancies: 1 Replacement or New: Replacement Site: Toronto Rehabilitation Institute \u2013 University Centre Department: Musculoskeletal and Multisystem Reports to: Manager, Program Services Wage Range: $31.70 - $32.61 per hour. Start rate non-negotiable. Hours: 15 Hours per Week Shifts: Day/Evening/Weekdays/Weekends Status: Permanent Part-Time Closing Date: August 20, 2026 Position Summary The Personal Support Worker (PSW) is a member of the inter-professional care team and is expected to maintain a collaborative and active working relationship with team members in the provision of patient care. Duties Assist patients with activities of daily living: This includes feeding, lifts and transfers, bathing, skin care, oral hygiene, and toileting. Perform tasks assigned or as d",
     "live": true,
-    "releasedDate": "2026-08-13"
+    "releasedDate": "2026-08-13",
+    "closes": "2026-08-20"
   },
   {
     "e": "University Health Network (UHN)",
@@ -60,7 +100,8 @@
     ],
     "req": "Union: CUPE New or Replacement: Replacement Site: Toronto General Hospital Department: Medical Surgical Intensive Care Unit (MSICU) Reports to: Manager Wage Range: $31.70- $32.61 per hour (start rate is non-negotiable and in accordance with collective agreement requirements) Hours: 37.5 Hours per Week Shifts: Days 0700- 1500h (Including Every Other Weekend) Status: Temporary Full-Time (Up to 6 Months Contract) Closing Date: August 20, 2026 Position Summary The Personal Support Worker (PSW) is a member of the inter-professional care team and is expected to maintain a collaborative and active working relationship with team members in the provision of patient care. Additionally, the PSW will be expected to: Assist patients with activities of daily living: This includes feeding, lifts and tran",
     "live": true,
-    "releasedDate": "2026-08-13"
+    "releasedDate": "2026-08-13",
+    "closes": "2026-08-20"
   },
   {
     "e": "University Health Network (UHN)",
@@ -81,545 +122,7 @@
     ],
     "req": "Union: CUPE Site: Toronto General Hospital Department: Medical Surgical Intensive Care Unit (MSICU) Reports to: Manager Wage Range: $31.70- $32.61 per hour (start rate is non-negotiable and in accordance with collective agreement requirements) Hours: 37.5 Hours per Week Shifts: 1500 - 2300h (Evenings including every other Weekend) Status: Permanent Full-Time Closing Date: August 20, 2026 Position Summary The Personal Support Worker (PSW) is a member of the inter-professional care team and is expected to maintain a collaborative and active working relationship with team members in the provision of patient care. Additionally, the PSW will be expected to: Assist patients with activities of daily living: This includes feeding, lifts and transfers, bathing, skin care, oral hygiene, and toiletin",
     "live": true,
-    "releasedDate": "2026-08-13"
-  },
-  {
-    "e": "University Health Network (UHN)",
-    "title": "Personal Support Worker, Thoracic Surgery",
-    "cat": "psw",
-    "tier": "hospital",
-    "loc": "Toronto",
-    "pay": "$31.70-32.61/hr",
-    "payMin": 31.7,
-    "type": "Temp Part-Time",
-    "link": "https://jobs.smartrecruiters.com/UniversityHealthNetwork/744000128957479-personal-support-worker",
-    "search": "https://www.google.com/search?q=UHN+personal+support+worker+careers",
-    "hl": [
-      "Assist with ADLs: feeding, lifts/transfers, bathing, skin care, oral hygiene, toileting",
-      "Document patient records &amp; progress notes",
-      "Report behavioural, physical &amp; cognitive changes",
-      "HSCPOA registration + BCLS (required) \u00b7 CPI behavioural training (asset)"
-    ],
-    "req": "Assist patients with activities of daily living including feeding, lifts and transfers, bathing, skin care, oral hygiene, toileting. Document patient records and progress notes. Report unsafe conditions and behavioral, physical or cognitive changes. HSCPOA registration required, BCLS certificate required. Behavioral management training such as PIECES, U-First, CPI an asset."
-  },
-  {
-    "e": "Sunnybrook Health Sciences Centre",
-    "title": "Patient Services Partner (multiple units)",
-    "cat": "psw",
-    "tier": "hospital",
-    "loc": "Toronto",
-    "pay": "Union scale",
-    "payMin": null,
-    "type": "FT / PT / Casual",
-    "link": "https://sunnybrook.ca/careers",
-    "search": "https://www.google.com/search?q=Sunnybrook+Patient+Services+Partner+careers",
-    "hl": [
-      "Personal care, ADLs, mobility &amp; transfers",
-      "Feeding, toileting, hygiene",
-      "Communication &amp; teamwork",
-      "Units: Veterans Centre, Transitional Care, ED, Trauma, Neurovascular"
-    ],
-    "req": "Patient Services Partner provides personal care, activities of daily living, mobility and transfers, feeding, toileting and hygiene for patients. Strong communication skills and teamwork. Regular full-time, part-time and casual."
-  },
-  {
-    "e": "Mackenzie Health",
-    "title": "Personal Support Worker",
-    "cat": "psw",
-    "tier": "hospital",
-    "loc": "Vaughan / Richmond Hill",
-    "pay": "Union scale",
-    "payMin": null,
-    "type": "Varies",
-    "link": "https://www.mackenziehealth.ca/careers",
-    "search": "https://www.google.com/search?q=Mackenzie+Health+personal+support+worker",
-    "hl": [
-      "Personal care &amp; ADLs",
-      "Mobility, lifts &amp; transfers",
-      "Documentation &amp; reporting",
-      "Hospital setting in Vaughan/Richmond Hill"
-    ],
-    "req": "Personal support worker in a hospital setting. Personal care, activities of daily living, lifts and transfers, documentation and reporting. PSW certificate, CPR. Teamwork."
-  },
-  {
-    "e": "Oak Valley Health (Markham Stouffville Hospital)",
-    "title": "Personal Support Worker",
-    "cat": "psw",
-    "tier": "hospital",
-    "loc": "Markham",
-    "pay": "Union scale",
-    "payMin": null,
-    "type": "Varies",
-    "link": "https://www.oakvalleyhealth.ca/careers",
-    "search": "https://www.google.com/search?q=Oak+Valley+Health+personal+support+worker",
-    "hl": [
-      "Personal care &amp; ADLs",
-      "Mobility &amp; transfers",
-      "Documentation",
-      "Hospital in Markham"
-    ],
-    "req": "Personal support worker in a hospital. Personal care, hygiene, transfers, documentation. PSW certificate and CPR."
-  },
-  {
-    "e": "City of Toronto, Long-Term Care",
-    "title": "Personal Support Worker LTC (10 homes)",
-    "cat": "psw",
-    "tier": "municipal",
-    "loc": "Toronto",
-    "pay": "$31.21-34.06/hr",
-    "payMin": 31.21,
-    "type": "Unionized (CUPE)",
-    "link": "https://jobs.toronto.ca",
-    "search": "https://www.google.com/search?q=jobs.toronto.ca+personal+support+worker+long+term+care",
-    "hl": [
-      "Personal care, hygiene, bathing, dressing, toileting, feeding",
-      "Transfers &amp; mobility support",
-      "Documentation &amp; reporting",
-      "Infection prevention &amp; control \u00b7 PSW program completion"
-    ],
-    "req": "Provide personal care, hygiene, bathing, dressing, toileting, feeding, transfers and mobility support to residents in a long-term care home. Documentation and reporting. PSW program completion. Infection prevention and control practices."
-  },
-  {
-    "e": "Region of Peel, Long-Term Care",
-    "title": "Personal Support Worker (Peel LTC homes)",
-    "cat": "psw",
-    "tier": "municipal",
-    "loc": "Mississauga / Brampton",
-    "pay": "Municipal scale",
-    "payMin": null,
-    "type": "Varies",
-    "link": "https://www.google.com/search?q=Region+of+Peel+long+term+care+personal+support+worker+jobs",
-    "search": "https://www.google.com/search?q=Region+of+Peel+long+term+care+personal+support+worker+jobs",
-    "hl": [
-      "Personal care &amp; ADLs",
-      "Transfers &amp; mobility",
-      "Documentation",
-      "Public-sector pension &amp; benefits"
-    ],
-    "req": "Personal support worker in municipal long-term care. Personal care, transfers, documentation, infection control. PSW certificate and CPR."
-  },
-  {
-    "e": "Shepherd Village",
-    "title": "Personal Support Worker, LTC (Part-Time)",
-    "cat": "psw",
-    "tier": "nonprofit",
-    "loc": "Scarborough",
-    "pay": "$27.55-29.15/hr",
-    "payMin": 27.55,
-    "type": "Part-Time",
-    "link": "https://www.google.com/search?q=Shepherd+Village+Toronto+personal+support+worker+careers",
-    "search": "https://www.google.com/search?q=Shepherd+Village+Toronto+personal+support+worker+careers",
-    "hl": [
-      "Personal care, ADLs, feeding, bathing, toileting",
-      "Lifts, transfers, repositioning",
-      "Documentation &amp; reporting changes",
-      "Dementia care &amp; teamwork"
-    ],
-    "req": "Personal support worker in long-term care. Personal care, activities of daily living, feeding, bathing, toileting, lifts, transfers, repositioning, documentation and reporting changes. Dementia care. Teamwork."
-  },
-  {
-    "e": "Yee Hong Centre for Geriatric Care",
-    "title": "Personal Support Worker (Part-Time Day)",
-    "cat": "psw",
-    "tier": "nonprofit",
-    "loc": "Scarborough",
-    "pay": "$25.41-27.62/hr",
-    "payMin": 25.41,
-    "type": "Part-Time",
-    "link": "https://www.yeehong.com/careers",
-    "search": "https://www.google.com/search?q=Yee+Hong+personal+support+worker+careers",
-    "hl": [
-      "Personal care, hygiene, toileting, feeding, transfers",
-      "Resident-centred care",
-      "Documentation \u00b7 customer service \u00b7 teamwork",
-      "Chinese language an asset (not required)"
-    ],
-    "req": "Provide personal care, hygiene, toileting, feeding and transfers to seniors in a resident-centred setting. Documentation. Customer service and teamwork."
-  },
-  {
-    "e": "WoodGreen Community Services",
-    "title": "Personal Support Worker (2026-274-CC)",
-    "cat": "psw",
-    "tier": "nonprofit",
-    "loc": "East York",
-    "pay": "$24.37/hr",
-    "payMin": 24.37,
-    "type": "35h/wk evenings",
-    "link": "https://www.woodgreen.org/careers",
-    "search": "https://www.google.com/search?q=WoodGreen+personal+support+worker+2026",
-    "hl": [
-      "Personal care, mobility, transfers, meal prep, medication reminders",
-      "Gentle Persuasive Approaches (GPA) training named in the posting",
-      "Documentation and reporting changes to the clinical lead",
-      "Dementia care and person-centred care philosophy"
-    ],
-    "req": "Personal support worker, 35 hours per week evening shift. Personal care, mobility, transfers, meal preparation, medication reminders, documentation and reporting changes. Teamwork and communication. Experience in long-term care or retirement home with a solid understanding of dementia care. Gentle Persuasive Approaches (GPA) training is named in the posting. Onsite."
-  },
-  {
-    "e": "Better Living Health & Community Services",
-    "title": "Personal Support Worker, Weekends",
-    "cat": "psw",
-    "tier": "nonprofit",
-    "loc": "North York",
-    "pay": "Not listed",
-    "payMin": null,
-    "type": "Weekends",
-    "link": "https://www.google.com/search?q=Better+Living+Health+and+Community+Services+North+York+PSW",
-    "search": "https://www.google.com/search?q=Better+Living+Health+and+Community+Services+North+York+PSW",
-    "hl": [
-      "Personal care, mobility, meal prep, companionship",
-      "CPR certification",
-      "Weekend shifts in North York"
-    ],
-    "req": "Weekend personal support worker. Personal care, mobility, meal preparation and companionship. CPR certification. Team environment."
-  },
-  {
-    "e": "Eatonville Care Centre",
-    "title": "Personal Support Worker, Casual",
-    "cat": "psw",
-    "tier": "ltco",
-    "loc": "Etobicoke",
-    "pay": "$27.53/hr",
-    "payMin": 27.53,
-    "type": "Casual",
-    "link": "https://www.google.com/search?q=Eatonville+Care+Centre+personal+support+worker",
-    "search": "https://www.google.com/search?q=Eatonville+Care+Centre+personal+support+worker",
-    "hl": [
-      "Personal care, hygiene, toileting, feeding, transfers",
-      "Documentation",
-      "HSCPOA preferred \u00b7 CPR &amp; First Aid"
-    ],
-    "req": "Personal support worker casual. Personal care, hygiene, toileting, feeding, transfers and documentation. HSCPOA registration preferred. Long-term care. CPR and First Aid."
-  },
-  {
-    "e": "Extendicare",
-    "title": "Personal Support Worker, Part-Time",
-    "cat": "psw",
-    "tier": "ltco",
-    "loc": "Toronto",
-    "pay": "Not listed",
-    "payMin": null,
-    "type": "Part-Time",
-    "link": "https://www.extendicare.com/careers",
-    "search": "https://www.google.com/search?q=Extendicare+personal+support+worker+Toronto",
-    "hl": [
-      "Personal care, mobility, transfers",
-      "Documentation &amp; infection prevention",
-      "CPR \u00b7 teamwork"
-    ],
-    "req": "Personal support worker part-time. Personal care, mobility, transfers, documentation and infection prevention. CPR. Teamwork."
-  },
-  {
-    "e": "Sienna Senior Living (Revera)",
-    "title": "Personal Support Worker, Casual",
-    "cat": "psw",
-    "tier": "ltco",
-    "loc": "Toronto",
-    "pay": "$21.25/hr",
-    "payMin": 21.25,
-    "type": "Casual",
-    "link": "https://www.siennaliving.ca/careers",
-    "search": "https://www.google.com/search?q=Sienna+Senior+Living+personal+support+worker+careers",
-    "hl": [
-      "Personal care, ADLs, companionship",
-      "Mobility support \u00b7 teamwork"
-    ],
-    "req": "Personal support worker casual. Personal care, activities of daily living, companionship and mobility support. Teamwork."
-  },
-  {
-    "e": "LOFT Community Services",
-    "title": "Behavioural Personal Support Worker, FT Permanent",
-    "cat": "behavioural",
-    "tier": "nonprofit",
-    "loc": "Toronto",
-    "pay": "$52-55k/yr",
-    "payMin": 25,
-    "type": "Full-Time",
-    "link": "https://www.loftcs.org/careers",
-    "search": "https://www.google.com/search?q=LOFT+Community+Services+Behavioural+Personal+Support+Worker",
-    "hl": [
-      "De-escalation &amp; crisis intervention",
-      "Dementia / cognitive care",
-      "Documentation &amp; teamwork",
-      "Her best fit: CPI + GPA + Alzheimer\u2019s care = exactly this"
-    ],
-    "req": "Behavioural support personal support worker providing direct care, education and support to seniors demonstrating responsive behaviours. De-escalation, crisis intervention, dementia and cognitive care. Documentation and teamwork. Full-time permanent."
-  },
-  {
-    "e": "LOFT Community Services",
-    "title": "Personal Support Worker (Overnight), FT Permanent",
-    "cat": "psw",
-    "tier": "nonprofit",
-    "loc": "Toronto",
-    "pay": "$52.1-53.4k/yr",
-    "payMin": 25,
-    "type": "Full-Time nights",
-    "link": "https://www.loftcs.org/careers",
-    "search": "https://www.google.com/search?q=LOFT+Personal+Support+Worker+Overnight",
-    "hl": [
-      "Personal care, medication reminders",
-      "Safety checks, documentation, reporting",
-      "Night-shift availability"
-    ],
-    "req": "Overnight personal support worker. Personal care, medication reminders, safety checks, documentation and reporting. Night shifts. Team-based specialized assisted living."
-  },
-  {
-    "e": "LOFT / BSO teams (community LTC)",
-    "title": "Behavioural Support Case Manager",
-    "cat": "behavioural",
-    "tier": "nonprofit",
-    "loc": "Toronto / GTA",
-    "pay": "$55-67k/yr",
-    "payMin": 27,
-    "type": "Contract / FT",
-    "link": "https://www.google.com/search?q=behavioural+support+case+manager+Toronto",
-    "search": "https://www.google.com/search?q=behavioural+support+case+manager+Toronto",
-    "hl": [
-      "Responsive-behaviour case management",
-      "Dementia &amp; cognitive care",
-      "Care-plan development \u00b7 multidisciplinary teamwork",
-      "1-2 yrs behavioural experience (her CPI/GPA profile)"
-    ],
-    "req": "Case manager behavioural support. Dementia, responsive behaviours, de-escalation, care plans, documentation, multidisciplinary team."
-  },
-  {
-    "e": "Community Living Toronto",
-    "title": "Developmental Services Worker (DSW)",
-    "cat": "dsw",
-    "tier": "nonprofit",
-    "loc": "Toronto",
-    "pay": "$53-57k/yr",
-    "payMin": 25.5,
-    "type": "Varies",
-    "link": "https://www.google.com/search?q=Community+Living+Toronto+developmental+services+worker",
-    "search": "https://www.google.com/search?q=Community+Living+Toronto+developmental+services+worker",
-    "hl": [
-      "Support for individuals with developmental disabilities",
-      "Crisis intervention (her CPI)",
-      "Personal care &amp; behaviour plans"
-    ],
-    "req": "Developmental services worker supporting individuals with developmental disabilities in residential settings. Crisis intervention, personal care, care plans, medication administration, teamwork."
-  },
-  {
-    "e": "Terrace Wellness Group",
-    "title": "Developmental Support Worker",
-    "cat": "dsw",
-    "tier": "ltco",
-    "loc": "Burlington / GTA",
-    "pay": "$27.03/hr",
-    "payMin": 27.03,
-    "type": "PT / Casual / FT",
-    "link": "https://www.google.com/search?q=Terrace+Wellness+Group+developmental+support+worker",
-    "search": "https://www.google.com/search?q=Terrace+Wellness+Group+developmental+support+worker",
-    "hl": [
-      "Crisis intervention",
-      "Medication administration",
-      "Residential care for complex needs"
-    ],
-    "req": "Developmental support worker, residential treatment. Crisis intervention, medication administration, personal care, experience with developmental disabilities and complex needs."
-  },
-  {
-    "e": "Kennedy House Youth Services",
-    "title": "Developmental Service Worker (DSW)",
-    "cat": "dsw",
-    "tier": "nonprofit",
-    "loc": "Toronto",
-    "pay": "~$42k/yr",
-    "payMin": 20,
-    "type": "Varies",
-    "link": "https://www.google.com/search?q=Kennedy+House+Youth+Services+developmental+service+worker",
-    "search": "https://www.google.com/search?q=Kennedy+House+Youth+Services+developmental+service+worker",
-    "hl": [
-      "Life-plan / care-plan support",
-      "Crisis intervention",
-      "Medication administration \u00b7 case management"
-    ],
-    "req": "Developmental service worker. Identifies needs of supported individuals, life plans and care plans. Crisis intervention, medication administration, case management, organizational skills."
-  },
-  {
-    "e": "Hospitals (UHN, Scarborough Health, Trillium\u2026)",
-    "title": "Hospital Unit Clerk",
-    "cat": "admin",
-    "tier": "hospital",
-    "loc": "Toronto / GTA",
-    "pay": "$26-30/hr",
-    "payMin": 26,
-    "type": "FT / PT",
-    "link": "https://www.uhn.ca/Careers",
-    "search": "https://www.google.com/search?q=hospital+unit+clerk+Toronto",
-    "hl": [
-      "Patient records, filing, chart maintenance",
-      "Medical terminology (short course closes this gap)",
-      "Keyboarding 40 wpm \u00b7 computer skills",
-      "Her B.Sc. Accounting = the core skill"
-    ],
-    "req": "Maintains patient records, filing, chart maintenance, admissions, discharges, transfers. Knowledge of medical terminology an asset. Keyboarding 40 wpm, computer skills, scheduling, appointment coordination."
-  },
-  {
-    "e": "Toronto hospitals / health records depts",
-    "title": "Health Information Services Clerk",
-    "cat": "admin",
-    "tier": "hospital",
-    "loc": "Toronto",
-    "pay": "$27.27-28.24/hr",
-    "payMin": 27.27,
-    "type": "FT",
-    "link": "https://www.google.com/search?q=Health+Information+Services+Clerk+Toronto",
-    "search": "https://www.google.com/search?q=Health+Information+Services+Clerk+Toronto",
-    "hl": [
-      "Health records, filing &amp; chart management",
-      "Medical terminology an asset",
-      "Acute-care records experience valued"
-    ],
-    "req": "Health information services clerk. Health record department, filing, chart maintenance, medical terminology an asset, documentation and records accuracy."
-  },
-  {
-    "e": "Carefirst Seniors & Community Services",
-    "title": "Scheduling Coordinator (Home Care)",
-    "cat": "coordination",
-    "tier": "nonprofit",
-    "loc": "Scarborough",
-    "pay": "$38-43k/yr",
-    "payMin": 19,
-    "type": "Full-Time",
-    "link": "https://www.google.com/search?q=Carefirst+Seniors+scheduling+coordinator+home+care",
-    "search": "https://www.google.com/search?q=Carefirst+Seniors+scheduling+coordinator+home+care",
-    "hl": [
-      "Schedule PSWs/home-care workers",
-      "Client files &amp; records",
-      "Collect/verify timesheets",
-      "MS Office \u00b7 strong organization (her accounting background)"
-    ],
-    "req": "Perform daily scheduling of home care workers. Maintain client files and records, document service changes, collect and verify worker timesheets. MS Office and Outlook, strong time management."
-  },
-  {
-    "e": "Carefirst Seniors & Community Services",
-    "title": "Care Coordinator (Home Care)",
-    "cat": "coordination",
-    "tier": "nonprofit",
-    "loc": "Scarborough",
-    "pay": "$48-56k/yr",
-    "payMin": 23,
-    "type": "Full-Time",
-    "link": "https://www.google.com/search?q=Carefirst+Seniors+care+coordinator+home+care",
-    "search": "https://www.google.com/search?q=Carefirst+Seniors+care+coordinator+home+care",
-    "hl": [
-      "Process referrals &amp; needs assessments",
-      "Ongoing case management",
-      "Client-centred care coordination",
-      "Office role, her PSW experience is a real edge"
-    ],
-    "req": "Care coordinator providing client-centered care through processing referrals, client needs assessments and ongoing case management. Documentation, scheduling, MS Office, communication."
-  },
-  {
-    "e": "City of Toronto, Seniors Services",
-    "title": "Rehabilitation Assistant (True Davidson Acres)",
-    "cat": "restorative",
-    "tier": "municipal",
-    "loc": "East York",
-    "pay": "$36.35-39.69/hr",
-    "payMin": 36.35,
-    "type": "Full-Time Permanent",
-    "link": "https://jobs.toronto.ca/jobsatcity/job/Toronto-REHABILITATION-ASSISTANT-ON-M5V-3C6/601136917/",
-    "search": "https://www.google.com/search?q=jobs.toronto.ca+rehabilitation+assistant+long+term+care",
-    "hl": [
-      "Rehab programs: ambulation, strengthening, positioning",
-      "ROM &amp; ADL programs, sensory stimulation",
-      "Transfers using lifting devices",
-      "\"Combined equivalent of education &amp; experience\" accepted"
-    ],
-    "req": "Develops rehabilitation programs, ambulation, active mobility and strengthening exercises, positioning, sensory stimulation, activities of daily living, transfers using lifting devices. Post-secondary program in restorative care or combined equivalent of education and experience."
-  },
-  {
-    "e": "Yee Hong Centre for Geriatric Care",
-    "title": "Program Assistant (Activation)",
-    "cat": "restorative",
-    "tier": "nonprofit",
-    "loc": "Scarborough",
-    "pay": "$22.52-26.49/hr",
-    "payMin": 22.52,
-    "type": "Casual",
-    "link": "https://www.yeehong.com/careers",
-    "search": "https://www.google.com/search?q=Yee+Hong+program+assistant+activation",
-    "hl": [
-      "Activation &amp; engagement programming",
-      "Geriatric rehabilitation experience",
-      "CPR \u00b7 Vulnerable Sector screen",
-      "\"Health sciences diploma or equivalent\""
-    ],
-    "req": "Program assistant activation. Engagement and activation programming, geriatric rehabilitation, exercises, computer literacy, CPR certification, vulnerable sector screen."
-  },
-  {
-    "e": "City of Toronto, Long-Term Care",
-    "title": "Personal Support Worker LTC (Part-Time, 6 Openings)",
-    "cat": "psw",
-    "tier": "municipal",
-    "loc": "Toronto",
-    "pay": "$28.39-$31.13/hr",
-    "payMin": 28.39,
-    "type": "Part-Time",
-    "link": "https://jobs.toronto.ca",
-    "search": "https://www.google.com/search?q=jobs.toronto.ca+personal+support+worker+LTC",
-    "hl": [
-      "Personal care, hygiene, bathing, dressing, grooming, toileting",
-      "Ambulation and transfers using lifts and mobility aids",
-      "Knowledge of responsive behaviours and gentle behavioural techniques",
-      "Documentation and reporting to registered staff"
-    ],
-    "req": "Assist residents with personal hygiene, bathing, dressing, grooming, and toileting. Assist with ambulation and transferring using mechanical lifts and mobility aids. Provide care for bedridden residents, including positioning, skin care, and meal assistance. Observe and report changes in condition. Record observations and care provided. Knowledge of responsive behaviours related to dementia and gentle behavioural management techniques. PSW program completion. Days, evenings, nights."
-  },
-  {
-    "e": "Hawthorne Place Care Centre",
-    "title": "Personal Support Worker",
-    "cat": "psw",
-    "tier": "ltco",
-    "loc": "Toronto",
-    "pay": "See posting",
-    "payMin": null,
-    "type": "Varies",
-    "link": "https://www.google.com/search?q=Hawthorne+Place+Care+Centre+Toronto+careers",
-    "search": "https://www.google.com/search?q=Hawthorne+Place+Care+Centre+Toronto+careers",
-    "hl": [
-      "Personal care and activities of daily living",
-      "Transfers and repositioning",
-      "Documentation per policies",
-      "HSCPOA registration preferred"
-    ],
-    "req": "Personal support worker in a long-term care home. Provide personal care and activities of daily living for residents. Assist with transfers and repositioning. Report changes in resident status and document accurately. HSCPOA registration preferred. Teamwork with nursing staff."
-  },
-  {
-    "e": "Scarborough Retirement Residence",
-    "title": "Personal Support Worker (Nursing Care)",
-    "cat": "psw",
-    "tier": "ltco",
-    "loc": "Scarborough",
-    "pay": "See posting",
-    "payMin": null,
-    "type": "Varies",
-    "link": "https://www.google.com/search?q=Scarborough+Retirement+Residence+PSW+jobs",
-    "search": "https://www.google.com/search?q=Scarborough+Retirement+Residence+PSW+jobs",
-    "hl": [
-      "Personal care and hygiene",
-      "Mobility support",
-      "Meal assistance"
-    ],
-    "req": "Provide personal care and hygiene support to residents. Assist with mobility and daily activities. Meal assistance. Compassionate and reliable care in a retirement residence."
-  },
-  {
-    "e": "Amica Senior Lifestyles",
-    "title": "Personal Support Worker (Casual)",
-    "cat": "psw",
-    "tier": "ltco",
-    "loc": "Pickering",
-    "pay": "See posting",
-    "payMin": null,
-    "type": "Casual",
-    "link": "https://www.amica.ca/careers",
-    "search": "https://www.google.com/search?q=Amica+Senior+Lifestyles+personal+support+worker",
-    "hl": [
-      "Personal care and ADLs in a retirement residence",
-      "Companionship and engagement",
-      "Teamwork with wellness staff"
-    ],
-    "req": "Personal support worker in a premium retirement residence. Personal care, activities of daily living, and companionship. Work with the wellness team. PSW certificate."
+    "releasedDate": "2026-08-13",
+    "closes": "2026-08-20"
   }
 ]

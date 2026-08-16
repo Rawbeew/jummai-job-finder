@@ -1,22 +1,23 @@
 #!/usr/bin/env python3
 """
-Refresh jobs.json with fresh, direct-employer postings. Runs daily via GitHub
-Actions (no keys required). Uses only the Python standard library.
+Refresh jobs.json with fresh, current, direct-employer postings. Runs daily via
+GitHub Actions (no keys required). Standard library only.
 
-Sources (in order):
-  1. SmartRecruiters public API  (keyless) - hospitals/employers that post there,
-     e.g. University Health Network (UHN). Returns full details: title, location,
-     apply URL, salary, requirements text.
-  2. Adzuna API (optional) - requires free ADZUNA_APP_ID / ADZUNA_APP_KEY
-     (developer.adzuna.com) provided as GitHub Actions secrets, for extra breadth.
+Sources (keyless):
+  1. SmartRecruiters public API - e.g. University Health Network (UHN).
+     Full details: title, location, apply URL, salary, requirements, closing date.
+  2. BambooHR public careers feed - e.g. Better Living Health & Community
+     Services. List endpoint only; apply URL built from the job id.
+  3. Adzuna API (optional) - free ADZUNA_APP_ID / ADZUNA_APP_KEY as secrets.
 
-Merge rules:
-  - Curated entries (no "live" key) are always kept - they are hand-maintained.
-  - Fetched entries get "live": true and are sorted newest-first at the top.
-  - Duplicates are dropped by (title + employer).
-  - Live entries older than MAX_LIVE_AGE_DAYS are pruned.
-  - The list is capped at CAP entries.
+Freshness rules (this is the important part):
+  - Only postings released within MAX_LIVE_AGE_DAYS are kept.
+  - Postings with a parsed closing date in the past are dropped.
+  - Curated entries (no "live" key) are kept only if CURATED_KEEP is True.
+    This build sets CURATED_KEEP = False: the job list shows RECENT postings
+    only. Evergreen employer career pages live in the site's directory.
 """
+import datetime
 import json
 import os
 import re
@@ -27,24 +28,36 @@ import urllib.request
 HERE = os.path.dirname(os.path.abspath(__file__))
 JSON_PATH = os.path.join(os.path.dirname(HERE), "jobs.json")
 
-MAX_LIVE_AGE_DAYS = 45
+MAX_LIVE_AGE_DAYS = 30
 CAP = 60
-DETAILS_PER_EMPLOYER = 10
+DETAILS_PER_EMPLOYER = 15
+CURATED_KEEP = False  # job list = recent postings only
 
-# Direct employers on SmartRecruiters. Add more slugs as discovered.
 SMARTRECRUITER_EMPLOYERS = [
     {"slug": "UniversityHealthNetwork", "tier": "hospital", "name": "University Health Network (UHN)"},
 ]
 
+BAMBOO_EMPLOYERS = [
+    {"subdomain": "betterlivinghealth", "tier": "nonprofit", "name": "Better Living Health & Community Services"},
+]
+
 CARE_KEYWORDS = [
     "personal support", "support worker", "psw", "care aide", "health care aide",
-    "caregiver", "patient services", "health care attendant",
+    "caregiver", "patient services", "health care attendant", "community health worker",
+    "recreation therapist", "activation aide", "home support worker",
 ]
-TITLE_EXCLUDE = ["animal", "physiotherapist", "occupational therapist", "executive"]
+TITLE_EXCLUDE = [
+    "animal", "physiotherapist", "occupational therapist", "executive", "intern",
+    "cleaner", "maintenance", "housekeep", "church",
+]
 AGENCY_MARKERS = ["staffing", "agency", "recruit", "we place", "assignments", "per visit"]
 
 APP_ID = os.environ.get("ADZUNA_APP_ID", "").strip()
 APP_KEY = os.environ.get("ADZUNA_APP_KEY", "").strip()
+
+
+def today():
+    return datetime.date.today()
 
 
 def http_json(url, timeout=25):
@@ -61,13 +74,65 @@ def strip_html(text):
     return re.sub(r"\s+", " ", text).strip()
 
 
-def salary_from(text):
-    m = re.search(r"\$?(\d{2}(?:\.\d{1,2})?)\s*-\s*\$?(\d{2}(?:\.\d{1,2})?)(?:\s*(?:/|\sper\s)\s*hr|hourly|per hour)?", text or "")
+def salary_from(text, comp=None):
+    # 1) structured compensation object first
+    if isinstance(comp, dict):
+        try:
+            lo = float(comp.get("min", 0))
+            hi = float(comp.get("max", 0))
+        except (TypeError, ValueError):
+            lo = hi = 0
+        if lo and hi and lo <= hi:
+            period = (comp.get("period") or "").lower()
+            if period == "yearly":
+                return round(lo / 2080, 2), f"${lo:,.0f}-${hi:,.0f}/yr"
+            return lo, f"${lo:.2f}-${hi:.2f}/hr"
+    # 2) hourly text fallback (strict: both figures must look like hourly rates)
+    m = re.search(r"\$?(\d{2}(?:\.\d{1,2})?)\s*-\s*\$?(\d{2}(?:\.\d{1,2})?)\s*(?:/|\sper\s)\s*(?:hr|hour)", text or "", re.I)
     if m:
         lo, hi = float(m.group(1)), float(m.group(2))
-        if 10 <= lo <= 100 and lo <= hi <= 100:
+        if 10 <= lo <= 60 and lo <= hi <= 60:
             return lo, f"${lo:.2f}-${hi:.2f}/hr"
     return None, "See posting"
+
+
+def closing_date_from(text):
+    m = re.search(r"closing\s*date:?\s*([A-Za-z]+)\s+(\d{1,2}),?\s+(\d{4})", text or "", re.I)
+    if not m:
+        return None
+    try:
+        return datetime.datetime.strptime(f"{m.group(1)} {m.group(2)} {m.group(3)}", "%B %d %Y").date().isoformat()
+    except ValueError:
+        return None
+
+
+def cat_of(blob):
+    if any(k in blob for k in ("behavioural", "behavioral", "dementia", "responsive")):
+        return "behavioural"
+    if any(k in blob for k in ("recreation", "activation", "therapist", "restorative")):
+        return "restorative"
+    if any(k in blob for k in ("community health", "outreach", "coordinator")):
+        return "coordination"
+    return "psw"
+
+
+def too_old(released):
+    if not released:
+        return False
+    try:
+        d = datetime.date.fromisoformat(released[:10])
+    except ValueError:
+        return False
+    return (today() - d).days > MAX_LIVE_AGE_DAYS
+
+
+def already_closed(closes):
+    if not closes:
+        return False
+    try:
+        return datetime.date.fromisoformat(closes) < today()
+    except ValueError:
+        return False
 
 
 def fetch_smartrecruiters():
@@ -75,7 +140,7 @@ def fetch_smartrecruiters():
     for emp in SMARTRECRUITER_EMPLOYERS:
         base = f"https://api.smartrecruiters.com/v1/companies/{emp['slug']}/postings"
         try:
-            data = http_json(base + "?limit=100")
+            data = http_json(base + "?limit=200")
         except Exception as e:  # noqa: BLE001
             print(f"SmartRecruiters {emp['slug']} list failed: {e}", file=sys.stderr)
             continue
@@ -102,27 +167,22 @@ def fetch_smartrecruiters():
             quals = strip_html((sections.get("qualifications") or {}).get("text", "") if isinstance(sections.get("qualifications"), dict) else "")
             comp = d.get("compensation") or {}
             comp_text = strip_html(json.dumps(comp)) if comp else ""
-            pay_min, pay = salary_from((desc + " " + comp_text) or "")
-            req_text = (desc + " " + quals).strip()[:800]
-            if not req_text:
-                req_text = name
+            pay_min, pay = salary_from(desc + " " + comp_text, comp)
+            req_text = (desc + " " + quals).strip()[:800] or name
             blob = (name + " " + req_text).lower()
             if any(m in blob for m in AGENCY_MARKERS):
                 continue
-            if any(k in blob for k in ("behavioural", "behavioral", "dementia", "responsive")):
-                cat = "behavioural"
-            else:
-                cat = "psw"
-            loc = ((d.get("location") or {}).get("city") or "").strip() or "Toronto"
+            released = (d.get("releasedDate") or "")[:10]
+            closes = closing_date_from(desc) or closing_date_from(quals)
+            if too_old(released) or already_closed(closes):
+                continue
             toe = d.get("typeOfEmployment") or {}
-            if isinstance(toe, dict):
-                emp_type = toe.get("label") or "See posting"
-            else:
-                emp_type = str(toe or "See posting")
+            emp_type = toe.get("label") if isinstance(toe, dict) else str(toe or "See posting")
+            loc = ((d.get("location") or {}).get("city") or "").strip() or "Toronto"
             out.append({
                 "e": emp["name"],
                 "title": name,
-                "cat": cat,
+                "cat": cat_of(blob),
                 "tier": emp["tier"],
                 "loc": loc,
                 "pay": pay,
@@ -133,10 +193,52 @@ def fetch_smartrecruiters():
                 "hl": [h for h in [strip_html(x)[:110] for x in quals.split(";")[:4]] if h],
                 "req": req_text,
                 "live": True,
-                "releasedDate": (d.get("releasedDate") or "")[:10],
+                "releasedDate": released,
+                "closes": closes,
             })
             details += 1
-        print(f"SmartRecruiters {emp['slug']}: {len(care)} care roles, {details} detailed")
+        print(f"SmartRecruiters {emp['slug']}: {len(care)} care roles -> {details} current after date filters")
+    return out
+
+
+def fetch_bamboohr():
+    out = []
+    for emp in BAMBOO_EMPLOYERS:
+        url = f"https://{emp['subdomain']}.bamboohr.com/careers/list/?output=json"
+        try:
+            data = http_json(url)
+        except Exception as e:  # noqa: BLE001
+            print(f"BambooHR {emp['subdomain']} failed: {e}", file=sys.stderr)
+            continue
+        rows = data.get("result", data) if isinstance(data, dict) else data
+        count = 0
+        for j in rows:
+            name = (j.get("jobOpeningName") or "").strip()
+            low = name.lower()
+            if not any(k in low for k in CARE_KEYWORDS) or any(k in low for k in TITLE_EXCLUDE):
+                continue
+            jid = j.get("id")
+            loc = (j.get("location") or {}).get("city", "") if isinstance(j.get("location"), dict) else (j.get("location") or "")
+            blob = low
+            out.append({
+                "e": emp["name"],
+                "title": name,
+                "cat": cat_of(blob),
+                "tier": emp["tier"],
+                "loc": loc or "Toronto",
+                "pay": "See posting",
+                "payMin": None,
+                "type": (j.get("employmentStatusLabel") or "See posting"),
+                "link": f"https://{emp['subdomain']}.bamboohr.com/careers/{jid}",
+                "search": "https://www.google.com/search?q=" + urllib.parse.quote(name),
+                "hl": ["See the posting for full requirements."],
+                "req": name,
+                "live": True,
+                "releasedDate": None,
+                "closes": None,
+            })
+            count += 1
+        print(f"BambooHR {emp['subdomain']}: {count} care roles")
     return out
 
 
@@ -163,10 +265,13 @@ def fetch_adzuna():
                 continue
             if not any(k in blob for k in ("care", "support worker", "health")):
                 continue
+            released = (item.get("created") or "")[:10]
+            if too_old(released):
+                continue
             out.append({
                 "e": (item.get("company") or {}).get("display_name", "Employer"),
                 "title": title,
-                "cat": "behavioural" if ("dementia" in blob or "behavioural" in blob or "behavioral" in blob) else "psw",
+                "cat": cat_of(blob),
                 "tier": "ltco",
                 "loc": "Toronto / GTA",
                 "pay": "See posting",
@@ -177,7 +282,8 @@ def fetch_adzuna():
                 "hl": ["See the posting for full requirements."],
                 "req": desc[:600],
                 "live": True,
-                "releasedDate": (item.get("created") or "")[:10],
+                "releasedDate": released,
+                "closes": None,
             })
     return out
 
@@ -191,35 +297,26 @@ def main():
         except Exception:  # noqa: BLE001
             base = []
 
-    curated = [j for j in base if j.get("live") is not True]
-    live_old = [j for j in base if j.get("live") is True]
+    curated = [j for j in base if j.get("live") is not True] if CURATED_KEEP else []
 
-    fresh = fetch_smartrecruiters() + fetch_adzuna()
-    if fresh:
-        fresh.sort(key=lambda j: j.get("releasedDate", ""), reverse=True)
-        live_old = [j for j in live_old if j.get("releasedDate", "")[:10] >= "2000-01-01"]  # keep all; prune below
+    fresh = fetch_smartrecruiters() + fetch_bamboohr() + fetch_adzuna()
+    fresh.sort(key=lambda j: j.get("releasedDate") or "", reverse=True)
 
-    # merge live: fresh first, then older live entries (dedup)
-    def key_of(j):
-        return (j.get("title", "").strip().lower(),
-                j.get("e", "").strip().lower(),
-                (j.get("link") or "").strip())
-
-    seen = {key_of(j) for j in curated}
+    seen = set()
     live_merged = []
-    for j in fresh + live_old:
-        key = key_of(j)
+    for j in fresh:
+        key = (j.get("title", "").strip().lower(), j.get("e", "").strip().lower(), (j.get("link") or "").strip())
         if key in seen:
             continue
         seen.add(key)
         live_merged.append(j)
 
-    merged = live_merged[:CAP - len(curated)] + curated
+    merged = (live_merged + curated)[:CAP]
 
     with open(JSON_PATH, "w", encoding="utf-8") as f:
         json.dump(merged, f, indent=2)
         f.write("\n")
-    print(f"jobs.json written: {len(merged)} total ({len(curated)} curated, {len(live_merged)} live-fetched)")
+    print(f"jobs.json written: {len(merged)} total ({len(live_merged)} recent live, {len(curated)} curated)")
 
 
 if __name__ == "__main__":
