@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PSW & Adjacent Job Finder | Greater Toronto & Environs | Jummai Salami Raji</title>
+<style>
+  :root{
+    --canvas:#faf9f5; --card:#fffdfb; --ink:#211d19; --ink-2:#2b2621;
+    --body:#423e38; --muted:#6f6a62; --faint:#9a948b;
+    --hairline:#e6dfd3; --hairline-2:#f0eae0;
+    --coral:#b5503a; --coral-deep:#9c4430; --coral-soft:#f6e8e1;
+    --warm:#f4efe5; --good:#3f7d5c; --warn:#9a6a20; --bad:#b4453a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--body); background:var(--canvas); line-height:1.55; font-size:15px;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;}
+  .wrap{max-width:1140px; margin:0 auto; padding:0 20px;}
+  a{color:inherit; text-decoration:none;}
+  .serif, h1, h2.sec, .matchbox .pct, .stat .n, .gauge .big{
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;}
+
+  /* Header: flat ink band, serif title, coral eyebrow */
+  header{background:var(--ink); color:#f3eee6; padding:56px 0 44px;}
+  header .kicker{color:#e39b83; font-weight:600; letter-spacing:.16em; text-transform:uppercase; font-size:11.5px; margin-bottom:14px;}
+  header h1{font-size:37px; font-weight:600; line-height:1.14; letter-spacing:-0.01em; color:#fdfaf5; margin-bottom:12px; max-width:760px;}
+  header p.sub{color:#cfc6ba; max-width:820px; font-size:15.5px; line-height:1.6;}
+  .refresh{display:inline-block; margin-top:18px; background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.16); color:#cfc6ba; font-size:12.5px; padding:8px 15px; border-radius:999px;}
+  .refresh b{color:#e9b79e; font-weight:600;}
+
+  section{padding:40px 0;}
+  h2.sec{font-size:23px; font-weight:600; letter-spacing:-0.01em; color:var(--ink); margin-bottom:6px;}
+  p.secsub{color:var(--muted); font-size:13.5px; margin-bottom:16px; max-width:780px;}
+
+  /* Stats */
+  .stats{display:grid; grid-template-columns:repeat(4,1fr); gap:12px;}
+  @media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr);}}
+  .stat{background:var(--card); border:1px solid var(--hairline); border-radius:10px; padding:14px 16px;}
+  .stat .n{font-size:27px; font-weight:600; color:var(--ink); line-height:1.1;}
+  .stat .l{font-size:10.5px; color:var(--muted); font-weight:600; letter-spacing:.07em; text-transform:uppercase; margin-top:4px;}
+  .stat.gold .n{color:var(--coral-deep);}
+
+  /* Controls */
+  .controls{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:16px 0;}
+  .fbtn{border:1px solid var(--hairline); background:var(--card); padding:7px 14px; border-radius:999px;
+    font-size:12.5px; font-weight:500; color:var(--muted); cursor:pointer; transition:.12s ease;}
+  .fbtn:hover{border-color:var(--faint); color:var(--ink);}
+  .fbtn.on{background:var(--ink); color:var(--canvas); border-color:var(--ink);}
+  .lbl{font-size:11px; color:var(--faint); font-weight:600; letter-spacing:.08em; text-transform:uppercase;}
+  select.sel{padding:8px 12px; border:1px solid var(--hairline); border-radius:8px; font-size:13px; color:var(--ink); background:var(--card);}
+  .sortsel{margin-left:auto;}
+
+  /* Job cards */
+  .job{background:var(--card); border:1px solid var(--hairline); border-radius:10px; padding:18px 20px; margin-bottom:14px;}
+  .row1{display:flex; align-items:flex-start; gap:16px; flex-wrap:wrap;}
+  .matchbox{min-width:78px; text-align:center; background:var(--warm); border:1px solid var(--hairline); border-radius:9px; padding:11px 8px;}
+  .matchbox .pct{font-size:23px; line-height:1; font-weight:600; color:var(--coral-deep);}
+  .matchbox .cap{font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-weight:600; margin-top:5px;}
+  .info{flex:1; min-width:250px;}
+  .job h3{font-size:16.5px; color:var(--ink); font-weight:600; margin-bottom:3px;}
+  .job .emp{font-weight:600; font-size:14px; color:var(--ink-2);}
+  .job .meta{color:var(--muted); font-size:13px; margin-top:4px;}
+  .job .meta b{color:var(--body); font-weight:600;}
+
+  .badge{display:inline-block; font-size:10px; font-weight:600; letter-spacing:.08em; text-transform:uppercase;
+    padding:3px 8px; border-radius:4px; margin-left:6px; vertical-align:1px; color:var(--muted); border:1px solid var(--hairline); background:transparent;}
+  .b-hospital,.b-municipal,.b-nonprofit,.b-ltco{color:var(--ink); border-color:var(--ink);}
+  .b-psw,.b-behavioural,.b-dsw,.b-admin,.b-restorative,.b-coordination{color:var(--muted); border-color:var(--hairline);}
+
+  .hl{background:var(--warm); border:1px solid var(--hairline-2); border-radius:9px; padding:13px 16px; margin-top:12px;}
+  .hl h4{font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); font-weight:700; margin-bottom:7px;}
+  .hl li{margin:4px 0 4px 15px; font-size:13.5px; color:var(--body);}
+  .hl .req{color:var(--bad); font-weight:600;}
+
+  .kwrow{margin-top:9px; display:flex; flex-wrap:wrap; gap:5px;}
+  .kw{display:inline-block; font-size:11.5px; padding:3px 10px; border-radius:999px; font-weight:500;}
+  .kw.hit{background:var(--warm); color:var(--ink-2); border:1px solid var(--hairline);}
+  .kw.warn{background:#fbf3e2; color:var(--warn); border:1px solid #ead9b4;}
+  .warnline{font-size:12.5px; color:var(--warn); margin-top:8px;}
+
+  .acts{margin-top:14px; display:flex; flex-wrap:wrap; gap:8px; align-items:center;}
+  .btn{display:inline-block; padding:9px 16px; border-radius:8px; font-size:13px; font-weight:600;
+    border:1px solid transparent; cursor:pointer; text-decoration:none; transition:.12s ease;}
+  .btn-primary{background:var(--ink); color:#f5f1ea; border-color:var(--ink);}
+  .btn-primary:hover{background:var(--ink-2); border-color:var(--ink-2);}
+  .btn-ghost{background:var(--card); color:var(--ink); border-color:var(--hairline);}
+  .btn-ghost:hover{border-color:var(--faint);}
+  .btn-gold{background:var(--coral); color:#fff; border-color:var(--coral);}
+  .btn-gold:hover{background:var(--coral-deep); border-color:var(--coral-deep);}
+
+  .respanel, .coverpanel{display:none; margin-top:14px; border-top:1px solid var(--hairline); padding-top:14px;}
+  .reqpanel{display:none; margin-top:12px; background:var(--warm); border:1px solid var(--hairline-2); border-radius:9px; padding:13px 16px;}
+  .reqpanel.show{display:block;}
+  .reqpanel h4{font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); font-weight:700; margin-bottom:7px;}
+  .reqtext{font-size:13.5px; color:var(--body); line-height:1.6;}
+  .respanel.show, .coverpanel.show{display:block;}
+  .atsline{font-size:12px; margin:4px 0 8px; line-height:1.5;}
+  .atsscore{font-weight:700; color:var(--good);}
+  .atsissues{color:var(--warn);}
+  .respanel textarea, .coverpanel textarea{width:100%; min-height:300px; border:1px solid var(--hairline); border-radius:8px; padding:12px;
+    font-family:ui-monospace,Menlo,Consolas,monospace; font-size:12px; line-height:1.5; color:var(--ink); background:#fbfaf7; resize:vertical;}
+  .respanel textarea:focus, textarea.paste:focus{outline:none; border-color:var(--ink);}
+  .respanel .rbtns, .coverpanel .rbtns{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
+
+  textarea.paste{width:100%; min-height:120px; border:1px solid var(--hairline); border-radius:8px; padding:12px;
+    font-family:inherit; font-size:14px; color:var(--ink); background:var(--card); resize:vertical;}
+
+  .match-result{display:none; margin-top:16px;}
+  .match-result.show{display:block;}
+  .gauge{display:flex; align-items:center; gap:16px; margin-bottom:12px; flex-wrap:wrap;}
+  .gauge .big{font-size:34px; font-weight:600; color:var(--coral-deep);}
+  .gauge .tierlbl{font-size:12.5px; font-weight:600; padding:5px 12px; border-radius:999px; background:var(--warm); color:var(--ink-2); border:1px solid var(--hairline);}
+  .bar{height:8px; background:var(--hairline-2); border-radius:999px; overflow:hidden; flex:1; min-width:160px;}
+  .bar .fill{height:100%; background:var(--coral); border-radius:999px;}
+
+  .card{background:var(--card); border:1px solid var(--hairline); border-radius:10px; padding:22px;}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media(max-width:860px){.grid2{grid-template-columns:1fr;}}
+  .steps{counter-reset:s; list-style:none;}
+  .steps li{counter-increment:s; position:relative; padding:6px 0 6px 32px; font-size:14px; color:var(--body);}
+  .steps li::before{content:counter(s); position:absolute; left:0; top:7px; width:22px; height:22px; background:var(--ink);
+    color:var(--canvas); border-radius:50%; text-align:center; font-size:11.5px; font-weight:600; line-height:22px;}
+  .note{font-size:12.5px; color:var(--muted); background:var(--warm); border:1px solid var(--hairline-2); border-radius:9px; padding:12px 14px; margin-top:12px;}
+
+  .dir{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
+  @media(max-width:860px){.dir{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:520px){.dir{grid-template-columns:1fr;}}
+  .dir .item{background:var(--card); border:1px solid var(--hairline); border-radius:9px; padding:12px 14px; font-size:13px;}
+  .dir .item b{color:var(--ink); display:block; font-size:13.5px; font-weight:600;}
+  .dir .item a{color:var(--coral-deep); font-weight:500; font-size:12px; word-break:break-all;}
+  .dir .item a:hover{text-decoration:underline;}
+
+  footer{background:var(--ink); color:#9a948a; text-align:center; font-size:12.5px; padding:24px 0;}
+  footer .wrap{color:#9a948a;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="kicker">Your job board · Greater Toronto &amp; environs · direct employers only</div>
+    <h1>Find the right job. Send the right resume.</h1>
+    <p class="sub">PSW and adjacent roles: behavioural support, DSW, clerical, restorative, coordination. Every listing has its application link, the requirements that matter, and an ATS-friendly resume and cover letter tailored to that exact posting. No agencies, ever.</p>
+    <div class="refresh"><b>Updates automatically</b>. New postings are pulled in daily<span id="datasrc"></span></div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- STATS -->
+  <section style="padding-bottom:4px;">
+    <div class="stats">
+      <div class="stat"><div class="n" id="st-total">0</div><div class="l">Direct postings tracked</div></div>
+      <div class="stat"><div class="n" id="st-adj">0</div><div class="l">Adjacent roles</div></div>
+      <div class="stat"><div class="n">0</div><div class="l">Agencies</div></div>
+      <div class="stat gold"><div class="n">$36-$40</div><div class="l">Top pay/hr (Rehab Asst)</div></div>
+    </div>
+  </section>
+
+  <!-- FILTERS + JOBS -->
+  <section>
+    <h2 class="sec">Open postings</h2>
+    <p class="secsub">Each card shows your match, the requirements that matter, the application link, and a tailored resume and cover letter ready to download.</p>
+    <div class="controls">
+      <span class="lbl">Type:</span>
+      <button class="fbtn on" data-f="all">All</button>
+      <button class="fbtn" data-f="psw">PSW / Caregiver</button>
+      <button class="fbtn" data-f="behavioural">Behavioural</button>
+      <button class="fbtn" data-f="dsw">DSW</button>
+      <button class="fbtn" data-f="admin">Clerical / Admin</button>
+      <button class="fbtn" data-f="restorative">Restorative / Rehab</button>
+      <button class="fbtn" data-f="coordination">Coordination</button>
+      <span class="lbl" style="margin-left:14px;">Location:</span>
+      <select class="sel" id="locsel" onchange="setLoc(this.value)"></select>
+      <select class="sel sortsel" id="sort" onchange="render()">
+        <option value="priority">Sort: Best match</option>
+        <option value="pay">Sort: Highest pay</option>
+      </select>
+    </div>
+    <div id="jobs"></div>
+  </section>
+
+  <!-- PASTE MATCHER -->
+  <section>
+    <h2 class="sec">Got a new posting? Score it, tailor the resume</h2>
+    <p class="secsub">Paste any job description from anywhere. It scores your fit, flags agencies, and writes a tailored resume and cover letter for it too.</p>
+    <div class="card">
+      <textarea class="paste" id="paste" placeholder="Paste the full job posting text here…"></textarea>
+      <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="scorePasted()">Score &amp; tailor</button>
+        <button class="btn btn-ghost" onclick="speakPaste()">Listen to posting</button>
+        <button class="btn btn-ghost" onclick="document.getElementById('paste').value=''; document.getElementById('mres').classList.remove('show');">Clear</button>
+      </div>
+      <div class="match-result" id="mres">
+        <div class="gauge">
+          <span class="big" id="mpct">0%</span>
+          <span class="tierlbl" id="mtier"></span>
+          <div class="bar"><div class="fill" id="mbar" style="width:0%"></div></div>
+        </div>
+        <div id="mchips"></div>
+        <div id="mwarn"></div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:12px 0 6px;">Your tailored resume</div>
+        <div class="atsline" id="mats"></div>
+        <div class="respanel show" style="margin-top:10px;">
+          <textarea id="mta"></textarea>
+          <div class="rbtns">
+            <button class="btn btn-gold" onclick="downloadDocxFrom('mta','Jummai_Raji_Resume_Pasted.docx')">Download .docx</button>
+            <button class="btn btn-ghost" onclick="downloadTxtFrom('mta','Jummai_Raji_Resume_Pasted.txt')">Download .txt</button>
+          </div>
+        </div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:12px 0 6px;">Your cover letter</div>
+        <div class="atsline" id="mcc"></div>
+        <div class="respanel show" style="margin-top:10px;">
+          <textarea id="mcv"></textarea>
+          <div class="rbtns">
+            <button class="btn btn-gold" onclick="downloadDocxFrom('mcv','Jummai_Raji_CoverLetter_Pasted.docx')">Download cover letter .docx</button>
+            <button class="btn btn-ghost" onclick="downloadTxtFrom('mcv','Jummai_Raji_CoverLetter_Pasted.txt')">Download .txt</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section>
+    <h2 class="sec">How it stays up to date</h2>
+    <div class="grid2">
+      <div class="card">
+        <ol class="steps">
+          <li><b>It refreshes itself:</b> new postings are pulled in daily, so the list is always current.</li>
+          <li><b>Filter:</b> by type (PSW, behavioural, DSW, clerical, restorative, coordination) and location.</li>
+          <li><b>Apply:</b> open any card and use its application link.</li>
+          <li><b>Tailor:</b> tap "Show tailored resume" and "Show cover letter". A resume and cover letter built for that posting appear. Then download them as Word files.</li>
+        </ol>
+      </div>
+      <div class="card">
+        <b style="color:var(--ink);">What's in every tailored resume and cover letter</b>
+        <ul style="margin-left:18px; font-size:13.5px;">
+          <li style="margin:4px 0;">Summary rewritten with the posting's keywords</li>
+          <li style="margin:4px 0;">Most relevant bullets moved to the top</li>
+          <li style="margin:4px 0;">Matching skills kept; extra section added for the job type (e.g. Administration for clerical roles)</li>
+          <li style="margin:4px 0;">Single column, no tables or images. It parses perfectly in ATS software.</li>
+          <li style="margin:4px 0;">100% true to your experience. Never fabricated.</li>
+          <li style="margin:4px 0;">A cover letter with your 4 strongest points, in simple English, ready to send</li>
+        </ul>
+        <div class="note">Once the site is live, the download buttons work on any phone or computer. In this workspace preview, open the file in Chrome or Safari first. Replace "multiple" with real numbers (e.g. "8 to 10 residents") before you send. The cover letter is written in simple English, so read it over before you send it.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIRECTORY -->
+  <section>
+    <h2 class="sec">Direct employers to check weekly</h2>
+    <p class="secsub">Bookmark these. They post new roles before the big job boards do.</p>
+    <div class="dir" id="dir"></div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">Jummai's Job Finder · refreshed daily · verify each posting is still open before you apply.</div>
+</footer>
+
+<script>
+/* ================= CORE: match + resume engine ================= */
+const GROUPS = [
+  {id:'dementia', label:"Dementia / Alzheimer's", kw:['dementia','alzheimer','memory care','cognitive'], w:6},
+  {id:'behaviour', label:'Behavioural support', kw:['behavioural','behavioral','responsive behaviour','de-escalat','de escalat','agitation','aggressive','crisis'], w:6},
+  {id:'cpi', label:'CPI / crisis intervention', kw:['cpi','nonviolent','non-violent','crisis intervention','crisis prevention'], w:5},
+  {id:'gpa', label:'GPA / dementia approaches', kw:['gpa','gentle persuasive','u-first','ufirst','pieces','montessori'], w:4},
+  {id:'transfers', label:'Lifts, transfers & mobility', kw:['lift','transfer','position','reposition','mobility','ambulat','body mechanics','turning'], w:4},
+  {id:'adl', label:'Personal care & ADLs', kw:['personal care','adl','activities of daily living','hygiene','bathing','toileting','grooming','dressing','feeding','skin care','oral'], w:4},
+  {id:'meals', label:'Meals & nutrition', kw:['meal','feeding','nutrition','hydration','diet'], w:2},
+  {id:'meds', label:'Medication support', kw:['medication'], w:3},
+  {id:'docs', label:'Documentation & reporting', kw:['document','record','progress note','report','chart','observation'], w:3},
+  {id:'ipac', label:'Infection prevention & control', kw:['infection','ppe','hand hygiene','ipac'], w:3},
+  {id:'cpr', label:'First Aid / CPR / BCLS', kw:['first aid','cpr','bcls','bls','basic cardiac','basic life support'], w:3},
+  {id:'companion', label:'Companionship & emotional support', kw:['companion','emotional','respite','psychosocial'], w:2},
+  {id:'careplan', label:'Care plans', kw:['care plan','plan of care'], w:2},
+  {id:'team', label:'Communication & teamwork', kw:['communicat','team','interpersonal','collaborat'], w:2},
+  {id:'accounting', label:'Accounting / finance / billing', kw:['accounting','accounts','billing','payroll','bookkeeping','invoic','timesheet','budget','finance','reconcil'], w:3},
+  {id:'admin', label:'Admin / clerical / scheduling', kw:['administrat','clerical','office','filing','records','data entry','reception','scheduling','appointment','keyboard','typing','excel','microsoft office'], w:3},
+  {id:'restorative', label:'Restorative / rehab / exercise', kw:['restorative','rehabilitat','range of motion','exercise','strengthening','activation','physiotherapy','occupational therapy'], w:3},
+  {id:'dsw', label:'Disability / developmental support', kw:['developmental','intellectual disabil','special needs','disabilities','residential','supported living'], w:3},
+];
+const REQUIRE_CHECKS = [
+  {id:'hscpoa', label:'HSCPOA registration', kw:['hscpoa']},
+  {id:'vehicle', label:"Driver's licence + vehicle", kw:['driver','licence','license','vehicle','g licence','g2']},
+  {id:'french', label:'Bilingual (French)', kw:['bilingual','french']},
+  {id:'overnight', label:'Night / overnight / live-in', kw:['overnight','night','live-in','live in']},
+  {id:'medterm', label:'Medical terminology course', kw:['medical terminology','40 wpm','keyboarding','ota','pta','physiotherapy assistant']},
+];
+
+const PROFILE = {
+  name: 'JUMMAI SALAMI RAJI',
+  contact: 'North York, ON | (437) 661-5084 | Kaphyrajah@gmail.com',
+  title: 'PERSONAL SUPPORT WORKER (PSW) | CAREGIVER',
+  highlights: [
+    {t:'Delivered compassionate personal care and daily living support to a family member living with dementia for two years, assisting with hygiene, grooming, mobility, meals, and companionship.', g:['dementia','adl','meals','companion']},
+    {t:'Safely executed lifting, transfers, positioning, and repositioning for multiple clients per shift using proper body mechanics and safe-handling techniques.', g:['transfers']},
+    {t:'Supported multiple residents per shift in fast-paced long-term care and retirement settings while meeting care-plan, documentation, and safety targets.', g:['docs','team','careplan']},
+    {t:'Executed individualized personal-care plans covering mobility support, infection prevention, housekeeping, and environmental safety.', g:['careplan','ipac','adl']},
+    {t:'Maintained accurate, timely documentation and reporting of client care and observations to support clinical decision-making and continuity of care.', g:['docs']},
+    {t:'Certified in Nonviolent Crisis Intervention (CPI) and Gentle Persuasive Approach (GPA), applying de-escalation, trigger identification, and anxiety-reduction techniques for clients with Alzheimer\u2019s disease and dementia.', g:['cpi','gpa','behaviour','dementia']},
+    {t:'Reliable, compassionate team player with strong organizational, communication, and time-management skills in fast-paced care environments.', g:['team']},
+    {t:'B.Sc. in Accounting brings meticulous documentation, accurate record-keeping, billing awareness, and dependable follow-through to every role.', g:['accounting','admin','docs']},
+    {t:'Provided calm, person-centred support to individuals with disabilities and special needs, using clear communication and CPI-based de-escalation.', g:['dsw','cpi','team']},
+  ],
+  skills: [
+    {cat:'Personal Care & Activities of Daily Living', items:[
+      {t:'Personal hygiene, bathing, toileting, grooming, dressing, and oral care', g:['adl']},
+      {t:'Meal preparation, feeding support, and hydration monitoring', g:['meals','adl']},
+      {t:'Companionship, emotional support, and respite care', g:['companion']},
+      {t:'Daily-routine support that respects client choice and dignity', g:['adl']},
+      {t:'Medication reminders and support under supervision', g:['meds','adl']},
+    ]},
+    {cat:'Mobility, Transfers & Safety', items:[
+      {t:'Safe lifting, transferring, positioning, and repositioning (body mechanics and mechanical aids)', g:['transfers']},
+      {t:'Fall prevention and environmental hazard reduction', g:['transfers']},
+      {t:'Infection prevention & control, PPE use, and hand hygiene', g:['ipac']},
+      {t:'Care-plan compliance and workplace health & safety procedures', g:['careplan','ipac']},
+    ]},
+    {cat:'Dementia & Behavioural Support', items:[
+      {t:"Alzheimer's and dementia care with individualized behavioural plans", g:['dementia','behaviour']},
+      {t:'Behavioural de-escalation, trigger identification, and anxiety reduction (CPI, GPA)', g:['behaviour','cpi','gpa']},
+      {t:'Sensory-regulation techniques and emotional-stability support', g:['behaviour']},
+      {t:'Observation, reporting, and confidential care documentation', g:['docs']},
+    ]},
+    {cat:'Administration & Documentation', items:[
+      {t:'Accurate records, documentation, reporting, and confidentiality', g:['docs','admin']},
+      {t:'Scheduling, appointment coordination, and time management', g:['admin']},
+      {t:'B.Sc. Accounting for billing, timesheets, and budgeting', g:['accounting','admin']},
+      {t:'Computer skills including MS Office and typing', g:['admin']},
+    ]},
+    {cat:'Restorative & Exercise Support', items:[
+      {t:'Range-of-motion and strengthening exercise programs', g:['restorative']},
+      {t:'Mobility, positioning, and ambulation support', g:['restorative','transfers']},
+      {t:'Engagement and activation activities that preserve independence', g:['restorative']},
+    ]},
+    {cat:'Disability & Community Support', items:[
+      {t:'Person-centred support for individuals with developmental disabilities and special needs', g:['dsw']},
+      {t:'Calm, consistent routines that reduce anxiety and support independence', g:['dsw','behaviour']},
+      {t:'Experience in residential and community care settings', g:['dsw']},
+    ]},
+    {cat:'Communication & Teamwork', items:[
+      {t:'Clear communication and teamwork with residents, families, and care teams', g:['team']},
+      {t:'Reliable, organized, and calm under pressure', g:['team']},
+    ]},
+  ],
+  experience: [
+    {role:'Personal Support Worker', org:'Chartwell Retirement Residence', loc:'Thornhill, ON', dates:'Jun 2026 to Present', bullets:[
+      {t:'Delivered personal care and safe transfers for multiple residents per shift in a busy retirement residence.', g:['adl','transfers']},
+      {t:'Managed daily schedules for multiple clients, completing assignments efficiently within shift timelines.', g:['team','admin']},
+      {t:'Maintained accurate documentation for multiple residents per shift following organizational policies and procedures.', g:['docs']},
+      {t:'Worked independently while supporting team communication and continuity of client care.', g:['team']},
+      {t:'Maintained clean, organized, and safe environments daily, applying infection-control practices.', g:['ipac']},
+    ]},
+    {role:'Personal Support Worker', org:'Villa Colombo', loc:'Toronto, ON', dates:'Apr 2026 to Jun 2026', bullets:[
+      {t:'Lifted, transported, and repositioned residents and equipment using safe work practices.', g:['transfers']},
+      {t:'Completed accurate, detail-oriented documentation within tight timeframes.', g:['docs']},
+      {t:'Prioritized multiple responsibilities in a fast-paced environment serving multiple residents.', g:['team']},
+      {t:'Supported team members to deliver efficient, quality client services.', g:['team']},
+      {t:'Followed safety procedures while completing physically demanding daily responsibilities.', g:['ipac']},
+    ]},
+    {role:'Personal Care Worker', org:'Sanctuary Nursing Home', loc:'Abuja, Nigeria', dates:'Jun 2021 to Oct 2023', bullets:[
+      {t:'Provided daily personal care and emotional support to multiple residents.', g:['adl','companion']},
+      {t:'Assisted residents with mobility, transfers, physical exercises, and personal hygiene needs.', g:['transfers','restorative','adl']},
+      {t:'Supported medication administration under supervision.', g:['meds']},
+      {t:'Reported changes in residents\u2019 health conditions for timely intervention.', g:['docs']},
+    ]},
+    {role:'Caregiver', org:'Regina Mundi Elderly Home', loc:'Lagos, Nigeria', dates:'Jun 2018 to Oct 2020', bullets:[
+      {t:'Assisted clients with daily care, feeding, personal hygiene, and mobility support.', g:['adl','meals','transfers']},
+      {t:'Accompanied clients to medical appointments and supported transportation needs.', g:['companion','team']},
+      {t:'Led range-of-motion exercises to promote and maintain mobility.', g:['restorative','transfers']},
+    ]},
+    {role:'Caregiver (Alzheimer\u2019s Care)', org:'Balda Care Home', loc:'Lagos, NG', dates:'[Month Year] to [Month Year]', bullets:[
+      {t:"Managed daily care for an individual living with Alzheimer's, ensuring full safety and emotional stability.", g:['dementia','companion']},
+      {t:'Applied behavioural-management techniques: de-escalation, trigger identification, and anxiety reduction.', g:['behaviour','cpi']},
+      {t:'Implemented individualized behavioural plans using sensory-regulation techniques.', g:['behaviour','careplan']},
+    ]},
+  ],
+  education: [
+    {cred:'Personal Support Worker Diploma', school:'Pharma Medical Science College, Toronto, ON'},
+    {cred:'B.Sc. in Accounting', school:'University of Maiduguri, Maiduguri, Nigeria'},
+  ],
+  certs: [
+    'Nonviolent Crisis Intervention (CPI)',
+    'Gentle Persuasive Approach (GPA), 2025',
+    'Standard First Aid & CPR (Red Cross), 2025',
+    'Infection Prevention and Control, April 2026',
+    'Mask Fit Certification, 2025',
+    'AODA Certification',
+  ],
+};
+const PHRASE = {
+  dementia:"specialized Alzheimer\u2019s and dementia care", behaviour:"certified behavioural support and de-escalation",
+  cpi:"Nonviolent Crisis Intervention (CPI)", gpa:"the Gentle Persuasive Approach (GPA)",
+  transfers:"safe lifting, transfers, and mobility support", adl:"complete personal care and activities of daily living",
+  meals:"meal preparation and feeding support", meds:"medication support", docs:"meticulous documentation and reporting",
+  ipac:"infection prevention and control", cpr:"First Aid and CPR", companion:"companionship and emotional support",
+  careplan:"care-plan execution", team:"collaborative teamwork",
+  accounting:"a B.Sc. in Accounting with strong financial and organizational skills", admin:"scheduling and administrative support",
+  restorative:"restorative and exercise programming", dsw:"support for individuals with developmental disabilities",
+};
+
+function t(s){ return (s||'').toLowerCase(); }
+function scoreText(text){
+  const tx=t(text); let matched=[], weight=0;
+  GROUPS.forEach(g=>{ if(g.kw.some(k=>tx.includes(k))){ matched.push(g); weight+=g.w; } });
+  const total=GROUPS.reduce((s,g)=>s+g.w,0);
+  return { pct: Math.round(weight/total*100), matched };
+}
+function bulletScore(b, ids){
+  return b.g.reduce((s,g)=> ids.has(g) ? s + (GROUPS.find(x=>x.id===g)||{w:0}).w : s, 0);
+}
+function topPhrases(matched, n){
+  return matched.slice().sort((a,b)=>b.w-a.w).slice(0,n).map(g=>PHRASE[g.id]).filter(Boolean);
+}
+function atsClean(s){
+  return (s||'')
+    .replace(/[\u2018\u2019\u201C\u201D]/g, "'")
+    .replace(/[\u2014\u2013]/g, ', ')
+    .replace(/\u00A0/g, ' ')
+    .replace(/\t/g, ' ')
+    .replace(/ , ?/g, ', ')
+    .replace(/ {2,}/g, ' ')
+    .split('\n').map(l=>l.replace(/ +$/,'')).join('\n');
+}
+function buildResume(postingText){
+  const s=scoreText(postingText);
+  const ids=new Set(s.matched.map(g=>g.id));
+  const phrases=topPhrases(s.matched,3);
+  const L=[];
+  L.push(PROFILE.name); L.push(PROFILE.contact); L.push(PROFILE.title); L.push('');
+  L.push('PROFESSIONAL SUMMARY');
+  let summary="Certified Personal Support Worker (PSW) with 7+ years of experience in long-term care, retirement, and private home settings, including dedicated one-to-one Alzheimer's and dementia care. Skilled in personal care and activities of daily living, safe transfers, documentation, and teamwork.";
+  if(phrases.length){ summary+=' Brings '+phrases.join(', ')+'.'; }
+  if(ids.has('accounting')||ids.has('admin')){ summary+=' A B.Sc. in Accounting supports accurate records, scheduling, and dependable follow-through.'; }
+  L.push(summary); L.push(''); L.push('HIGHLIGHTS OF QUALIFICATIONS');
+  const hl=PROFILE.highlights.map(b=>({b,sc:bulletScore(b,ids)})).sort((a,b)=>b.sc-a.sc);
+  let picked=[]; const cpiB=PROFILE.highlights[5];
+  if(['behaviour','cpi','gpa','dementia'].some(id=>ids.has(id))){ picked.push(cpiB); }
+  for(const h of hl){ if(picked.length>=4)break; if(!picked.includes(h.b))picked.push(h.b); }
+  picked.forEach(b=>L.push('\u2022 '+b.t)); L.push(''); L.push('RELEVANT SKILLS');
+  const catScored=PROFILE.skills.map(c=>{
+    const items=c.items.filter(it=>it.g.some(g=>ids.has(g)));
+    const sc=items.reduce((s,it)=>s+it.g.filter(g=>ids.has(g)).length,0);
+    return {cat:c.cat,items,sc};
+  }).filter(c=>c.items.length>0).sort((a,b)=>b.sc-a.sc);
+  let cats=catScored.slice(0,5);
+  if(!cats.length){ cats=PROFILE.skills.slice(0,3).map(c=>({cat:c.cat,items:c.items,sc:0})); }
+  cats.forEach(c=>{ L.push(c.cat); c.items.forEach(it=>L.push('\u2022 '+it.t)); });
+  L.push(''); L.push('RELEVANT EXPERIENCE');
+  PROFILE.experience.forEach(j=>{
+    L.push(j.role+' | '+j.org+', '+j.loc+' | '+j.dates);
+    const bs=j.bullets.map(b=>({b,sc:bulletScore(b,ids)})).sort((a,b)=>b.sc-a.sc).slice(0,3);
+    bs.forEach(x=>L.push('\u2022 '+x.b.t));
+  });
+  L.push(''); L.push('EDUCATION');
+  PROFILE.education.forEach(e=>L.push(e.cred+' | '+e.school));
+  L.push(''); L.push('CERTIFICATIONS & TRAINING');
+  PROFILE.certs.forEach(c=>L.push('\u2022 '+c));
+  return { text: atsClean(L.join('\n')), matched: s.matched, pct: s.pct };
+}
+
+/* ---- minimal OOXML (.docx) generator ---- */
+const CRC_TABLE=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++){c=(c&1)?(0xEDB88320^(c>>>1)):(c>>>1);}t[n]=c>>>0;}return t;})();
+function crc32(bytes){let c=0xFFFFFFFF;for(let i=0;i<bytes.length;i++){c=CRC_TABLE[(c^bytes[i])&0xFF]^(c>>>8);}return(c^0xFFFFFFFF)>>>0;}
+function dosDateTime(){const d=new Date();return{time:(d.getHours()<<11)|(d.getMinutes()<<5)|(d.getSeconds()>>1),date:((d.getFullYear()-1980)<<9)|((d.getMonth()+1)<<5)|d.getDate()};}
+function zipStore(entries){
+  const enc=new TextEncoder(); const {time,date}=dosDateTime();
+  const parts=[],central=[]; let offset=0;
+  for(const e of entries){
+    const nb=enc.encode(e.name); const crc=crc32(e.data);
+    const lh=new DataView(new ArrayBuffer(30));
+    lh.setUint32(0,0x04034b50,true);lh.setUint16(4,20,true);lh.setUint16(6,0x0800,true);
+    lh.setUint16(8,0,true);lh.setUint16(10,time,true);lh.setUint16(12,date,true);
+    lh.setUint32(14,crc,true);lh.setUint32(18,e.data.length,true);lh.setUint32(22,e.data.length,true);
+    lh.setUint16(26,nb.length,true);lh.setUint16(28,0,true);
+    parts.push(new Uint8Array(lh.buffer),nb,e.data);
+    const ch=new DataView(new ArrayBuffer(46));
+    ch.setUint32(0,0x02014b50,true);ch.setUint16(4,20,true);ch.setUint16(6,20,true);ch.setUint16(8,0x0800,true);
+    ch.setUint16(10,0,true);ch.setUint16(12,time,true);ch.setUint16(14,date,true);
+    ch.setUint32(16,crc,true);ch.setUint32(20,e.data.length,true);ch.setUint32(24,e.data.length,true);
+    ch.setUint16(28,nb.length,true);ch.setUint16(32,0,true);ch.setUint16(34,0,true);ch.setUint32(38,0,true);ch.setUint32(42,offset,true);
+    central.push(new Uint8Array(ch.buffer),nb);
+    offset+=30+nb.length+e.data.length;
+  }
+  const csz=central.reduce((s,a)=>s+a.length,0);
+  const eocd=new DataView(new ArrayBuffer(22));
+  eocd.setUint32(0,0x06054b50,true);eocd.setUint16(8,entries.length,true);eocd.setUint16(10,entries.length,true);
+  eocd.setUint32(12,csz,true);eocd.setUint32(16,offset,true);
+  parts.push(...central,new Uint8Array(eocd.buffer));
+  const total=parts.reduce((s,a)=>s+a.length,0); const out=new Uint8Array(total); let p=0;
+  for(const a of parts){out.set(a,p);p+=a.length;}
+  return out;
+}
+function escXml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function runXml(text,b,sz){const bT=b?'<w:b/>':'';const szT=sz?'<w:sz w:val="'+sz+'"/><w:szCs w:val="'+sz+'"/>':'';return '<w:r><w:rPr>'+bT+szT+'</w:rPr><w:t xml:space="preserve">'+escXml(text)+'</w:t></w:r>';}
+function paraXml(runs,sb){const sp=sb?'<w:spacing w:before="'+sb+'"/>':'';return '<w:p><w:pPr>'+sp+'</w:pPr>'+runs.join('')+'</w:p>';}
+function textToDocx(text){
+  const lines=text.split('\n').map(l=>l.replace(/\r$/,''));
+  const paras=[]; const ne=[];
+  for(const ln of lines){ if(ln.trim()) ne.push(ln.trim()); }
+  paras.push(paraXml([runXml(ne[0]||'',true,36)]));
+  if(ne[1])paras.push(paraXml([runXml(ne[1],false,22)],40));
+  if(ne[2])paras.push(paraXml([runXml(ne[2],true,22)],40));
+  let consumed=0;
+  for(const ln of lines){
+    const tr=ln.trim();
+    if(tr===''){paras.push(paraXml([]));continue;}
+    if(consumed<3){consumed++;continue;}
+    if(/^[A-Z0-9 &()\/.,'\u2019-]+$/.test(tr)&&/[A-Z]{3}/.test(tr)){paras.push(paraXml([runXml(tr,true,24)],120));}
+    else{paras.push(paraXml([runXml(tr,false,22)],40));}
+  }
+  const docXml='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>'+
+    paras.join('')+
+    '<w:sectPr><w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:top="720" w:right="720" w:bottom="720" w:left="720"/></w:sectPr></w:body></w:document>';
+  const ct='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>';
+  const rels='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>';
+  const dr='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"></Relationships>';
+  const enc=new TextEncoder();
+  return zipStore([
+    {name:'[Content_Types].xml',data:enc.encode(ct)},
+    {name:'_rels/.rels',data:enc.encode(rels)},
+    {name:'word/_rels/document.xml.rels',data:enc.encode(dr)},
+    {name:'word/document.xml',data:enc.encode(docXml)},
+  ]);
+}
+
+/* ================= JOB DATA ================= */
+const CAT = {
+  psw:{label:'PSW / Caregiver', cls:'b-psw'},
+  behavioural:{label:'Behavioural Support', cls:'b-behavioural'},
+  dsw:{label:'Developmental (DSW)', cls:'b-dsw'},
+  admin:{label:'Clerical / Admin', cls:'b-admin'},
+  restorative:{label:'Restorative / Rehab', cls:'b-restorative'},
+  coordination:{label:'Coordination', cls:'b-coordination'},
+};
+const TIERS = {
+  hospital:{label:'Hospital', cls:'b-hospital', w:1.0},
+  municipal:{label:'City / Region', cls:'b-municipal', w:1.0},
+  nonprofit:{label:'Non-profit', cls:'b-nonprofit', w:0.95},
+  ltco:{label:'LTC / Retirement op', cls:'b-ltco', w:0.9},
+};
+const G = 'https://www.google.com/search?q=';
+let JOBS = [];
+const EMBEDDED_JOBS = [
+  {
+    "e": "University Health Network (UHN)",
+    "title": "Personal Support Worker, Thoracic Surgery",
+    "cat": "psw",
+    "tier": "hospital",
+    "loc": "Toronto",
+    "pay": "$31.70-32.61/hr",
+    "payMin": 31.7,
+    "type": "Temp Part-Time",
+    "link": "https://jobs.smartrecruiters.com/UniversityHealthNetwork/744000128957479-personal-support-worker",
+    "search": "https://www.google.com/search?q=UHN+personal+support+worker+careers",
+    "hl": [
+      "Assist with ADLs: feeding, lifts/transfers, bathing, skin care, oral hygiene, toileting",
+      "Document patient records &amp; progress notes",
+      "Report behavioural, physical &amp; cognitive changes",
+      "HSCPOA registration + BCLS (required) · CPI behavioural training (asset)"
+    ],
+    "req": "Assist patients with activities of daily living including feeding, lifts and transfers, bathing, skin care, oral hygiene, toileting. Document patient records and progress notes. Report unsafe conditions and behavioral, physical or cognitive changes. HSCPOA registration required, BCLS certificate required. Behavioral management training such as PIECES, U-First, CPI an asset."
+  },
+  {
+    "e": "Sunnybrook Health Sciences Centre",
+    "title": "Patient Services Partner (multiple units)",
+    "cat": "psw",
+    "tier": "hospital",
+    "loc": "Toronto",
+    "pay": "Union scale",
+    "payMin": null,
+    "type": "FT / PT / Casual",
+    "link": "https://sunnybrook.ca/careers",
+    "search": "https://www.google.com/search?q=Sunnybrook+Patient+Services+Partner+careers",
+    "hl": [
+      "Personal care, ADLs, mobility &amp; transfers",
+      "Feeding, toileting, hygiene",
+      "Communication &amp; teamwork",
+      "Units: Veterans Centre, Transitional Care, ED, Trauma, Neurovascular"
+    ],
+    "req": "Patient Services Partner provides personal care, activities of daily living, mobility and transfers, feeding, toileting and hygiene for patients. Strong communication skills and teamwork. Regular full-time, part-time and casual."
+  },
+  {
+    "e": "Mackenzie Health",
+    "title": "Personal Support Worker",
+    "cat": "psw",
+    "tier": "hospital",
+    "loc": "Vaughan / Richmond Hill",
+    "pay": "Union scale",
+    "payMin": null,
+    "type": "Varies",
+    "link": "https://www.mackenziehealth.ca/careers",
+    "search": "https://www.google.com/search?q=Mackenzie+Health+personal+support+worker",
+    "hl": [
+      "Personal care &amp; ADLs",
+      "Mobility, lifts &amp; transfers",
+      "Documentation &amp; reporting",
+      "Hospital setting in Vaughan/Richmond Hill"
+    ],
+    "req": "Personal support worker in a hospital setting. Personal care, activities of daily living, lifts and transfers, documentation and reporting. PSW certificate, CPR. Teamwork."
+  },
+  {
+    "e": "Oak Valley Health (Markham Stouffville Hospital)",
+    "title": "Personal Support Worker",
+    "cat": "psw",
+    "tier": "hospital",
+    "loc": "Markham",
+    "pay": "Union scale",
+    "payMin": null,
+    "type": "Varies",
+    "link": "https://www.oakvalleyhealth.ca/careers",
+    "search": "https://www.google.com/search?q=Oak+Valley+Health+personal+support+worker",
+    "hl": [
+      "Personal care &amp; ADLs",
+      "Mobility &amp; transfers",
+      "Documentation",
+      "Hospital in Markham"
+    ],
+    "req": "Personal support worker in a hospital. Personal care, hygiene, transfers, documentation. PSW certificate and CPR."
+  },
+  {
+    "e": "City of Toronto, Long-Term Care",
+    "title": "Personal Support Worker LTC (10 homes)",
+    "cat": "psw",
+    "tier": "municipal",
+    "loc": "Toronto",
+    "pay": "$31.21-34.06/hr",
+    "payMin": 31.21,
+    "type": "Unionized (CUPE)",
+    "link": "https://jobs.toronto.ca",
+    "search": "https://www.google.com/search?q=jobs.toronto.ca+personal+support+worker+long+term+care",
+    "hl": [
+      "Personal care, hygiene, bathing, dressing, toileting, feeding",
+      "Transfers &amp; mobility support",
+      "Documentation &amp; reporting",
+      "Infection prevention &amp; control · PSW program completion"
+    ],
+    "req": "Provide personal care, hygiene, bathing, dressing, toileting, feeding, transfers and mobility support to residents in a long-term care home. Documentation and reporting. PSW program completion. Infection prevention and control practices."
+  },
+  {
+    "e": "Region of Peel, Long-Term Care",
+    "title": "Personal Support Worker (Peel LTC homes)",
+    "cat": "psw",
+    "tier": "municipal",
+    "loc": "Mississauga / Brampton",
+    "pay": "Municipal scale",
+    "payMin": null,
+    "type": "Varies",
+    "link": "https://www.google.com/search?q=Region+of+Peel+long+term+care+personal+support+worker+jobs",
+    "search": "https://www.google.com/search?q=Region+of+Peel+long+term+care+personal+support+worker+jobs",
+    "hl": [
+      "Personal care &amp; ADLs",
+      "Transfers &amp; mobility",
+      "Documentation",
+      "Public-sector pension &amp; benefits"
+    ],
+    "req": "Personal support worker in municipal long-term care. Personal care, transfers, documentation, infection control. PSW certificate and CPR."
+  },
+  {
+    "e": "Shepherd Village",
+    "title": "Personal Support Worker, LTC (Part-Time)",
+    "cat": "psw",
+    "tier": "nonprofit",
+    "loc": "Scarborough",
+    "pay": "$27.55-29.15/hr",
+    "payMin": 27.55,
+    "type": "Part-Time",
+    "link": "https://www.google.com/search?q=Shepherd+Village+Toronto+personal+support+worker+careers",
+    "search": "https://www.google.com/search?q=Shepherd+Village+Toronto+personal+support+worker+careers",
+    "hl": [
+      "Personal care, ADLs, feeding, bathing, toileting",
+      "Lifts, transfers, repositioning",
+      "Documentation &amp; reporting changes",
+      "Dementia care &amp; teamwork"
+    ],
+    "req": "Personal support worker in long-term care. Personal care, activities of daily living, feeding, bathing, toileting, lifts, transfers, repositioning, documentation and reporting changes. Dementia care. Teamwork."
+  },
+  {
+    "e": "Yee Hong Centre for Geriatric Care",
+    "title": "Personal Support Worker (Part-Time Day)",
+    "cat": "psw",
+    "tier": "nonprofit",
+    "loc": "Scarborough",
+    "pay": "$25.41-27.62/hr",
+    "payMin": 25.41,
+    "type": "Part-Time",
+    "link": "https://www.yeehong.com/careers",
+    "search": "https://www.google.com/search?q=Yee+Hong+personal+support+worker+careers",
+    "hl": [
+      "Personal care, hygiene, toileting, feeding, transfers",
+      "Resident-centred care",
+      "Documentation · customer service · teamwork",
+      "Chinese language an asset (not required)"
+    ],
+    "req": "Provide personal care, hygiene, toileting, feeding and transfers to seniors in a resident-centred setting. Documentation. Customer service and teamwork."
+  },
+  {
+    "e": "WoodGreen Community Services",
+    "title": "Personal Support Worker (2026-274-CC)",
+    "cat": "psw",
+    "tier": "nonprofit",
+    "loc": "East York",
+    "pay": "$24.37/hr",
+    "payMin": 24.37,
+    "type": "35h/wk evenings",
+    "link": "https://www.woodgreen.org/careers",
+    "search": "https://www.google.com/search?q=WoodGreen+personal+support+worker+2026",
+    "hl": [
+      "Personal care, mobility, transfers, meal prep, medication reminders",
+      "Gentle Persuasive Approaches (GPA) training named in the posting",
+      "Documentation and reporting changes to the clinical lead",
+      "Dementia care and person-centred care philosophy"
+    ],
+    "req": "Personal support worker, 35 hours per week evening shift. Personal care, mobility, transfers, meal preparation, medication reminders, documentation and reporting changes. Teamwork and communication. Experience in long-term care or retirement home with a solid understanding of dementia care. Gentle Persuasive Approaches (GPA) training is named in the posting. Onsite."
+  },
+  {
+    "e": "Better Living Health & Community Services",
+    "title": "Personal Support Worker, Weekends",
+    "cat": "psw",
+    "tier": "nonprofit",
+    "loc": "North York",
+    "pay": "Not listed",
+    "payMin": null,
+    "type": "Weekends",
+    "link": "https://www.google.com/search?q=Better+Living+Health+and+Community+Services+North+York+PSW",
+    "search": "https://www.google.com/search?q=Better+Living+Health+and+Community+Services+North+York+PSW",
+    "hl": [
+      "Personal care, mobility, meal prep, companionship",
+      "CPR certification",
+      "Weekend shifts in North York"
+    ],
+    "req": "Weekend personal support worker. Personal care, mobility, meal preparation and companionship. CPR certification. Team environment."
+  },
+  {
+    "e": "Eatonville Care Centre",
+    "title": "Personal Support Worker, Casual",
+    "cat": "psw",
+    "tier": "ltco",
+    "loc": "Etobicoke",
+    "pay": "$27.53/hr",
+    "payMin": 27.53,
+    "type": "Casual",
+    "link": "https://www.google.com/search?q=Eatonville+Care+Centre+personal+support+worker",
+    "search": "https://www.google.com/search?q=Eatonville+Care+Centre+personal+support+worker",
+    "hl": [
+      "Personal care, hygiene, toileting, feeding, transfers",
+      "Documentation",
+      "HSCPOA preferred · CPR &amp; First Aid"
+    ],
+    "req": "Personal support worker casual. Personal care, hygiene, toileting, feeding, transfers and documentation. HSCPOA registration preferred. Long-term care. CPR and First Aid."
+  },
+  {
+    "e": "Extendicare",
+    "title": "Personal Support Worker, Part-Time",
+    "cat": "psw",
+    "tier": "ltco",
+    "loc": "Toronto",
+    "pay": "Not listed",
+    "payMin": null,
+    "type": "Part-Time",
+    "link": "https://www.extendicare.com/careers",
+    "search": "https://www.google.com/search?q=Extendicare+personal+support+worker+Toronto",
+    "hl": [
+      "Personal care, mobility, transfers",
+      "Documentation &amp; infection prevention",
+      "CPR · teamwork"
+    ],
+    "req": "Personal support worker part-time. Personal care, mobility, transfers, documentation and infection prevention. CPR. Teamwork."
+  },
+  {
+    "e": "Sienna Senior Living (Revera)",
+    "title": "Personal Support Worker, Casual",
+    "cat": "psw",
+    "tier": "ltco",
+    "loc": "Toronto",
+    "pay": "$21.25/hr",
+    "payMin": 21.25,
+    "type": "Casual",
+    "link": "https://www.siennaliving.ca/careers",
+    "search": "https://www.google.com/search?q=Sienna+Senior+Living+personal+support+worker+careers",
+    "hl": [
+      "Personal care, ADLs, companionship",
+      "Mobility support · teamwork"
+    ],
+    "req": "Personal support worker casual. Personal care, activities of daily living, companionship and mobility support. Teamwork."
+  },
+  {
+    "e": "LOFT Community Services",
+    "title": "Behavioural Personal Support Worker, FT Permanent",
+    "cat": "behavioural",
+    "tier": "nonprofit",
+    "loc": "Toronto",
+    "pay": "$52-55k/yr",
+    "payMin": 25,
+    "type": "Full-Time",
+    "link": "https://www.loftcs.org/careers",
+    "search": "https://www.google.com/search?q=LOFT+Community+Services+Behavioural+Personal+Support+Worker",
+    "hl": [
+      "De-escalation &amp; crisis intervention",
+      "Dementia / cognitive care",
+      "Documentation &amp; teamwork",
+      "Her best fit: CPI + GPA + Alzheimer’s care = exactly this"
+    ],
+    "req": "Behavioural support personal support worker providing direct care, education and support to seniors demonstrating responsive behaviours. De-escalation, crisis intervention, dementia and cognitive care. Documentation and teamwork. Full-time permanent."
+  },
+  {
+    "e": "LOFT Community Services",
+    "title": "Personal Support Worker (Overnight), FT Permanent",
+    "cat": "psw",
+    "tier": "nonprofit",
+    "loc": "Toronto",
+    "pay": "$52.1-53.4k/yr",
+    "payMin": 25,
+    "type": "Full-Time nights",
+    "link": "https://www.loftcs.org/careers",
+    "search": "https://www.google.com/search?q=LOFT+Personal+Support+Worker+Overnight",
+    "hl": [
+      "Personal care, medication reminders",
+      "Safety checks, documentation, reporting",
+      "Night-shift availability"
+    ],
+    "req": "Overnight personal support worker. Personal care, medication reminders, safety checks, documentation and reporting. Night shifts. Team-based specialized assisted living."
+  },
+  {
+    "e": "LOFT / BSO teams (community LTC)",
+    "title": "Behavioural Support Case Manager",
+    "cat": "behavioural",
+    "tier": "nonprofit",
+    "loc": "Toronto / GTA",
+    "pay": "$55-67k/yr",
+    "payMin": 27,
+    "type": "Contract / FT",
+    "link": "https://www.google.com/search?q=behavioural+support+case+manager+Toronto",
+    "search": "https://www.google.com/search?q=behavioural+support+case+manager+Toronto",
+    "hl": [
+      "Responsive-behaviour case management",
+      "Dementia &amp; cognitive care",
+      "Care-plan development · multidisciplinary teamwork",
+      "1-2 yrs behavioural experience (her CPI/GPA profile)"
+    ],
+    "req": "Case manager behavioural support. Dementia, responsive behaviours, de-escalation, care plans, documentation, multidisciplinary team."
+  },
+  {
+    "e": "Community Living Toronto",
+    "title": "Developmental Services Worker (DSW)",
+    "cat": "dsw",
+    "tier": "nonprofit",
+    "loc": "Toronto",
+    "pay": "$53-57k/yr",
+    "payMin": 25.5,
+    "type": "Varies",
+    "link": "https://www.google.com/search?q=Community+Living+Toronto+developmental+services+worker",
+    "search": "https://www.google.com/search?q=Community+Living+Toronto+developmental+services+worker",
+    "hl": [
+      "Support for individuals with developmental disabilities",
+      "Crisis intervention (her CPI)",
+      "Personal care &amp; behaviour plans"
+    ],
+    "req": "Developmental services worker supporting individuals with developmental disabilities in residential settings. Crisis intervention, personal care, care plans, medication administration, teamwork."
+  },
+  {
+    "e": "Terrace Wellness Group",
+    "title": "Developmental Support Worker",
+    "cat": "dsw",
+    "tier": "ltco",
+    "loc": "Burlington / GTA",
+    "pay": "$27.03/hr",
+    "payMin": 27.03,
+    "type": "PT / Casual / FT",
+    "link": "https://www.google.com/search?q=Terrace+Wellness+Group+developmental+support+worker",
+    "search": "https://www.google.com/search?q=Terrace+Wellness+Group+developmental+support+worker",
+    "hl": [
+      "Crisis intervention",
+      "Medication administration",
+      "Residential care for complex needs"
+    ],
+    "req": "Developmental support worker, residential treatment. Crisis intervention, medication administration, personal care, experience with developmental disabilities and complex needs."
+  },
+  {
+    "e": "Kennedy House Youth Services",
+    "title": "Developmental Service Worker (DSW)",
+    "cat": "dsw",
+    "tier": "nonprofit",
+    "loc": "Toronto",
+    "pay": "~$42k/yr",
+    "payMin": 20,
+    "type": "Varies",
+    "link": "https://www.google.com/search?q=Kennedy+House+Youth+Services+developmental+service+worker",
+    "search": "https://www.google.com/search?q=Kennedy+House+Youth+Services+developmental+service+worker",
+    "hl": [
+      "Life-plan / care-plan support",
+      "Crisis intervention",
+      "Medication administration · case management"
+    ],
+    "req": "Developmental service worker. Identifies needs of supported individuals, life plans and care plans. Crisis intervention, medication administration, case management, organizational skills."
+  },
+  {
+    "e": "Hospitals (UHN, Scarborough Health, Trillium…)",
+    "title": "Hospital Unit Clerk",
+    "cat": "admin",
+    "tier": "hospital",
+    "loc": "Toronto / GTA",
+    "pay": "$26-30/hr",
+    "payMin": 26,
+    "type": "FT / PT",
+    "link": "https://www.uhn.ca/Careers",
+    "search": "https://www.google.com/search?q=hospital+unit+clerk+Toronto",
+    "hl": [
+      "Patient records, filing, chart maintenance",
+      "Medical terminology (short course closes this gap)",
+      "Keyboarding 40 wpm · computer skills",
+      "Her B.Sc. Accounting = the core skill"
+    ],
+    "req": "Maintains patient records, filing, chart maintenance, admissions, discharges, transfers. Knowledge of medical terminology an asset. Keyboarding 40 wpm, computer skills, scheduling, appointment coordination."
+  },
+  {
+    "e": "Toronto hospitals / health records depts",
+    "title": "Health Information Services Clerk",
+    "cat": "admin",
+    "tier": "hospital",
+    "loc": "Toronto",
+    "pay": "$27.27-28.24/hr",
+    "payMin": 27.27,
+    "type": "FT",
+    "link": "https://www.google.com/search?q=Health+Information+Services+Clerk+Toronto",
+    "search": "https://www.google.com/search?q=Health+Information+Services+Clerk+Toronto",
+    "hl": [
+      "Health records, filing &amp; chart management",
+      "Medical terminology an asset",
+      "Acute-care records experience valued"
+    ],
+    "req": "Health information services clerk. Health record department, filing, chart maintenance, medical terminology an asset, documentation and records accuracy."
+  },
+  {
+    "e": "Carefirst Seniors & Community Services",
+    "title": "Scheduling Coordinator (Home Care)",
+    "cat": "coordination",
+    "tier": "nonprofit",
+    "loc": "Scarborough",
+    "pay": "$38-43k/yr",
+    "payMin": 19,
+    "type": "Full-Time",
+    "link": "https://www.google.com/search?q=Carefirst+Seniors+scheduling+coordinator+home+care",
+    "search": "https://www.google.com/search?q=Carefirst+Seniors+scheduling+coordinator+home+care",
+    "hl": [
+      "Schedule PSWs/home-care workers",
+      "Client files &amp; records",
+      "Collect/verify timesheets",
+      "MS Office · strong organization (her accounting background)"
+    ],
+    "req": "Perform daily scheduling of home care workers. Maintain client files and records, document service changes, collect and verify worker timesheets. MS Office and Outlook, strong time management."
+  },
+  {
+    "e": "Carefirst Seniors & Community Services",
+    "title": "Care Coordinator (Home Care)",
+    "cat": "coordination",
+    "tier": "nonprofit",
+    "loc": "Scarborough",
+    "pay": "$48-56k/yr",
+    "payMin": 23,
+    "type": "Full-Time",
+    "link": "https://www.google.com/search?q=Carefirst+Seniors+care+coordinator+home+care",
+    "search": "https://www.google.com/search?q=Carefirst+Seniors+care+coordinator+home+care",
+    "hl": [
+      "Process referrals &amp; needs assessments",
+      "Ongoing case management",
+      "Client-centred care coordination",
+      "Office role, her PSW experience is a real edge"
+    ],
+    "req": "Care coordinator providing client-centered care through processing referrals, client needs assessments and ongoing case management. Documentation, scheduling, MS Office, communication."
+  },
+  {
+    "e": "City of Toronto, Seniors Services",
+    "title": "Rehabilitation Assistant (True Davidson Acres)",
+    "cat": "restorative",
+    "tier": "municipal",
+    "loc": "East York",
+    "pay": "$36.35-39.69/hr",
+    "payMin": 36.35,
+    "type": "Full-Time Permanent",
+    "link": "https://jobs.toronto.ca/jobsatcity/job/Toronto-REHABILITATION-ASSISTANT-ON-M5V-3C6/601136917/",
+    "search": "https://www.google.com/search?q=jobs.toronto.ca+rehabilitation+assistant+long+term+care",
+    "hl": [
+      "Rehab programs: ambulation, strengthening, positioning",
+      "ROM &amp; ADL programs, sensory stimulation",
+      "Transfers using lifting devices",
+      "\"Combined equivalent of education &amp; experience\" accepted"
+    ],
+    "req": "Develops rehabilitation programs, ambulation, active mobility and strengthening exercises, positioning, sensory stimulation, activities of daily living, transfers using lifting devices. Post-secondary program in restorative care or combined equivalent of education and experience."
+  },
+  {
+    "e": "Yee Hong Centre for Geriatric Care",
+    "title": "Program Assistant (Activation)",
+    "cat": "restorative",
+    "tier": "nonprofit",
+    "loc": "Scarborough",
+    "pay": "$22.52-26.49/hr",
+    "payMin": 22.52,
+    "type": "Casual",
+    "link": "https://www.yeehong.com/careers",
+    "search": "https://www.google.com/search?q=Yee+Hong+program+assistant+activation",
+    "hl": [
+      "Activation &amp; engagement programming",
+      "Geriatric rehabilitation experience",
+      "CPR · Vulnerable Sector screen",
+      "\"Health sciences diploma or equivalent\""
+    ],
+    "req": "Program assistant activation. Engagement and activation programming, geriatric rehabilitation, exercises, computer literacy, CPR certification, vulnerable sector screen."
+  },
+  {
+    "e": "City of Toronto, Long-Term Care",
+    "title": "Personal Support Worker LTC (Part-Time, 6 Openings)",
+    "cat": "psw",
+    "tier": "municipal",
+    "loc": "Toronto",
+    "pay": "$28.39-$31.13/hr",
+    "payMin": 28.39,
+    "type": "Part-Time",
+    "link": "https://jobs.toronto.ca",
+    "search": "https://www.google.com/search?q=jobs.toronto.ca+personal+support+worker+LTC",
+    "hl": [
+      "Personal care, hygiene, bathing, dressing, grooming, toileting",
+      "Ambulation and transfers using lifts and mobility aids",
+      "Knowledge of responsive behaviours and gentle behavioural techniques",
+      "Documentation and reporting to registered staff"
+    ],
+    "req": "Assist residents with personal hygiene, bathing, dressing, grooming, and toileting. Assist with ambulation and transferring using mechanical lifts and mobility aids. Provide care for bedridden residents, including positioning, skin care, and meal assistance. Observe and report changes in condition. Record observations and care provided. Knowledge of responsive behaviours related to dementia and gentle behavioural management techniques. PSW program completion. Days, evenings, nights."
+  },
+  {
+    "e": "Hawthorne Place Care Centre",
+    "title": "Personal Support Worker",
+    "cat": "psw",
+    "tier": "ltco",
+    "loc": "Toronto",
+    "pay": "See posting",
+    "payMin": null,
+    "type": "Varies",
+    "link": "https://www.google.com/search?q=Hawthorne+Place+Care+Centre+Toronto+careers",
+    "search": "https://www.google.com/search?q=Hawthorne+Place+Care+Centre+Toronto+careers",
+    "hl": [
+      "Personal care and activities of daily living",
+      "Transfers and repositioning",
+      "Documentation per policies",
+      "HSCPOA registration preferred"
+    ],
+    "req": "Personal support worker in a long-term care home. Provide personal care and activities of daily living for residents. Assist with transfers and repositioning. Report changes in resident status and document accurately. HSCPOA registration preferred. Teamwork with nursing staff."
+  },
+  {
+    "e": "Scarborough Retirement Residence",
+    "title": "Personal Support Worker (Nursing Care)",
+    "cat": "psw",
+    "tier": "ltco",
+    "loc": "Scarborough",
+    "pay": "See posting",
+    "payMin": null,
+    "type": "Varies",
+    "link": "https://www.google.com/search?q=Scarborough+Retirement+Residence+PSW+jobs",
+    "search": "https://www.google.com/search?q=Scarborough+Retirement+Residence+PSW+jobs",
+    "hl": [
+      "Personal care and hygiene",
+      "Mobility support",
+      "Meal assistance"
+    ],
+    "req": "Provide personal care and hygiene support to residents. Assist with mobility and daily activities. Meal assistance. Compassionate and reliable care in a retirement residence."
+  },
+  {
+    "e": "Amica Senior Lifestyles",
+    "title": "Personal Support Worker (Casual)",
+    "cat": "psw",
+    "tier": "ltco",
+    "loc": "Pickering",
+    "pay": "See posting",
+    "payMin": null,
+    "type": "Casual",
+    "link": "https://www.amica.ca/careers",
+    "search": "https://www.google.com/search?q=Amica+Senior+Lifestyles+personal+support+worker",
+    "hl": [
+      "Personal care and ADLs in a retirement residence",
+      "Companionship and engagement",
+      "Teamwork with wellness staff"
+    ],
+    "req": "Personal support worker in a premium retirement residence. Personal care, activities of daily living, and companionship. Work with the wellness team. PSW certificate."
+  }
+];
+
+
+/* ================= DATA LOADER ================= */
+/* Free API keys at developer.adzuna.com. Paste them below to pull the
+   newest postings automatically every time the page opens. Leave blank to
+   use the saved list (still updated daily by the scheduled pipeline). */
+const ADZUNA = { appId: '', appKey: '' };
+const AGENCY_MARKERS = ['staffing','agency','recruit','we place','assignments','per visit','select your own shift'];
+
+function buildLocations(){
+  const locs=[...new Set(JOBS.map(j=>j.loc))].sort();
+  const sel=document.getElementById('locsel');
+  if(!sel) return;
+  sel.innerHTML='<option value="all">All locations</option>'+locs.map(l=>'<option value="'+l+'">'+l+'</option>').join('');
+}
+function setLoc(v){ loc=v; render(); }
+
+function adzunaURL(what){
+  return 'https://api.adzuna.com/v1/api/jobs/ca/search/1?app_id='+ADZUNA.appId+'&app_key='+ADZUNA.appKey+
+         '&what='+encodeURIComponent(what)+'&where=Toronto&content-type=application/json&results_per_page=15';
+}
+function mapAdzunaItem(item){
+  const title=(item.title||'').trim();
+  const desc=(item.description||'').trim();
+  const blob=(title+' '+desc).toLowerCase();
+  if(!title) return null;
+  if(AGENCY_MARKERS.some(m=>blob.includes(m))) return null;
+  if(!/(care|support worker|health)/.test(blob)) return null;
+  return {
+    e:(item.company&&item.company.display_name)||'Employer',
+    title:title,
+    cat:/behaviou?r|dementia/.test(blob)?'behavioural':'psw',
+    tier:'ltco', loc:'Toronto / GTA',
+    pay:'See posting', payMin:null, type:(item.contract_type||'Varies'),
+    link:item.redirect_url||'', search:'https://www.google.com/search?q='+encodeURIComponent(title),
+    hl:['See the posting for full requirements.'], req:desc.slice(0,600), live:true
+  };
+}
+async function fetchLive(){
+  const out=[], seen=new Set();
+  for(const q of ['personal support worker','caregiver','health care aide']){
+    try{
+      const r=await fetch(adzunaURL(q), {cache:'no-store'});
+      if(!r.ok) continue;
+      const data=await r.json();
+      (data.results||[]).forEach(it=>{
+        const j=mapAdzunaItem(it);
+        if(!j) return;
+        const k=(j.title+' | '+j.e).toLowerCase();
+        if(seen.has(k)) return;
+        seen.add(k); out.push(j);
+      });
+    }catch(e){}
+  }
+  return out;
+}
+async function loadJobs(){
+  if(!JOBS.length) JOBS = EMBEDDED_JOBS;   /* offline fallback: built-in snapshot */
+  let src = 'saved list';
+  try{
+    const r = await fetch('jobs.json', {cache:'no-store'});
+    if(r.ok){
+      const data = await r.json();
+      if(Array.isArray(data) && data.length){ JOBS = data; }
+    }
+  }catch(e){ /* offline: snapshot already loaded */ }
+  if(ADZUNA.appId && ADZUNA.appKey){
+    const live = await fetchLive();
+    if(live.length){
+      const seen = new Set(JOBS.map(j=>(j.title+' | '+j.e).toLowerCase()));
+      JOBS = live.filter(j=>!seen.has((j.title+' | '+j.e).toLowerCase())).concat(JOBS);
+      src = 'live feed';
+    }
+  }
+  const el = document.getElementById('datasrc');
+  if(el) el.textContent = ' · ' + src + ' · ' + JOBS.length + ' listings';
+  buildLocations();
+  render();
+}
+/* ================= RENDER ================= */
+const jobsEl=document.getElementById('jobs');
+let filter='all', loc='all', sort='priority';
+
+function reqWarnings(text){
+  const tx=t(text); const out=[];
+  REQUIRE_CHECKS.forEach(r=>{
+    const el=document.getElementById('tg-'+r.id);
+    if(el&&el.checked) return;
+    if(r.kw.some(k=>tx.includes(k))) out.push(r.label);
+  });
+  return out;
+}
+function jobHTML(j, idx){
+  const s=scoreText(j.req);
+  const tier=TIERS[j.tier]||TIERS.nonprofit;
+  const cat=CAT[j.cat]||CAT.psw;
+  const pri=Math.round(s.pct*0.7 + tier.w*100*0.3);
+  const warns=reqWarnings(j.req);
+  const hits=s.matched.slice(0,6).map(g=>'<span class="kw hit">\u2713 '+g.label+'</span>').join('');
+  const hlHtml=j.hl.map(h=>{
+    const isReq=/required|must|registration|licence|bilingual|wpm|diploma|certificate/i.test(h);
+    return '<li>'+(isReq?'<span class="req">'+h+'</span>':h)+'</li>';
+  }).join('');
+  const warnHtml=warns.length?'<div class="warnline">This posting asks for: '+warns.join(', ')+'. You can close these gaps before you apply.</div>':'';
+  const reqText=escHtml(j.req||'').replace(/\n/g,' ');
+  return '<div class="job direct" data-cat="'+j.cat+'">'+
+    '<div class="row1">'+
+      '<div class="matchbox"><div class="pct">'+s.pct+'%</div><div class="cap">match</div></div>'+
+      '<div class="info">'+
+        '<h3>'+j.title+'</h3>'+
+        '<div><span class="emp">'+j.e+'</span>'+
+          '<span class="badge '+tier.cls+'">'+tier.label+'</span>'+
+          '<span class="badge '+cat.cls+'">'+cat.label+'</span>'+
+          (j.live?'<span class="badge" style="color:var(--coral-deep);border-color:#d9a58f;">new</span>':'')+'</div>'+
+
+        '<div class="meta"><b>'+j.pay+'</b> · '+j.type+' · '+j.loc+'</div>'+
+      '</div>'+
+    '</div>'+
+    '<div class="hl"><h4>Job posting highlights</h4><ul>'+hlHtml+'</ul></div>'+
+    '<div class="kwrow">'+hits+'</div>'+
+    warnHtml+
+    '<div class="acts">'+
+      '<a class="btn btn-primary" href="'+j.link+'" target="_blank" rel="noopener">Apply / open posting</a>'+
+      '<a class="btn btn-ghost" href="'+j.search+'" target="_blank" rel="noopener">Check current openings</a>'+
+      '<button class="btn btn-ghost" onclick="toggleReq('+idx+')">Read full posting</button>'+
+      '<button class="btn btn-ghost" onclick="speakJob('+idx+')">Listen</button>'+
+      '<button class="btn btn-gold" onclick="showResume('+idx+')">Show tailored resume</button>'+
+      '<button class="btn btn-ghost" onclick="showCover('+idx+')">Show cover letter</button>'+
+    '</div>'+
+    '<div class="reqpanel" id="req-'+idx+'">'+
+      '<h4>Full posting &amp; requirements</h4>'+
+      '<p class="reqtext">'+reqText+'</p>'+
+    '</div>'+
+    '<div class="respanel" id="res-'+idx+'">'+
+      '<div class="atsline" id="ats-'+idx+'"></div>'+
+      '<textarea id="ta-'+idx+'"></textarea>'+
+      '<div class="rbtns">'+
+        '<button class="btn btn-gold" onclick="downloadDocxFrom(\'ta-'+idx+'\',\'Jummai_Raji_Resume_'+idx+'.docx\')">Download .docx</button>'+
+        '<button class="btn btn-ghost" onclick="downloadTxtFrom(\'ta-'+idx+'\',\'Jummai_Raji_Resume_'+idx+'.txt\')">Download .txt</button>'+
+      '</div>'+
+    '</div>'+
+    '<div class="coverpanel" id="cov-'+idx+'">'+
+      '<div class="atsline" id="cc-'+idx+'"></div>'+
+      '<textarea id="tc-'+idx+'"></textarea>'+
+      '<div class="rbtns">'+
+        '<button class="btn btn-gold" onclick="downloadDocxFrom(\'tc-'+idx+'\',\'Jummai_Raji_CoverLetter_'+idx+'.docx\')">Download cover letter .docx</button>'+
+        '<button class="btn btn-ghost" onclick="downloadTxtFrom(\'tc-'+idx+'\',\'Jummai_Raji_CoverLetter_'+idx+'.txt\')">Download .txt</button>'+
+      '</div>'+
+    '</div>'+
+  '</div>';
+}
+function showResume(idx){
+  const j=JOBS[idx]; if(!j) return;
+  const res=buildResume(j.req);
+  const ta=document.getElementById('ta-'+idx);
+  if(ta) ta.value=res.text;
+  renderAts('ats-'+idx, gradeATS(res.text, res.matched));
+  const panel=document.getElementById('res-'+idx);
+  if(panel){ panel.classList.toggle('show'); }
+}
+function escHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function toggleReq(idx){
+  const p=document.getElementById('req-'+idx);
+  if(p){ p.classList.toggle('show'); }
+}
+function stripEntities(s){
+  return (s||'').replace(/&amp;/g,'&').replace(/&rsquo;/g,"'").replace(/&lsquo;/g,"'")
+    .replace(/&mdash;/g,', ').replace(/&ndash;/g,', ').replace(/&nbsp;/g,' ');
+}
+function speakText(text){
+  if(!('speechSynthesis' in window)){ return; }
+  try{
+    window.speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang='en-CA'; u.rate=0.95; u.pitch=1;
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+function speakJob(idx){
+  const j=JOBS[idx]; if(!j) return;
+  const hl=(j.hl||[]).map(h=>stripEntities(h)).join('. ');
+  const text=j.title+'. '+j.e+'. Pay: '+j.pay+'. Location: '+j.loc+
+    '. Requirements: '+hl+'. '+stripEntities(j.req||'');
+  speakText(text);
+}
+function speakPaste(){
+  const text=document.getElementById('paste').value;
+  if(!text.trim()) return;
+  speakText(text);
+}
+function plainText(s){
+  return (s||'')
+    .replace(/\u2014|\u2013/g, ', ')
+    .replace(/&amp;/g,'&').replace(/&mdash;/g,', ').replace(/&ndash;/g,', ')
+    .replace(/&rsquo;|&lsquo;/g,"'").replace(/&nbsp;/g,' ')
+    .replace(/ , ?/g, ', ')
+    .replace(/ {2,}/g, ' ');
+}
+const POINT_DEFS=[
+  {ids:['dementia','behaviour','cpi','gpa'], label:'dementia and Alzheimer care',
+   text:"I have special training in dementia and Alzheimer's care. I hold the CPI and GPA certificates, which help me calm and support people with responsive behaviours."},
+  {ids:['transfers','adl'], label:'personal care, lifts, and transfers',
+   text:"I do personal care, lifts, and transfers every day. I have done this work for more than 7 years in long-term care and retirement homes."},
+  {ids:['docs','accounting','admin'], label:'record keeping and organization',
+   text:"I keep clear and correct records. My degree in Accounting helps me stay organized and accurate."},
+  {ids:['restorative'], label:'exercise and movement programs',
+   text:"I help residents with exercises and movement so they stay active and independent."},
+  {ids:['meds'], label:'medication support',
+   text:"I have experience helping with medication under supervision, and I always follow the care plan."},
+  {ids:['dsw'], label:'support for people with extra needs',
+   text:"I am patient and calm with people who need extra support. My CPI training helps me there."},
+  {ids:['meals'], label:'meal preparation and feeding',
+   text:"I prepare meals and help with feeding, and I watch nutrition and hydration."},
+  {ids:['ipac'], label:'infection prevention and control',
+   text:"I follow infection prevention and control rules carefully, including PPE and hand hygiene."},
+  {ids:['team'], label:'clear communication and teamwork',
+   text:"I communicate clearly and work well with residents, families, and the care team."},
+  {ids:['companion'], label:'companionship and emotional support',
+   text:"I give warm companionship and emotional support, and I respect each person's dignity."},
+  {ids:['cpr'], label:'current First Aid and CPR',
+   text:"I hold current First Aid and CPR, so I can respond calmly in an emergency."},
+];
+const GENERIC_POINTS=[
+  "I am reliable, on time, and easy to work with.",
+  "I am gentle and patient, and I respect each person's dignity and choices.",
+  "I learn quickly, and I follow the care plan and safety rules carefully.",
+  "I keep good records and report any changes right away.",
+];
+function buildCoverLetter(j){
+  const role=plainText(j.title||'').trim();
+  const employer=plainText(j.e||'').trim();
+  const s=scoreText(j.req||'');
+  const ids=new Set(s.matched.map(g=>g.id));
+  const today=new Date().toLocaleDateString('en-CA',{year:'numeric',month:'long',day:'numeric'});
+  const wOf=id=>(GROUPS.find(g=>g.id===id)||{w:0}).w;
+  const scored=POINT_DEFS
+    .map(p=>({p, sc:p.ids.reduce((a,id)=> ids.has(id)? a+wOf(id) : a, 0)}))
+    .filter(x=>x.sc>0).sort((a,b)=>b.sc-a.sc);
+  const strong=scored.slice(0,4).map(x=>x.p.text);
+  const rest=scored.slice(4).map(x=>x.p.label);
+  for(const g of GENERIC_POINTS){ if(strong.length>=4) break; if(strong.indexOf(g)<0) strong.push(g); }
+  const greeting=employer? 'Dear '+employer+' Recruitment Team,' : 'Dear Recruitment Team,';
+  const opening='I am applying for '+(role? 'the '+role+' position ':'this position ')+
+    (employer? 'at '+employer:'with your organization')+'. I am a certified Personal Support Worker '+
+    'with more than 7 years of experience in long-term care, retirement homes, and private care.';
+  const parts=[today,''];
+  if(employer) parts.push(employer);
+  parts.push(greeting,'');
+  parts.push(opening,'');
+  strong.forEach(t=>parts.push(t,''));
+  if(rest.length){ parts.push('I also bring experience with '+rest.join(', ')+'.',''); }
+  parts.push('I am available for days, evenings, nights, and weekends. My resume is attached. I would be happy to meet you and talk about how I can help your team.','');
+  parts.push('Thank you for your time.','');
+  parts.push('Sincerely,','Jummai Salami Raji','(437) 661-5084','Kaphyrajah@gmail.com');
+  return parts.join('\n');
+}
+function buildCoverLetterFromText(text){
+  return buildCoverLetter({title:'', e:'', req:text});
+}
+function showCover(idx){
+  const j=JOBS[idx]; if(!j) return;
+  const letter=buildCoverLetter(j);
+  const ta=document.getElementById('tc-'+idx);
+  if(ta) ta.value=letter;
+  renderCoverCheck('cc-'+idx, letter);
+  const panel=document.getElementById('cov-'+idx);
+  if(panel){ panel.classList.toggle('show'); }
+}
+const ACTION_VERBS=/^(Delivered|Safely|Supported|Executed|Maintained|Certified|Managed|Worked|Lifted|Completed|Prioritized|Followed|Provided|Assisted|Reported|Accompanied|Led|Applied|Implemented|Created|Handled|Performed|Coordinated|Monitored|Documented|Observed|Promoted|Ensured|Prepared|Administered|Brought|Kept|Helped|Reduced|Improved|Organised|Organized|Trained|Guided)\b/;
+function gradeATS(text, matchedGroups){
+  const tx=text||''; const low=tx.toLowerCase(); const lines=tx.split('\n');
+  const checks=[]; const C=(label,ok)=>checks.push({label,ok});
+  C('Full name at the top', low.includes('jummai salami raji'));
+  C('Phone number present', tx.includes('(437) 661-5084'));
+  C('Email address present', low.includes('kaphyrajah@gmail.com'));
+  C('City and province present', low.includes('north york, on'));
+  const heads=['PROFESSIONAL SUMMARY','HIGHLIGHTS OF QUALIFICATIONS','RELEVANT SKILLS','RELEVANT EXPERIENCE','EDUCATION','CERTIFICATIONS & TRAINING'];
+  C('All six standard headings', heads.every(h=>tx.includes(h)));
+  C('No first-person pronouns', !/\b(i|me|my|myself)\b/i.test(tx));
+  C('No special characters', !/[\u2014\u2013\u2018\u2019\u201C\u201D\t\u00A0]/.test(tx));
+  C('Years of experience shown', (low.match(/(20|19)\d\d/g)||[]).length>=5);
+  let kwCov=0, kwTot=0;
+  matchedGroups.forEach(g=>{ kwTot++; if(g.kw.some(k=>low.includes(k))) kwCov++; });
+  C('Posting keywords covered ('+kwCov+'/'+kwTot+')', kwTot===0 || kwCov/kwTot>=0.8);
+  const expStart=lines.findIndex(l=>l==='RELEVANT EXPERIENCE');
+  const eduStart=lines.findIndex(l=>l==='EDUCATION');
+  let vOk=0, vTot=0;
+  if(expStart>=0){ const seg=lines.slice(expStart+1, eduStart>=0?eduStart:lines.length);
+    seg.forEach(l=>{ if(l.startsWith('\u2022 ')){ vTot++; if(ACTION_VERBS.test(l.slice(2).trim())) vOk++; } }); }
+  C('Action verbs open experience bullets ('+vOk+'/'+vTot+')', vTot===0 || vOk/vTot>=0.8);
+  C('Employer cities and provinces listed', ['thornhill, on','toronto, on','abuja, nigeria','lagos, nigeria'].every(x=>low.includes(x)));
+  C('No photo, age, or marital status', !/(photo|marital|date of birth|nationality|social insurance)/.test(low));
+  C('Canadian spelling', !/(behavioral|behavior|center|centers|color)/.test(low));
+  const idx=h=>tx.indexOf(h);
+  C('Standard section order', idx('PROFESSIONAL SUMMARY')<idx('HIGHLIGHTS OF QUALIFICATIONS') && idx('HIGHLIGHTS OF QUALIFICATIONS')<idx('RELEVANT SKILLS') && idx('RELEVANT SKILLS')<idx('RELEVANT EXPERIENCE') && idx('RELEVANT EXPERIENCE')<idx('EDUCATION') && idx('EDUCATION')<idx('CERTIFICATIONS & TRAINING'));
+  C('Bulleted experience section', (low.match(/\u2022 /g)||[]).length>=10);
+  C('Job title under the name', low.includes('personal support worker (psw)'));
+  const wc=low.split(/\s+/).filter(Boolean).length;
+  C('Length fits one to two pages ('+wc+' words)', wc>=250 && wc<=700);
+  C('Month and year date format', /(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]* \d{4}/i.test(tx));
+  C('Both credentials listed', low.includes('personal support worker diploma') && low.includes('b.sc. in accounting'));
+  const first3=lines.slice(0,3).join('\n').toLowerCase();
+  C('Contact block at the very top', first3.includes('jummai') && first3.includes('437') && first3.includes('gmail'));
+  const balda=lines.findIndex(l=>l.includes('Balda Care Home'));
+  C('Every role has real dates', balda<0 || /\d{4}/.test(lines[balda]||''));
+  const ok=checks.filter(c=>c.ok).length;
+  return { score: Math.round(ok/checks.length*100), checks };
+}
+function coverGrade(text){
+  const tx=text||''; const checks=[];
+  const C=(label,ok)=>checks.push({label,ok});
+  C('No "Dear Hiring Manager"', !tx.includes('Dear Hiring Manager'));
+  const greet=(tx.split('\n').find(l=>l.startsWith('Dear '))||'').trim();
+  C('Personal greeting used', /^Dear .+,$/.test(greet));
+  C('States the job being applied for', /I am applying for/.test(tx));
+  C('Sincerely and full name', tx.includes('Sincerely,') && tx.includes('Jummai Salami Raji'));
+  C('Phone and email included', tx.includes('(437) 661-5084') && tx.includes('Kaphyrajah@gmail.com'));
+  C('No em or en dashes', !/[\u2014\u2013]/.test(tx));
+  const ok=checks.filter(c=>c.ok).length;
+  return { score: Math.round(ok/checks.length*100), checks };
+}
+function renderAts(elId, grade){
+  const el=document.getElementById(elId);
+  if(!el) return;
+  const failed=grade.checks.filter(c=>!c.ok);
+  let html='<span class="atsscore">ATS score: '+grade.score+'/100</span>';
+  if(failed.length){ html+=' <span class="atsissues">'+failed.map(f=>escHtml(f.label)).join(' | ')+'</span>'; }
+  el.innerHTML=html;
+}
+function renderCoverCheck(elId, letter){
+  const el=document.getElementById(elId);
+  if(!el) return;
+  const g=coverGrade(letter);
+  let html='<span class="atsscore">Cover check: '+g.score+'%</span>';
+  const failed=g.checks.filter(c=>!c.ok);
+  if(failed.length){ html+=' <span class="atsissues">'+failed.map(f=>escHtml(f.label)).join(' | ')+'</span>'; }
+  el.innerHTML=html;
+}
+function render(){
+  let list=JOBS.slice();
+  if(filter!=='all') list=list.filter(j=>j.cat===filter);
+  if(loc!=='all') list=list.filter(j=>j.loc===loc);
+  if(sort==='priority') list.sort((a,b)=>{
+    const sa=scoreText(a.req).pct*0.7+ (TIERS[a.tier]||{}).w*100*0.3;
+    const sb=scoreText(b.req).pct*0.7+ (TIERS[b.tier]||{}).w*100*0.3;
+    return sb-sa;
+  });
+  else list.sort((a,b)=>(b.payMin||-1)-(a.payMin||-1));
+  jobsEl.innerHTML=list.map(j=>jobHTML(j, JOBS.indexOf(j))).join('')||'<p style="color:var(--muted);">No listings here right now, check back tomorrow.</p>';
+  document.getElementById('st-total').textContent=JOBS.length;
+  document.getElementById('st-adj').textContent=JOBS.filter(j=>j.cat!=='psw').length;
+}
+document.querySelectorAll('.fbtn').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.fbtn').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on'); filter=b.dataset.f; render();
+}));
+document.getElementById('sort').addEventListener('change',e=>{sort=e.target.value;render();});
+
+/* location dropdown is built by buildLocations() after data load */
+
+/* ---- toggles (requirement warnings) ---- */
+function togglesHTML(){
+  const items=[['hscpoa','HSCPOA registration'],['vehicle',"Driver's licence + vehicle"],['french','Bilingual French'],['overnight','Open to nights/overnight'],['medterm','Medical terminology course']];
+  return '<div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:8px;">'+items.map(i=>'<label class="toggle" style="display:flex;align-items:center;gap:6px;font-size:12.5px;cursor:pointer;"><input type="checkbox" id="tg-'+i[0]+'" onchange="render()" style="accent-color:var(--coral);">'+i[1]+'</label>').join('')+'</div>';
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  const anchor=document.querySelector('.controls');
+  const holder=document.createElement('div');
+  holder.innerHTML='<div style="font-size:12px;color:var(--muted);margin:0 0 6px;"><b>Tick what you have</b>, the requirement warnings on each card update automatically:</div>'+togglesHTML();
+  anchor.parentNode.insertBefore(holder, anchor);
+  loadJobs();
+});
+
+/* ================= PASTE MATCHER ================= */
+function detectTier(text){
+  const tx=t(text); let a=0,d=0;
+  ['staffing','agency','recruit','we place','assignments','select your own shift','multiple clients','per visit'].forEach(k=>{if(tx.includes(k))a++;});
+  ['hospital','long-term care home','long term care home','city of toronto','residence','health network','health sciences','retirement'].forEach(k=>{if(tx.includes(k))d++;});
+  return a>d?'agency':(d>0?'hospital':'unknown');
+}
+function scorePasted(){
+  const text=document.getElementById('paste').value;
+  if(!text.trim()) return;
+  const res=buildResume(text);
+  const tierKey=detectTier(text);
+  const pri=Math.round(res.pct*0.7+(tierKey==='hospital'?100:80)*0.3);
+  document.getElementById('mpct').textContent=res.pct+'%';
+  document.getElementById('mbar').style.width=res.pct+'%';
+  const mt=document.getElementById('mtier');
+  mt.textContent=(tierKey==='agency'?'Staffing agency. Skip it if you can':tierKey==='hospital'?'Likely direct employer':'Employer type unclear')+' · priority '+pri;
+  document.getElementById('mchips').innerHTML=res.matched.map(g=>'<span class="kw hit">\u2713 '+g.label+'</span>').join('');
+  const warns=reqWarnings(text);
+  document.getElementById('mwarn').innerHTML=warns.length?'<div class="warnline">This posting asks for: '+warns.join(', ')+'. You can close these gaps before you apply.</div>':'';
+  const letter=buildCoverLetterFromText(text);
+  document.getElementById('mta').value=res.text;
+  document.getElementById('mcv').value=letter;
+  renderAts('mats', gradeATS(res.text, res.matched));
+  renderCoverCheck('mcc', letter);
+  document.getElementById('mres').classList.add('show');
+  document.getElementById('mres').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+/* ================= DOWNLOADS ================= */
+function blobDownload(bytes, filename, mime){
+  const blob=new Blob([bytes],{type:mime});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download=filename;
+  document.body.appendChild(a); a.click();
+  setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(url);},500);
+}
+function downloadDocxFrom(taId, fname){
+  const ta=document.getElementById(taId);
+  if(!ta||!ta.value.trim()){alert('Generate the resume first.');return;}
+  blobDownload(textToDocx(ta.value), fname, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+}
+function downloadTxtFrom(taId, fname){
+  const ta=document.getElementById(taId);
+  if(!ta||!ta.value.trim()){alert('Generate the resume first.');return;}
+  blobDownload(new TextEncoder().encode(ta.value), fname, 'text/plain');
+}
+
+/* ================= DIRECTORY ================= */
+const DIRECTORY=[
+  ['Hospitals (GTA & environs)',[
+    ['University Health Network','https://www.uhn.ca/Careers'],
+    ['Sunnybrook Health Sciences','https://sunnybrook.ca/careers'],
+    ['North York General Hospital','https://www.nygh.on.ca/careers'],
+    ['Mackenzie Health (Vaughan/RH)','https://www.mackenziehealth.ca/careers'],
+    ['Oak Valley Health (Markham)','https://www.oakvalleyhealth.ca/careers'],
+    ['Humber River Health','https://www.hrh.ca/careers'],
+    ['Sinai Health','https://www.sinaihealth.ca/careers'],
+    ['Scarborough Health Network','https://www.shn.ca/careers'],
+    ['Trillium Health Partners (Mississauga)','https://trilliumhealthpartners.ca/careers'],
+    ['William Osler Health (Brampton)','https://www.williamoslerhs.ca/careers'],
+    ['Baycrest','https://www.baycrest.org/careers'],
+  ]],
+  ['City & regions',[
+    ['City of Toronto (10 LTC homes)','https://jobs.toronto.ca'],
+    ['Region of Peel (LTC homes)','https://www.peelregion.ca/jobs'],
+  ]],
+  ['Non-profit LTC & community',[
+    ['LOFT Community Services','https://www.loftcs.org/careers'],
+    ['WoodGreen Community Services','https://www.woodgreen.org/careers'],
+    ['Yee Hong Centre for Geriatric Care','https://www.yeehong.com/careers'],
+    ['Community Living Toronto','https://www.google.com/search?q=Community+Living+Toronto+careers'],
+    ['Carefirst Seniors & Community','https://www.google.com/search?q=Carefirst+Seniors+and+Community+Services+careers'],
+    ['Shepherd Village','https://www.google.com/search?q=Shepherd+Village+Toronto+careers'],
+    ['Better Living Health & Community','https://www.google.com/search?q=Better+Living+Health+Community+Services+North+York+careers'],
+    ['Mon Sheong Foundation','https://www.monsheong.org/careers'],
+    ['Rekai Centres','https://www.rekai.ca/careers'],
+  ]],
+  ['LTC / Retirement operators',[
+    ['Sienna Senior Living','https://www.siennaliving.ca/careers'],
+    ['Extendicare','https://www.extendicare.com/careers'],
+    ['Chartwell','https://www.chartwell.com/careers'],
+    ['Amica Senior Lifestyles','https://www.amica.ca/careers'],
+    ['Schlegel Villages','https://schlegelvillages.com/careers'],
+    ['Verve Senior Living','https://www.verveseniorliving.com/careers'],
+    ['Seasons Retirement Communities','https://www.seasonsretirement.com/careers'],
+    ['Cogir Senior Living','https://www.cogirseniorliving.ca/careers'],
+    ['Hawthorne Place Care Centre','https://www.google.com/search?q=Hawthorne+Place+Care+Centre+Toronto+careers'],
+    ['Eatonville Care Centre','https://www.google.com/search?q=Eatonville+Care+Centre+Toronto+careers'],
+    ['Scarborough Retirement Residence','https://www.google.com/search?q=Scarborough+Retirement+Residence+PSW+jobs'],
+  ]],
+  ['Direct-employer search tools',[
+    ['Job Bank (gov, links to employers)','https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=personal+support+worker&locationstring=Toronto'],
+    ['Durham Workforce Authority (active posts)','https://durhamworkforceauthority.ca/industry/naics62/naics623/'],
+  ]],
+];
+document.getElementById('dir').innerHTML=DIRECTORY.map(g=>
+  '<div style="grid-column:1/-1;margin:8px 0 0;"><b style="color:var(--coral-deep);font-size:11px;text-transform:uppercase;letter-spacing:.14em;">'+g[0]+'</b></div>'+
+  g[1].map(it=>'<div class="item"><b>'+it[0]+'</b><a href="'+it[1]+'" target="_blank" rel="noopener">'+it[1].replace('https://','').slice(0,42)+'</a></div>').join('')
+).join('');
+</script>
+</body>
+</html>

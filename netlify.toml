@@ -1,0 +1,5 @@
+# Netlify configuration
+# This is a fully static site (no build step). Publish the project root.
+
+[build]
+  publish = "."
