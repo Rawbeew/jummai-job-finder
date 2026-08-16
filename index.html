@@ -81,6 +81,8 @@
   .warnline{font-size:12.5px; color:var(--warn); margin-top:8px;}
 
   .acts{margin-top:14px; display:flex; flex-wrap:wrap; gap:8px; align-items:center;}
+  .acts .btn-primary{font-size:14.5px; padding:11px 20px; font-weight:700;}
+  .linkhint{font-size:12px; color:var(--muted); margin-top:8px;}
   .btn{display:inline-block; padding:9px 16px; border-radius:8px; font-size:13px; font-weight:600;
     border:1px solid transparent; cursor:pointer; text-decoration:none; transition:.12s ease;}
   .btn-primary{background:var(--ink); color:#f5f1ea; border-color:var(--ink);}
@@ -1193,6 +1195,9 @@ function jobHTML(j, idx){
   }).join('');
   const warnHtml=warns.length?'<div class="warnline">This posting asks for: '+warns.join(', ')+'. You can close these gaps before you apply.</div>':'';
   const reqText=escHtml(j.req||'').replace(/\n/g,' ');
+  const isSearch=/google\.com\/search/.test(j.link||'');
+  const applyLabel=isSearch?'Find application page':'Apply here';
+  const applyHost=((j.link||'').replace(/^https?:\/\//,'').split('/')[0]||'').replace(/^www\./,'');
   return '<div class="job direct" data-cat="'+j.cat+'">'+
     '<div class="row1">'+
       '<div class="matchbox"><div class="pct">'+s.pct+'%</div><div class="cap">match</div></div>'+
@@ -1210,13 +1215,14 @@ function jobHTML(j, idx){
     '<div class="kwrow">'+hits+'</div>'+
     warnHtml+
     '<div class="acts">'+
-      '<a class="btn btn-primary" href="'+j.link+'" target="_blank" rel="noopener">Apply / open posting</a>'+
+      '<a class="btn btn-primary" href="'+j.link+'" target="_blank" rel="noopener">'+applyLabel+'</a>'+
       '<a class="btn btn-ghost" href="'+j.search+'" target="_blank" rel="noopener">Check current openings</a>'+
       '<button class="btn btn-ghost" onclick="toggleReq('+idx+')">Read full posting</button>'+
       '<button class="btn btn-ghost" onclick="speakJob('+idx+')">Listen</button>'+
       '<button class="btn btn-gold" onclick="showResume('+idx+')">Show tailored resume</button>'+
       '<button class="btn btn-ghost" onclick="showCover('+idx+')">Show cover letter</button>'+
     '</div>'+
+    '<div class="linkhint">The application opens on '+applyHost+'</div>'+
     '<div class="reqpanel" id="req-'+idx+'">'+
       '<h4>Full posting &amp; requirements</h4>'+
       '<p class="reqtext">'+reqText+'</p>'+
