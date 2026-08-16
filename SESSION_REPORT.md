@@ -3,7 +3,7 @@
 **Date:** 16 August 2026
 **Client:** Jummai Salami Raji (certified Personal Support Worker, North York, Toronto)
 **Built for:** a friend of the user, who asked me to help her maximize her earning potential in Ontario's healthcare market.
-**Outcome:** a live, self-refreshing job board + ATS resume & cover-letter builder, deployed free on two hosts, with a keyless daily auto-fetch of real employer postings.
+**Outcome:** a live, self-refreshing job board + ATS resume & cover-letter builder, deployed free on two hosts, with a keyless daily auto-fetch of real employer postings and a strict "recent postings only" freshness policy.
 
 **Live:**
 - Netlify: https://jummai-job-finder.netlify.app
@@ -18,9 +18,10 @@ Over a single working session we took a real person's resume PDF and turned it i
 
 1. **Career strategy** grounded in current 2026 Ontario pay data (private care vs. institutional vs. adjacent roles vs. RPN).
 2. **An ATS-compliant resume** rebuilt to Canadian conventions, plus a **landing page** for private clients, a **perks ranking**, an **adjacent-roles ladder**, and **email templates**.
-3. **A consolidated web tool** that lists direct-employer postings (no agencies), shows each job's requirements and application link, and generates a **tailored resume + cover letter per posting** as a real Word file.
+3. **A consolidated web tool** that lists direct-employer postings (no agencies), shows each job's requirements, dates and application link, and generates a **tailored resume + cover letter per posting** as a real Word file.
 4. **A harsh ATS grader** (21 checks) that scores every generated resume — currently **95/100**, with the single deduction being a date the client must supply herself (we refuse to fabricate it).
 5. **Daily automation**: a keyless fetch of live postings via the SmartRecruiters public API, a GitHub Actions schedule (07:30 Toronto time), and automatic deploys to both Netlify and GitHub Pages.
+6. **A two-part job view**: recent dated postings up top, and an "Always-hiring direct employers" section (33 evergreen cards) for weekly checking — so a short week of fresh postings never reads as an empty board.
 
 The system is deliberately **phone-first and plain-language**, because the end user is not comfortable with technology — she can even have each job posting read aloud.
 
@@ -43,8 +44,8 @@ The system is deliberately **phone-first and plain-language**, because the end u
 - PSWs in Toronto are paid ~$20/hr by agencies while agencies bill families $35–45/hr — the margin goes to the middleman.
 - The best-paying standard PSW roles ($31–34/hr at hospitals and the City of Toronto) sit behind ATS systems and specific requirements (HSCPOA, BCLS).
 - Her strongest assets (CPI, GPA, dementia care, Accounting degree) qualify her for **adjacent** roles that pay more than standard PSW work — but she had no way to discover or target them.
-- Job boards bury direct employers under agency ads.
-- The user wanted all of this to **refresh daily** and to be **hosted permanently**, with an ATS resume tailored to *each* posting.
+- Job boards bury direct employers under agency ads, and most of what they surface is **already expired**.
+- The user wanted all of this to **refresh daily**, to be **hosted permanently**, and to show **only current postings** — with an ATS resume tailored to *each* one.
 
 ---
 
@@ -108,19 +109,27 @@ The system is deliberately **phone-first and plain-language**, because the end u
 **Why:** ATS software is the gatekeeper, so I *became* the grader — and then closed every checkable gap. 100% would require inventing her Balda dates, which we won't do. The cover-letter rules directly answer "what makes it sound human": a real addressee and a focused 4-point structure beat a boilerplate "Dear Hiring Manager" wall of text.
 
 ### Turn 15 — "Here's a throwaway GitHub token. Host on GitHub and find a way to auto-fetch daily."
-**What I did:** verified the token (account `Rawbeew`); discovered Job Bank's RSS is dead and Adzuna needs a key, but **SmartRecruiters' public API is keyless** (UHN exposes 181 live postings, including 4 fresh PSW roles); wrote a keyless `refresh_jobs.py`; created the repo, pushed, enabled GitHub Pages, verified live.
+**What I did:** verified the token (account `Rawbeew`); discovered Job Bank's RSS is dead and Adzuna needs a key, but **SmartRecruiters' public API is keyless** (UHN exposes 181 live postings, including fresh PSW roles); wrote a keyless `refresh_jobs.py`; created the repo, pushed, enabled GitHub Pages, verified live.
 **Why:** the auto-fetch must not depend on keys to be durable. Finding a *keyless* official employer API (the same feed UHN uses) was the highest-value discovery of the session.
 
 ### Turn 16 — "Here's a Netlify token too."
-**What I did:** verified the token (`rajirabiu3@gmail.com`); created the Netlify site, deployed; **fixed a 401** (Netlify's SSO-login was on by default — disabled it so the site is public); encrypted `NETLIFY_AUTH_TOKEN` + `NETLIFY_SITE_ID` into GitHub Actions **secrets** (libsodium sealed-box); updated the workflow to deploy to Netlify after each refresh; **triggered the workflow live and watched it deploy**; fixed a dedup bug (two UHN postings share a title) so all 4 live postings survive.
+**What I did:** verified the token (`rajirabiu3@gmail.com`); created the Netlify site, deployed; **fixed a 401** (Netlify's SSO-login was on by default — disabled it so the site is public); encrypted `NETLIFY_AUTH_TOKEN` + `NETLIFY_SITE_ID` into GitHub Actions **secrets** (libsodium sealed-box); updated the workflow to deploy to Netlify after each refresh; **triggered the workflow live and watched it deploy**; fixed a dedup bug (two UHN postings share a title) so all live postings survive.
 **Why:** secrets go in the encrypted store, never in the repo. Running the pipeline once, not just reading it, is the only way to know it works.
 
 ### Turn 17 — "Where does she see the application link?"
 **What I did:** pointed to the first button on each card; then **improved it** — renamed the vague "Apply / open posting" to **"Apply here"** (or "Find application page" for search-linked homes), made it bigger/bolder, and added a "The application opens on [site]" hint under each card; deployed to both hosts.
 **Why:** for a non-technical user, "where do I click" is the whole ballgame. A button that says *where it goes* removes the last moment of hesitation.
 
-### Turn 18 — (this turn) "Write everything about the session… add it to GitHub."
-**What I did:** wrote this report and committed it to the repo.
+### Turn 18 — "Write everything about the session… add it to GitHub."
+**What I did:** wrote the full session report (back-and-forth, reasonings, case study) and committed it to the repo.
+
+### Turn 19 — "Most of the jobs are expired! Recent jobs alone!!"
+**What I did:** (1) discovered that most ATS slugs (Greenhouse/Lever/SmartRecruiters unknowns) return a useless "200 + 0" and that **BambooHR's public careers feed is keyless** (Better Living); (2) pulled UHN's **full** 181-posting feed and found 6 current care/adjacent roles (4 PSW + Community Health Worker + Recreation Therapist); (3) rewrote `refresh_jobs.py` with a **freshness policy** — drop anything older than 30 days or past its closing date, keep only recent postings; (4) purged all 29 stale curated entries so `jobs.json` = 6 recent jobs; (5) added **posted/closes dates** and a red **"Closing soon, apply now"** flag to every card; (6) fixed a salary-parse bug (a salaried role was showing "$19–82/hr" — now correctly "$65,919–$82,389/yr").
+**Why:** the user was right — expired postings poison the whole product. A job board that shows dead competitions destroys trust and wastes her time. The fix had to be **structural** (the fetcher now enforces recency automatically) rather than a one-time cleanup, so expired jobs can never pile up again.
+
+### Turn 20 — "Yes." (to splitting recent jobs from evergreen employers)
+**What I did:** added a clearly-labelled **"Always-hiring direct employers"** section — 33 card-style entries (tier badge + a one-line "why this one matters" + careers-page link), placed between the recent postings and the paste-matcher. Also hardened the daily fetcher against em/en dashes so employer text can't reintroduce them.
+**Why:** recent-jobs-only made the board honest but *short* (6 jobs that week). The two-part layout gives her both: "what can I apply to right now" up top, and "who should I check every week" below — so a slow posting week never looks like an empty site.
 
 ---
 
@@ -131,13 +140,15 @@ The system is deliberately **phone-first and plain-language**, because the end u
 3. **A scoring engine, not a static list.** Keyword-group weights let the same tool rank *any* posting she ever pastes — durable beyond any single snapshot of the job market.
 4. **Adjacent roles are the real unlock.** CPI/GPA → behavioural roles ($52–67k); Accounting → clerical/coordination ($26–30/hr, pensioned); PSW diploma + degree → RPN bridge (BEGIN pays up to $6,000/yr). These beat standard PSW pay without new schooling.
 5. **App/data separation.** `index.html` is static; `jobs.json` is the only file that changes. Refresh is a one-file swap, and the app falls back to an embedded snapshot offline.
-6. **Keyless auto-fetch.** SmartRecruiters' public API (the feed UHN itself uses) provides real, current, direct-employer postings with salary and requirements — no keys, no scraping, no ToS risk.
-7. **Integrity over perfection.** Never fabricate dates or credentials. The ATS grader honestly reports 95/100 because the Balda dates are placeholders; the HSCPOA licence is *not* claimed anywhere because it hasn't been issued. Both are the client's to fix, and the tool tells her exactly what to fix.
-8. **Act as the ATS.** Building a 21-point grader and iterating until ≥95% is how "ATS-compliant" stops being a buzzword and becomes a measurable, displayed number.
-9. **Human-sounding cover letters.** "Dear Hiring Manager" is the AI tell; a personal addressee plus a disciplined 4-point structure plus one "I also bring…" line reads like a person who knows her worth.
-10. **De-AI the design.** Removed gradients, emoji, rainbow badges, and heavy shadows; adopted the warm-cream/coral/ink, serif-headline, hairline-border language from the Claude and Mastercard DESIGN.md briefs.
-11. **Phone-first, plain-language, read-aloud.** The user isn't technical; `speechSynthesis` lets her *listen* to any posting, and every label says what it does.
-12. **Secrets in the encrypted store.** Tokens go into GitHub Actions secrets via libsodium encryption, never into the repo, and the raw tokens should be revoked once setup is complete.
+6. **Keyless auto-fetch.** SmartRecruiters' public API (the feed UHN itself uses) provides real, current, direct-employer postings with salary and requirements — no keys, no scraping, no ToS risk. BambooHR adds a second keyless source.
+7. **Freshness is a policy, not a cleanup.** Postings older than 30 days or past their closing date are dropped automatically; the board shows recent postings only, each with its posted and closing dates. This is what keeps the tool trustworthy day after day.
+8. **Recent vs. evergreen split.** Fresh dated postings answer "apply now"; the 33 evergreen employer cards answer "check weekly." Both are needed — recency alone produces a truthful but sparse board.
+9. **Integrity over perfection.** Never fabricate dates or credentials. The ATS grader honestly reports 95/100 because the Balda dates are placeholders; the HSCPOA licence is *not* claimed anywhere because it hasn't been issued. Both are the client's to fix, and the tool tells her exactly what to fix.
+10. **Act as the ATS.** Building a 21-point grader and iterating until ≥95% is how "ATS-compliant" stops being a buzzword and becomes a measurable, displayed number.
+11. **Human-sounding cover letters.** "Dear Hiring Manager" is the AI tell; a personal addressee plus a disciplined 4-point structure plus one "I also bring…" line reads like a person who knows her worth.
+12. **De-AI the design.** Removed gradients, emoji, rainbow badges, and heavy shadows; adopted the warm-cream/coral/ink, serif-headline, hairline-border language from the Claude and Mastercard DESIGN.md briefs.
+13. **Phone-first, plain-language, read-aloud.** The user isn't technical; `speechSynthesis` lets her *listen* to any posting, and every label says what it does.
+14. **Secrets in the encrypted store.** Tokens go into GitHub Actions secrets via libsodium encryption, never into the repo, and the raw tokens should be revoked once setup is complete.
 
 ---
 
@@ -146,16 +157,25 @@ The system is deliberately **phone-first and plain-language**, because the end u
 ```
 GitHub (Rawbeew/jummai-job-finder)
 ├── index.html          ← the app: finder + grader + resume/cover-letter builder
-├── jobs.json           ← the data: 33 direct-employer postings (29 curated + 4 live)
-├── scripts/refresh_jobs.py   ← keyless fetcher (SmartRecruiters API)
+│                         + 33 evergreen employer cards (in-page)
+├── jobs.json           ← recent, dated postings only (currently 6 UHN roles)
+├── scripts/refresh_jobs.py   ← keyless fetcher (SmartRecruiters + BambooHR)
+│                         enforces: ≤30 days old, not past closing date
 ├── .github/workflows/refresh-jobs.yml ← daily 07:30 Toronto, then deploy
 ├── netlify.toml / README.md
 └── SESSION_REPORT.md   ← this document
 
 Daily loop:
   schedule (07:30 ET) → refresh_jobs.py → SmartRecruiters API (keyless)
-      → merge into jobs.json → commit+push
+      + BambooHR (keyless) + Adzuna (optional keys)
+      → drop expired/closed → merge into jobs.json → commit+push
       → deploy to Netlify (API, secrets) + GitHub Pages (auto)
+
+Site layout (what she sees):
+  "Open postings"            ← recent, dated, with closing-soon flags
+  "Always-hiring employers"  ← 33 evergreen cards (weekly check)
+  "Got a new posting?"       ← paste any posting, score + tailor
+  "Direct employers"         ← full directory grouped by type
 
 In-browser (no server):
   job card → "Apply here" → employer page
@@ -172,30 +192,34 @@ In-browser (no server):
 
 **Client profile.** Jummai Salami Raji is a certified PSW in North York with 7+ years of experience, a rare combination of certifications (CPI, GPA) and hands-on Alzheimer's care, and an Accounting degree. She is not comfortable with technology, and her HSCPOA registration is still in progress.
 
-**Situation.** Toronto agencies bill families $35–45/hour for PSW care but pay the PSW roughly $20. The roles that pay well ($31–34/hour at hospitals and the City of Toronto) sit behind ATS filters and unadvertised requirements. Her highest-value skills pointed at adjacent roles she had no way to find. Her resume had ATS red flags (missing dates, passive language, buried certifications), and there was no cover letter at all.
+**Situation.** Toronto agencies bill families $35–45/hour for PSW care but pay the PSW roughly $20. The roles that pay well ($31–34/hour at hospitals and the City of Toronto) sit behind ATS filters and unadvertised requirements. Her highest-value skills pointed at adjacent roles she had no way to find. Her resume had ATS red flags (missing dates, passive language, buried certifications), and there was no cover letter at all. And the job boards she could reach were full of **expired postings**.
 
-**Solution.** Four pillars, built in sequence:
+**Solution.** Five pillars, built in sequence:
 
 1. **Strategy with numbers.** Verified 2026 pay data across private care, institutional, adjacent, and RPN tracks; defined a two-track plan (institutional floor now, private ceiling over 3–6 months, RPN bridge later).
-2. **Tooling.** A single phone-first web app that lists direct-employer postings only, shows each job's requirements and application link, and generates a tailored, ATS-compliant resume and cover letter per posting as a downloadable Word file.
-3. **Automation.** A keyless daily fetch (SmartRecruiters public API), a GitHub Actions schedule, and automatic redeploys to Netlify and GitHub Pages — so the job board refreshes itself without anyone lifting a finger.
-4. **Polish & integrity.** Canadianized, dash-free copy; a harsh 21-point ATS grader displayed in the UI; human-sounding 4-point cover letters; and a strict no-fabrication rule (missing dates and pending licences are surfaced, never invented).
+2. **Tooling.** A single phone-first web app that lists direct-employer postings only, shows each job's requirements, dates and application link, and generates a tailored, ATS-compliant resume and cover letter per posting as a downloadable Word file.
+3. **Automation.** A keyless daily fetch (SmartRecruiters + BambooHR public APIs), a GitHub Actions schedule, and automatic redeploys to Netlify and GitHub Pages — so the job board refreshes itself without anyone lifting a finger.
+4. **Freshness.** A strict recency policy (drop anything over 30 days old or past its closing date), posted/closes dates on every card, and closing-soon alerts — so the board shows only what's actually open.
+5. **Polish & integrity.** Canadianized, dash-free copy; a harsh 21-point ATS grader displayed in the UI; human-sounding 4-point cover letters; a strict no-fabrication rule (missing dates and pending licences are surfaced, never invented); and an evergreen employer section so a slow posting week never looks empty.
 
 **Results (measured in-session):**
 
 | Metric | Result |
 |---|---|
-| Direct-employer postings listed (no agencies) | 33 (29 curated + 4 live) |
-| Live postings fetched keylessly, with salary | 4 UHN PSW roles, two at **$31.70–$32.61/hr** |
+| Current, dated direct-employer postings | 6 (4 UHN PSW at **$31.70–$32.61/hr** + 2 adjacent) |
+| Evergreen direct-employer cards | 33 (hospitals, City, non-profits, operators) |
 | ATS score on every generated resume | **95/100** (100 once she fills in one date) |
 | Cover-letter checks | 6/6, no "Dear Hiring Manager", 4 points + bonus |
-| End-to-end tests | 44/44 passed |
+| End-to-end tests | 44/44 passed (plus per-turn regression suites) |
+| Expired postings on the board | 0 (enforced daily, automatically) |
 | Hosts | Netlify + GitHub Pages, both live and in sync |
 | Auto-refresh | Daily 07:30 Toronto, deploy-verified live |
 
 **Lessons.**
 
 - **The margin is the message.** Every agency ad she skips is the spread she keeps. Making "direct employers only" a structural feature, not advice, changed her outcomes.
+- **Freshness is trust.** The client's sharpest catch — "most of these are expired" — was the single most valuable piece of feedback in the session. A job board full of dead competitions is worse than no board; recency had to become an enforced policy, not a cleanup.
+- **Two views beat one.** Recent postings answer "apply now"; evergreen employers answer "check weekly." Splitting them kept the board both honest *and* useful.
 - **Honesty compounds.** Refusing to fabricate a date or a licence cost a "perfect" score but preserved the thing that actually gets hired — trust.
 - **Keyless beats keyed.** The most durable automation is the one that depends on no one's API key.
 - **Design for the real user.** Read-aloud, plain labels, and a button that says where it goes turned a developer tool into something a non-technical person will actually use every day.
@@ -208,11 +232,12 @@ In-browser (no server):
 
 | File | Purpose |
 |---|---|
-| `index.html` | Job finder + ATS grader + resume & cover-letter builder |
-| `jobs.json` | 33 direct-employer postings |
-| `scripts/refresh_jobs.py` | Keyless daily fetch |
+| `index.html` | Job finder + ATS grader + resume & cover-letter builder + 33 evergreen employer cards |
+| `jobs.json` | Current, dated direct-employer postings (refreshed daily) |
+| `scripts/refresh_jobs.py` | Keyless daily fetch with freshness enforcement (SmartRecruiters + BambooHR + optional Adzuna) |
 | `.github/workflows/refresh-jobs.yml` | 07:30 Toronto schedule + Netlify deploy |
 | `README.md` / `netlify.toml` | Docs & config |
+| `SESSION_REPORT.md` | This document |
 
 **Workspace artifacts (strategy/design work, not deployed):**
 
@@ -241,5 +266,5 @@ In-browser (no server):
 2. **HSCPOA registration** — the day it's issued, add it to the generator and every hospital door opens.
 3. **BCLS card** — upgrade from First Aid/CPR to unlock UHN's $31.70–32.61 roles.
 4. **Real caseload numbers** — replace "multiple" with actual counts (e.g. "8–10 residents").
-5. **More SmartRecruiters employers** — extend `SMARTRECRUITER_EMPLOYERS` in `refresh_jobs.py` as more direct employers are identified.
-6. **Optional Adzuna keys** — for broader coverage on top of the keyless source.
+5. **More direct-employer feeds** — add SmartRecruiters slugs and BambooHR subdomains to the fetcher as more employers are identified, so the "recent" list grows beyond UHN.
+6. **Optional Adzuna keys** — for broader coverage on top of the keyless sources.
