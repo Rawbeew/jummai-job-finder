@@ -19,8 +19,8 @@ jobs:
           python-version: '3.12'
       - name: Refresh jobs.json
         env:
-          # Free keys at developer.adzuna.com — add them as repo secrets to make
-          # the daily refresh pull brand-new postings with no manual step.
+          # Optional: free keys at developer.adzuna.com, added as repo secrets,
+          # for extra posting breadth on top of the keyless SmartRecruiters source.
           ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
           ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
         run: python scripts/refresh_jobs.py
@@ -35,15 +35,19 @@ jobs:
             git commit -m "chore: refresh jobs $(date -u +%F)"
             git push
           fi
-      - name: Trigger Netlify deploy
-        if: success()
+      - name: Deploy to Netlify
         env:
-          # Optional: Netlify Site settings -> Build & deploy -> Build hooks -> create one
-          # named "jobs-refresh", then paste the URL as a repo secret.
-          NETLIFY_BUILD_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         run: |
-          if [ -n "$NETLIFY_BUILD_HOOK" ]; then
-            curl -X POST "$NETLIFY_BUILD_HOOK"
+          if [ -n "$NETLIFY_AUTH_TOKEN" ]; then
+            zip -q -r site.zip index.html jobs.json netlify.toml
+            echo "Deploying to Netlify site $NETLIFY_SITE_ID ..."
+            curl -s -X POST -H "Content-Type: application/zip" \
+              -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
+              --data-binary "@site.zip" \
+              "https://api.netlify.com/api/v1/sites/$NETLIFY_SITE_ID/deploys" | head -c 400
+            echo ""
           else
-            echo "No NETLIFY_BUILD_HOOK set — Netlify will still auto-deploy on the git push."
+            echo "No NETLIFY_AUTH_TOKEN secret set - skipping Netlify deploy (GitHub Pages still updates)."
           fi
