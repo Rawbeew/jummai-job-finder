@@ -200,10 +200,15 @@ def main():
         live_old = [j for j in live_old if j.get("releasedDate", "")[:10] >= "2000-01-01"]  # keep all; prune below
 
     # merge live: fresh first, then older live entries (dedup)
-    seen = {(j.get("title", "").strip().lower(), j.get("e", "").strip().lower()) for j in curated}
+    def key_of(j):
+        return (j.get("title", "").strip().lower(),
+                j.get("e", "").strip().lower(),
+                (j.get("link") or "").strip())
+
+    seen = {key_of(j) for j in curated}
     live_merged = []
     for j in fresh + live_old:
-        key = (j.get("title", "").strip().lower(), j.get("e", "").strip().lower())
+        key = key_of(j)
         if key in seen:
             continue
         seen.add(key)
