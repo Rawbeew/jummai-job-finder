@@ -2,7 +2,7 @@
 
 A personal job board and ATS resume builder for a Toronto Personal Support Worker.
 Hosted free on both platforms. It refreshes itself every day, and shows **recent,
-still-open postings only** — no expired jobs.
+still-open postings only**, no expired jobs.
 
 **Live sites:**
 - Netlify: https://jummai-job-finder.netlify.app
@@ -13,7 +13,7 @@ redeploys both.
 
 ## What it does
 
-- **Open postings** (top): current, dated, direct-employer postings only — no
+- **Open postings** (top): current, dated, direct-employer postings only, no
   staffing agencies, no expired competitions. Every card shows the pay, the posted
   and closing dates, a "closing soon" alert, the requirements that matter, the
   **Apply here** button, and **Read full posting** and **Listen** options.
