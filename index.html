@@ -84,6 +84,14 @@
   .acts .btn-primary{font-size:14.5px; padding:11px 20px; font-weight:700;}
   .linkhint{font-size:12px; color:var(--muted); margin-top:8px;}
   .closesoon{font-size:12px; color:var(--coral-deep); font-weight:700; margin-top:6px;}
+  .evergrid{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
+  @media(max-width:860px){.evergrid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:520px){.evergrid{grid-template-columns:1fr;}}
+  .evercard{background:var(--card); border:1px solid var(--hairline); border-radius:10px; padding:14px 16px;}
+  .evercard b{color:var(--ink); font-size:14px; display:block; font-weight:600; margin-top:8px;}
+  .evercard .evnote{font-size:12.5px; color:var(--muted); margin-top:4px; line-height:1.5;}
+  .evercard a{display:inline-block; margin-top:10px; font-size:12.5px; font-weight:700; color:var(--coral-deep);}
+  .evercard a:hover{text-decoration:underline;}
   .btn{display:inline-block; padding:9px 16px; border-radius:8px; font-size:13px; font-weight:600;
     border:1px solid transparent; cursor:pointer; text-decoration:none; transition:.12s ease;}
   .btn-primary{background:var(--ink); color:#f5f1ea; border-color:var(--ink);}
@@ -184,6 +192,13 @@
       </select>
     </div>
     <div id="jobs"></div>
+  </section>
+
+  <!-- ALWAYS HIRING -->
+  <section>
+    <h2 class="sec">Always-hiring direct employers</h2>
+    <p class="secsub">These organizations hire PSWs and care staff all year round. If there is no fresh posting above, check their careers pages directly. They open new roles every week. No agencies.</p>
+    <div class="evergrid" id="ever"></div>
   </section>
 
   <!-- PASTE MATCHER -->
@@ -629,7 +644,7 @@ const EMBEDDED_JOBS = [
       "Behavioral management training (such as PIECES, U-First, CPI) is considered an asset Ability to handle daily m",
       "Acute care and/or previous rehab experience considered an asset"
     ],
-    "req": "Union: CUPE Number of Vacancies: 1 Replacement or New: Replacement Site: Toronto Rehabilitation Institute – University Centre Department: Musculoskeletal and Multisystem Reports to: Manager, Program Services Wage Range: $31.70 - $32.61 per hour. Start rate non-negotiable. Hours: 15 Hours per Week Shifts: Day/Evening/Weekdays/Weekends Status: Permanent Part-Time Closing Date: August 20, 2026 Position Summary The Personal Support Worker (PSW) is a member of the inter-professional care team and is expected to maintain a collaborative and active working relationship with team members in the provision of patient care. Duties Assist patients with activities of daily living: This includes feeding, lifts and transfers, bathing, skin care, oral hygiene, and toileting. Perform tasks assigned or as d",
+    "req": "Union: CUPE Number of Vacancies: 1 Replacement or New: Replacement Site: Toronto Rehabilitation Institute - University Centre Department: Musculoskeletal and Multisystem Reports to: Manager, Program Services Wage Range: $31.70 - $32.61 per hour. Start rate non-negotiable. Hours: 15 Hours per Week Shifts: Day/Evening/Weekdays/Weekends Status: Permanent Part-Time Closing Date: August 20, 2026 Position Summary The Personal Support Worker (PSW) is a member of the inter-professional care team and is expected to maintain a collaborative and active working relationship with team members in the provision of patient care. Duties Assist patients with activities of daily living: This includes feeding, lifts and transfers, bathing, skin care, oral hygiene, and toileting. Perform tasks assigned or as d",
     "live": true,
     "releasedDate": "2026-08-13",
     "closes": "2026-08-20"
@@ -1173,6 +1188,57 @@ document.getElementById('dir').innerHTML=DIRECTORY.map(g=>
   '<div style="grid-column:1/-1;margin:8px 0 0;"><b style="color:var(--coral-deep);font-size:11px;text-transform:uppercase;letter-spacing:.14em;">'+g[0]+'</b></div>'+
   g[1].map(it=>'<div class="item"><b>'+it[0]+'</b><a href="'+it[1]+'" target="_blank" rel="noopener">'+it[1].replace('https://','').slice(0,42)+'</a></div>').join('')
 ).join('');
+
+/* ---- Always-hiring direct employers (evergreen, no posting dates) ---- */
+const EVERGREEN = [
+  {n:'University Health Network (UHN)', t:'hospital', note:'PSW roles at $31.70-$32.61/hr. HOOPP pension.', u:'https://www.uhn.ca/Careers'},
+  {n:'Sunnybrook Health Sciences Centre', t:'hospital', note:'Hires PSWs as "Patient Services Partner" across many units.', u:'https://sunnybrook.ca/careers'},
+  {n:'North York General Hospital', t:'hospital', note:'In your neighbourhood. HOOPP pension.', u:'https://www.nygh.on.ca/careers'},
+  {n:'Mackenzie Health', t:'hospital', note:'Vaughan and Richmond Hill. HOOPP pension.', u:'https://www.mackenziehealth.ca/careers'},
+  {n:'Humber River Health', t:'hospital', note:'North York. HOOPP pension.', u:'https://www.hrh.ca/careers'},
+  {n:'Sinai Health', t:'hospital', note:'Downtown Toronto. HOOPP pension.', u:'https://www.sinaihealth.ca/careers'},
+  {n:'Scarborough Health Network', t:'hospital', note:'Three hospitals in Scarborough. HOOPP pension.', u:'https://www.shn.ca/careers'},
+  {n:'Baycrest', t:'hospital', note:"Geriatric and dementia focus. Matches your GPA and Alzheimer's care.", u:'https://www.baycrest.org/careers'},
+  {n:'Michael Garron Hospital', t:'hospital', note:'East York. HOOPP pension.', u:'https://www.tehn.ca/careers'},
+  {n:'Trillium Health Partners', t:'hospital', note:'Mississauga. HOOPP pension.', u:'https://trilliumhealthpartners.ca/careers'},
+  {n:'William Osler Health System', t:'hospital', note:'Brampton and Etobicoke. HOOPP pension.', u:'https://www.williamoslerhs.ca/careers'},
+  {n:'Oak Valley Health', t:'hospital', note:'Markham. HOOPP pension.', u:'https://www.oakvalleyhealth.ca/careers'},
+  {n:'City of Toronto LTC (10 homes)', t:'municipal', note:'PSW $31.21-$34.06/hr. OMERS pension, 3 weeks vacation to start.', u:'https://jobs.toronto.ca'},
+  {n:'Region of Peel LTC', t:'municipal', note:'Municipal long-term care homes.', u:'https://www.peelregion.ca/jobs'},
+  {n:'LOFT Community Services', t:'nonprofit', note:'Behavioural PSW at $52-55k. Your CPI and GPA are the exact fit.', u:'https://www.loftcs.org/careers'},
+  {n:'WoodGreen Community Services', t:'nonprofit', note:'LTC PSW roles. Their postings ask for GPA training.', u:'https://www.woodgreen.org/careers'},
+  {n:'Yee Hong Centre for Geriatric Care', t:'nonprofit', note:'PSW $25.41-$27.62/hr. Resident-centred dementia care.', u:'https://www.yeehong.com/careers'},
+  {n:'Shepherd Village', t:'nonprofit', note:'PSW $27.55-$29.15/hr. Scarborough.', u:'https://www.google.com/search?q=Shepherd+Village+Toronto+careers'},
+  {n:'Better Living Health & Community', t:'nonprofit', note:'North York. Weekend and part-time lines.', u:'https://betterlivinghealth.bamboohr.com/careers'},
+  {n:'Community Living Toronto', t:'nonprofit', note:'DSW roles at $53-57k. Your CPI training fits.', u:'https://www.google.com/search?q=Community+Living+Toronto+careers'},
+  {n:'Carefirst Seniors & Community', t:'nonprofit', note:'Care coordinator and scheduling roles for your Accounting background.', u:'https://www.google.com/search?q=Carefirst+Seniors+and+Community+Services+careers'},
+  {n:'Mon Sheong Foundation', t:'nonprofit', note:'Long-term care homes across the GTA.', u:'https://www.monsheong.org/careers'},
+  {n:'Rekai Centres', t:'nonprofit', note:'Downtown Toronto long-term care.', u:'https://www.rekai.ca/careers'},
+  {n:'Sienna Senior Living', t:'ltco', note:'Large operator. Many casual and part-time PSW lines.', u:'https://www.siennaliving.ca/careers'},
+  {n:'Extendicare', t:'ltco', note:'National LTC chain with Toronto homes.', u:'https://www.extendicare.com/careers'},
+  {n:'Chartwell', t:'ltco', note:'Retirement residences. You already worked at Chartwell Thornhill.', u:'https://www.chartwell.com/careers'},
+  {n:'Amica Senior Lifestyles', t:'ltco', note:'Premium retirement residences.', u:'https://www.amica.ca/careers'},
+  {n:'Schlegel Villages', t:'ltco', note:'Family-owned villages across Ontario.', u:'https://schlegelvillages.com/careers'},
+  {n:'Verve Senior Living', t:'ltco', note:'Retirement communities across the GTA.', u:'https://www.verveseniorliving.com/careers'},
+  {n:'Seasons Retirement Communities', t:'ltco', note:'Retirement homes across Ontario.', u:'https://www.seasonsretirement.com/careers'},
+  {n:'Delmanor', t:'ltco', note:'Premium GTA retirement residences.', u:'https://www.delmanor.com'},
+  {n:'Hawthorne Place Care Centre', t:'ltco', note:'Toronto. HSCPOA preferred.', u:'https://www.google.com/search?q=Hawthorne+Place+Care+Centre+Toronto+careers'},
+  {n:'Eatonville Care Centre', t:'ltco', note:'Etobicoke. PSW $27.53/hr.', u:'https://www.google.com/search?q=Eatonville+Care+Centre+Toronto+careers'},
+];
+function renderEvergreen(){
+  const el=document.getElementById('ever');
+  if(!el) return;
+  el.innerHTML = EVERGREEN.map(function(e){
+    const t=TIERS[e.t]||TIERS.ltco;
+    return '<div class="evercard">'+
+      '<span class="badge '+t.cls+'">'+t.label+'</span>'+
+      '<b>'+e.n+'</b>'+
+      '<div class="evnote">'+e.note+'</div>'+
+      '<a href="'+e.u+'" target="_blank" rel="noopener">Open careers page</a>'+
+    '</div>';
+  }).join('');
+}
+renderEvergreen();
 </script>
 </body>
 </html>

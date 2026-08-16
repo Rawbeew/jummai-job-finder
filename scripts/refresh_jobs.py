@@ -71,6 +71,7 @@ def strip_html(text):
         return ""
     text = re.sub(r"<[^>]+>", " ", text)
     text = text.replace("&#xa0;", " ").replace("&amp;", "&").replace("&nbsp;", " ")
+    text = text.replace("\u2014", ", ").replace("\u2013", "-")
     return re.sub(r"\s+", " ", text).strip()
 
 
