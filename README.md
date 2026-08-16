@@ -1,7 +1,14 @@
 # Jummai's Job Finder
 
 A personal job board and ATS resume builder for a Toronto Personal Support Worker.
-Hosted free on GitHub Pages. It refreshes itself every day.
+Hosted free on both platforms. It refreshes itself every day.
+
+**Live sites:**
+- Netlify: https://jummai-job-finder.netlify.app
+- GitHub Pages: https://rawbeew.github.io/jummai-job-finder/
+
+Both stay in sync automatically: the daily workflow refreshes the postings and
+redeploys both.
 
 ## What it does
 
@@ -24,7 +31,9 @@ A GitHub Actions workflow (`.github/workflows/refresh-jobs.yml`) runs **every da
 2. Optionally adds breadth via the **Adzuna API** if free keys are configured.
 3. Merges fresh postings into `jobs.json` (curated entries are always kept, live
    entries are deduplicated and marked "new").
-4. Commits and pushes, which redeploys the GitHub Pages site automatically.
+4. Commits and pushes, then deploys the updated site to Netlify via the deploy API
+   (using the `NETLIFY_AUTH_TOKEN` and `NETLIFY_SITE_ID` repository secrets) and
+   redeploys GitHub Pages automatically.
 
 To add more SmartRecruiters employers, extend `SMARTRECRUITER_EMPLOYERS` in
 `scripts/refresh_jobs.py` with their company slug.
