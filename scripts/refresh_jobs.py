@@ -330,6 +330,10 @@ def fetch_jobbank():
             continue
         _time.sleep(4)  # gentle pause between queries to avoid 429/503
         articles = _re.findall(r"<article.*?</article>", data, _re.S)
+        if not articles:
+            # could be a JS/consent challenge (job search returned no listings)
+            hint = "CHALLENGE/BLOCKED" if (("challenge" in data.lower()) or ("are you a human" in data.lower()) or ("captcha" in data.lower())) else "no listings"
+            print(f"JobBank query '{q}' returned 0 articles ({hint})", file=sys.stderr)
         for a in articles:
             title = _re.search(r'noctitle">\s*([^<]+)', a)
             if not title:
