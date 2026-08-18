@@ -844,6 +844,7 @@ function jobHTML(j, idx){
       '<button class="btn btn-ghost" onclick="speakJob('+idx+')">Listen</button>'+
       '<button class="btn btn-gold" onclick="showResume('+idx+')">Show tailored resume</button>'+
       '<button class="btn btn-ghost" onclick="showCover('+idx+')">Show cover letter</button>'+
+      '<a class="btn btn-ghost" href="'+tailorIndex(j)+'" target="_blank" rel="noopener">Tailored package</a>'+
     '</div>'+
     '<div class="linkhint">The application opens on '+applyHost+'</div>'+
     '<div class="reqpanel" id="req-'+idx+'">'+
@@ -1068,6 +1069,12 @@ function closesSoon(iso){
     const days=(d-Date.now())/86400000;
     return days>=0 && days<=5;
   }catch(e){ return false; }
+}
+/* Link to the pre-generated tailored package folder for a job (if it exists). */
+function tailorIndex(j){
+  const slug=(''+(j.e||'')+'-'+(j.title||'')).toLowerCase()
+    .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,60);
+  return 'tailored/'+slug+'__cover.md';
 }
 function render(){
   let list=JOBS.slice();
