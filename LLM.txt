@@ -1,0 +1,16 @@
+# just-hired — LLM-readable summary
+
+Fresh-only direct-employer job board for Toronto PSW roles.
+
+## What it does
+- Fetches Job Bank Canada + UHN career pages every 2 hours via Cloudflare Worker
+- Filters for direct employers only (no staffing agencies)
+- Only shows postings from the last 12 hours
+- ATS-compliant resume builder + tailored cover letter generator
+- Hosted free on Cloudflare Pages + Netlify
+
+## Architecture
+Cloudflare Worker (cron 2h) → Job Bank + UHN API → Filter/Score → Static Site → Netlify/GH Pages
+
+## Repository
+https://github.com/Rawbeew/just-hired
