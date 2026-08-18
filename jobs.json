@@ -6,6 +6,8 @@
     "remote_capable": true,
     "tier": "hospital",
     "loc": "Toronto",
+    "region": "ttc-reachable",
+    "match": "adjacent",
     "pay": "$23.14-$28.92/hr",
     "payMin": 23.14,
     "type": "Full-time",
