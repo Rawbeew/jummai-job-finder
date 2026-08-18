@@ -213,7 +213,21 @@ def fetch_smartrecruiters():
                 continue
             toe = d.get("typeOfEmployment") or {}
             emp_type = toe.get("label") if isinstance(toe, dict) else str(toe or "See posting")
-            loc = ((d.get("location") or {}).get("city") or "").strip() or "Toronto"
+            loc_obj = d.get("location") or {}
+            loc = (loc_obj.get("city") or "").strip() or "Toronto"
+            loc_addr = (loc_obj.get("address") or "").strip()
+            loc_full = (loc_obj.get("fullLocation") or "").strip()
+            # region: transit reachability from North York (her home) within ~40 min
+            region = None
+            blob_loc = (loc_addr + " " + loc_full + " " + loc).lower()
+            if any(k in blob_loc for k in ("north york", "emmett", "wilson", "401", "donalda", "5050 yonge", "willowdale", "northcliffe")):
+                region = "north-york"
+            elif any(k in blob_loc for k in ("toronto", "university", "ermish", "college street", "elizabeth", "bathurst", "dundas", "ontario place")):
+                region = "ttc-reachable"  # downtown GTA, subway ~20-30 min from North York
+            elif any(k in blob_loc for k in ("ajax", "mississauga", "markham", "richmond hill", "vaughan", "scarborough", "etobicoke")):
+                region = "gtv-train"       # GO Train / suburban rail
+            else:
+                region = "unknown"
             out.append({
                 "e": emp["name"],
                 "title": name,
@@ -221,6 +235,11 @@ def fetch_smartrecruiters():
                 "remote_capable": True if is_office else False,
                 "tier": emp["tier"],
                 "loc": loc,
+                "region": region,
+                # match: 'direct' = PSW/care work she is qualified for now;
+                #         'adjacent' = transferable-skills (admin/coordinator using
+                #         her Accounting + care + documentation background)
+                "match": "adjacent" if is_office else "direct",
                 "pay": pay,
                 "payMin": pay_min,
                 "type": emp_type,

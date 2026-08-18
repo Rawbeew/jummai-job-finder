@@ -192,6 +192,7 @@
     <div class="controls">
       <span class="lbl">Type:</span>
       <button class="fbtn on" data-f="all">All</button>
+      <button class="fbtn" data-f="nearny" title="North York + downtown Toronto by TTC within ~40 min">Near North York</button>
       <button class="fbtn" data-f="psw">PSW / Caregiver</button>
       <button class="fbtn" data-f="behavioural">Behavioural</button>
       <button class="fbtn" data-f="dsw">DSW</button>
@@ -320,10 +321,20 @@ const GROUPS = [
 ];
 const REQUIRE_CHECKS = [
   {id:'hscpoa', label:'HSCPOA registration', kw:['hscpoa']},
-  {id:'vehicle', label:"Driver's licence + vehicle", kw:['driver','licence','license','vehicle','g licence','g2']},
+  {id:'vehicle', label:"Driver's licence + vehicle", kw:['driver','licence','license','vehicle','g licence','g2','own car','valid g']},
   {id:'french', label:'Bilingual (French)', kw:['bilingual','french']},
   {id:'overnight', label:'Night / overnight / live-in', kw:['overnight','night','live-in','live in']},
   {id:'medterm', label:'Medical terminology course', kw:['medical terminology','40 wpm','keyboarding','ota','pta','physiotherapy assistant']},
+];
+// Commute burdens employers attach when the job is far from home. Each is a
+// "cost of the drive/train": licence+vehicle, distance/travel, snow/winter
+// driving, extra training, insurance.
+const COMMUTE_CHECKS = [
+  {id:'c-licence', label:'Needs licence + vehicle (cost to own/lease)', kw:["driver's licence","driver's license",'valid g','g licence','own vehicle','reliable vehicle','access to a vehicle','must have a vehicle']},
+  {id:'c-distance', label:'Far / travel required (bigger commute cost)', kw:['willing to travel','travel will be required','must travel','commute','distance','covers the','multiple sites','region']},
+  {id:'c-snow', label:'Winter / snow driving required', kw:['snow','winter','snow removal','driveable and insured','winter weather','snowy','winter driving']},
+  {id:'c-training', label:'Extra training / onboarding called for', kw:['training will be provided','must complete training','paid training','orientation','certification required','must be willing to train']},
+  {id:'c-insurance', label:'Insurance / vehicle insurance required', kw:['insurance','insured','proof of insurance','vehicle insurance','liability']},
 ];
 
 const PROFILE = {
@@ -791,6 +802,9 @@ async function loadJobs(){
 /* ================= RENDER ================= */
 const jobsEl=document.getElementById('jobs');
 let filter='all', loc='all', sort='priority';
+const REGION_NORTHYORK='north-york';
+const REGION_TTC='ttc-reachable';
+const REGION_GO='gtv-train';
 
 function reqWarnings(text){
   const tx=t(text); const out=[];
@@ -800,6 +814,10 @@ function reqWarnings(text){
     if(r.kw.some(k=>tx.includes(k))) out.push(r.label);
   });
   return out;
+}
+function commuteWarnings(text){
+  const tx=t(text);
+  return COMMUTE_CHECKS.filter(r=>r.kw.some(k=>tx.includes(k))).map(r=>r.label);
 }
 function jobHTML(j, idx){
   const s=scoreText(j.req);
@@ -813,6 +831,8 @@ function jobHTML(j, idx){
     return '<li>'+(isReq?'<span class="req">'+h+'</span>':h)+'</li>';
   }).join('');
   const warnHtml=warns.length?'<div class="warnline">This posting asks for: '+warns.join(', ')+'. You can close these gaps before you apply.</div>':'';
+  const com=commuteWarnings(j.req);
+  const comHtml=com.length?'<div class="warnline" style="border-top:1px dashed var(--hairline);padding-top:7px;">&#9888&#65039 Commute from North York: '+com.join(' · ')+'.</div>':'';
   const reqText=escHtml(j.req||'').replace(/\n/g,' ');
   const isSearch=/google\.com\/search/.test(j.link||'');
   const applyLabel=isSearch?'Find application page':'Apply here';
@@ -826,7 +846,11 @@ function jobHTML(j, idx){
           '<span class="badge '+tier.cls+'">'+tier.label+'</span>'+
           '<span class="badge '+cat.cls+'">'+cat.label+'</span>'+
           (j.live?'<span class="badge" style="color:var(--coral-deep);border-color:#d9a58f;">new</span>':'')+
-          (j.remote_capable?'<span class="badge" style="color:#1d6f5c;border-color:#71b39c;background:#f0faf6;">remote / hybrid ok</span>':'')+'</div>'+
+          (j.remote_capable?'<span class="badge" style="color:#1d6f5c;border-color:#71b39c;background:#f0faf6;">remote / hybrid ok</span>':'')+
+          (j.region===REGION_NORTHYORK?'<span class="badge" style="color:#1d6f5c;border-color:#71b39c;background:#f0faf6;">North York</span>':'')+
+          (j.region===REGION_TTC?'<span class="badge" style="color:#7a5a1f;border-color:#d9b25f;background:#fbf5e5;">TTC ≤40 min</span>':'')+
+          (j.region===REGION_GO?'<span class="badge" style="color:#6f6a62;border-color:#d5cfc4;">GO Train reachable</span>':'')+
+          (j.match==='adjacent'?'<span class="badge" style="color:#35507a;border-color:#8aa7cc;background:#eef3fa;">adjacent skills</span>':'')+'</div>'+
 
         '<div class="meta"><b>'+j.pay+'</b> · '+j.type+' · '+j.loc+' · '+
           (j.releasedDate?'posted '+timeAgo(j.releasedDate):'')+
@@ -836,7 +860,7 @@ function jobHTML(j, idx){
     '</div>'+
     '<div class="hl"><h4>Job posting highlights</h4><ul>'+hlHtml+'</ul></div>'+
     '<div class="kwrow">'+hits+'</div>'+
-    warnHtml+
+    warnHtml+comHtml+
     '<div class="acts">'+
       '<a class="btn btn-primary" href="'+j.link+'" target="_blank" rel="noopener">'+applyLabel+'</a>'+
       '<a class="btn btn-ghost" href="'+j.search+'" target="_blank" rel="noopener">Check current openings</a>'+
@@ -1093,6 +1117,7 @@ function tailorIndex(j){
 function render(){
   let list=JOBS.slice();
   if(filter==='remote') list=list.filter(j=>j.remote_capable);
+  else if(filter==='nearny') list=list.filter(j=>j.region===REGION_NORTHYORK||j.region===REGION_TTC);
   else if(filter!=='all') list=list.filter(j=>j.cat===filter);
   if(loc!=='all') list=list.filter(j=>j.loc===loc);
   if(sort==='priority') list.sort((a,b)=>{
