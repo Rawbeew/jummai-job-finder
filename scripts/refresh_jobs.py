@@ -11,7 +11,8 @@ Sources (keyless):
   3. Adzuna API (optional) - free ADZUNA_APP_ID / ADZUNA_APP_KEY as secrets.
 
 Freshness rules (this is the important part):
-  - Only postings released within MAX_LIVE_AGE_DAYS are kept.
+  - Only postings released within MAX_LIVE_AGE_HOURS (12h) are kept, so the
+    list shows genuinely fresh openings that are unlikely to be filled yet.
   - Postings with a parsed closing date in the past are dropped.
   - Curated entries (no "live" key) are kept only if CURATED_KEEP is True.
     This build sets CURATED_KEEP = False: the job list shows RECENT postings
@@ -28,7 +29,7 @@ import urllib.request
 HERE = os.path.dirname(os.path.abspath(__file__))
 JSON_PATH = os.path.join(os.path.dirname(HERE), "jobs.json")
 
-MAX_LIVE_AGE_DAYS = 30
+MAX_LIVE_AGE_HOURS = 12  # only postings released within the last 12 hours
 CAP = 60
 DETAILS_PER_EMPLOYER = 15
 CURATED_KEEP = False  # job list = recent postings only
@@ -134,13 +135,26 @@ def cat_of(blob):
 
 
 def too_old(released):
+    """True when a posting was released more than MAX_LIVE_AGE_HOURS ago.
+
+    Accepts a full ISO timestamp (e.g. '2026-08-18T11:46:36Z') or a bare date
+    ('2026-08-18'); for a bare date we compare against end-of-day so a posting
+    from today still counts as fresh today.
+    """
     if not released:
         return False
+    s = released.strip()
     try:
-        d = datetime.date.fromisoformat(released[:10])
+        # prefer full timestamp (has a timezone letter / datetime separator)
+        if "T" in s or len(s) > 10:
+            dt = datetime.datetime.fromisoformat(s.replace("Z", "+00:00"))
+            now = datetime.datetime.now(datetime.timezone.utc)
+            return (now - dt).total_seconds() > MAX_LIVE_AGE_HOURS * 3600
+        # bare date: allow all of the release date (treated as fresh all that day)
+        d = datetime.date.fromisoformat(s[:10])
+        return (today() - d).days >= 1
     except ValueError:
         return False
-    return (today() - d).days > MAX_LIVE_AGE_DAYS
 
 
 def already_closed(closes):

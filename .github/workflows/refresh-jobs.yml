@@ -2,8 +2,9 @@ name: Refresh jobs daily
 
 on:
   schedule:
-    # 07:30 Toronto time (UTC-4) every day
-    - cron: '30 11 * * *'
+    # Fresh-window scan every 2 hours (Toronto ~03:xx/05:xx/...) so only
+    # postings released within the last 12h (MAX_LIVE_AGE_HOURS) are ever shown.
+    - cron: '17 */2 * * *'
   workflow_dispatch: {}
 
 permissions:

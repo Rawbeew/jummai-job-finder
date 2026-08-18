@@ -187,7 +187,7 @@
   <!-- FILTERS + JOBS -->
   <section>
     <h2 class="sec">Open postings</h2>
-    <p class="secsub">Current openings only, pulled from direct employers and refreshed daily. Older or expired postings are removed automatically.</p>
+    <p class="secsub">Only postings released within the last 12 hours — so nothing here is already filled or expired. Refreshed from direct employers every 2 hours.</p>
     <p class="secsub">Each card shows your match, the requirements that matter, the application link, and a tailored resume and cover letter ready to download.</p>
     <div class="controls">
       <span class="lbl">Type:</span>
@@ -829,7 +829,7 @@ function jobHTML(j, idx){
           (j.remote_capable?'<span class="badge" style="color:#1d6f5c;border-color:#71b39c;background:#f0faf6;">remote / hybrid ok</span>':'')+'</div>'+
 
         '<div class="meta"><b>'+j.pay+'</b> · '+j.type+' · '+j.loc+' · '+
-          (j.releasedDate?'posted '+fmtDate(j.releasedDate):'')+
+          (j.releasedDate?'posted '+timeAgo(j.releasedDate):'')+
           (j.closes?' · closes '+fmtDate(j.closes):'')+'</div>'+
         (j.closes&&closesSoon(j.closes)?'<div class="closesoon">Closing soon, apply now</div>':'')+
       '</div>'+
@@ -1062,6 +1062,20 @@ function fmtDate(iso){
     const d=new Date(iso+'T00:00:00');
     return d.toLocaleDateString('en-CA',{month:'short',day:'numeric'});
   }catch(e){ return iso; }
+}
+function timeAgo(iso){
+  // accept a full timestamp (with T) or a bare date; return a human freshness label
+  if(!iso) return '';
+  try{
+    const hasT=String(iso).indexOf('T')>=0 || String(iso).length>10;
+    const ms=hasT?new Date(iso.replace('Z','Z')).getTime():new Date(iso+'T23:59:59').getTime();
+    const h=(Date.now()-ms)/3600000;
+    if(h<0) return 'just now';
+    if(h<1) return 'under 1h ago';
+    if(h<24) return Math.round(h)+'h ago';
+    const days=Math.round(h/24);
+    return days+'d ago';
+  }catch(e){ return fmtDate(iso); }
 }
 function closesSoon(iso){
   try{
