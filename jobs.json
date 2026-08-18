@@ -21,27 +21,5 @@
     "live": true,
     "releasedDate": "2026-08-18",
     "closes": "2026-08-27"
-  },
-  {
-    "e": "VON Canada",
-    "title": "personal support worker - home support",
-    "cat": "psw",
-    "remote_capable": false,
-    "tier": "ltco",
-    "loc": "Quinte West (ON)",
-    "region": "other-ontario",
-    "match": "direct",
-    "pay": "$17.71 to $26.55 hourly",
-    "payMin": 17.71,
-    "type": "See posting",
-    "link": "https://www.jobbank.gc.ca/jobsearch/jobposting/50100487;jsessionid=EE5D84E5F32C5F85083DDE2439EE8417.jobsearch77?source=searchresults",
-    "search": "https://www.google.com/search?q=personal%20support%20worker%20-%20home%20support",
-    "hl": [
-      "Posted on Job Bank Canada"
-    ],
-    "req": "personal support worker - home support \u2014 apply via Job Bank.",
-    "live": true,
-    "releasedDate": "2026-08-18",
-    "closes": null
   }
 ]
