@@ -2,7 +2,7 @@
   {
     "e": "University Health Network (UHN)",
     "title": "Administrative Assistant I - Ambulatory Multi Organ Transplant",
-    "cat": "office",
+    "cat": "admin",
     "remote_capable": true,
     "tier": "hospital",
     "loc": "Toronto",
@@ -23,7 +23,7 @@
   {
     "e": "University Health Network (UHN)",
     "title": "Administrative Assistant I - Ambulatory Multi Organ Transplant",
-    "cat": "office",
+    "cat": "admin",
     "remote_capable": true,
     "tier": "hospital",
     "loc": "Toronto",
@@ -84,7 +84,7 @@
   {
     "e": "University Health Network (UHN)",
     "title": "Clerical Assistant II (Diet Clerk)",
-    "cat": "office",
+    "cat": "admin",
     "remote_capable": true,
     "tier": "hospital",
     "loc": "Toronto",
@@ -104,7 +104,7 @@
   {
     "e": "University Health Network (UHN)",
     "title": "Education Coordinator",
-    "cat": "office",
+    "cat": "admin",
     "remote_capable": true,
     "tier": "hospital",
     "loc": "Toronto",
@@ -193,7 +193,7 @@
   {
     "e": "University Health Network (UHN)",
     "title": "Patient Resource Coordinator",
-    "cat": "office",
+    "cat": "admin",
     "remote_capable": true,
     "tier": "hospital",
     "loc": "Toronto",
@@ -213,7 +213,7 @@
   {
     "e": "University Health Network (UHN)",
     "title": "Patient Flow Coordinator",
-    "cat": "office",
+    "cat": "admin",
     "remote_capable": true,
     "tier": "hospital",
     "loc": "Toronto",
@@ -233,7 +233,7 @@
   {
     "e": "University Health Network (UHN)",
     "title": "Administrative Assistant II",
-    "cat": "office",
+    "cat": "admin",
     "remote_capable": true,
     "tier": "hospital",
     "loc": "Toronto",
@@ -253,7 +253,7 @@
   {
     "e": "University Health Network (UHN)",
     "title": "Administrative Assistant I, General - Family Health Team",
-    "cat": "office",
+    "cat": "admin",
     "remote_capable": true,
     "tier": "hospital",
     "loc": "Toronto",
@@ -273,7 +273,7 @@
   {
     "e": "University Health Network (UHN)",
     "title": "Administrative Assistant I, Medical",
-    "cat": "office",
+    "cat": "admin",
     "remote_capable": true,
     "tier": "hospital",
     "loc": "Toronto",
@@ -293,7 +293,7 @@
   {
     "e": "University Health Network (UHN)",
     "title": "Clinical Research Coordinator III (Nurse)",
-    "cat": "office",
+    "cat": "admin",
     "remote_capable": true,
     "tier": "hospital",
     "loc": "Toronto",
@@ -313,7 +313,7 @@
   {
     "e": "University Health Network (UHN)",
     "title": "Clinical Research Coordinator III (PK)",
-    "cat": "office",
+    "cat": "admin",
     "remote_capable": true,
     "tier": "hospital",
     "loc": "Toronto",
@@ -333,7 +333,7 @@
   {
     "e": "University Health Network (UHN)",
     "title": "Clinical Research Coordinator III (Phase 1)",
-    "cat": "office",
+    "cat": "admin",
     "remote_capable": true,
     "tier": "hospital",
     "loc": "Toronto",
@@ -353,7 +353,7 @@
   {
     "e": "University Health Network (UHN)",
     "title": "Records Management Representative",
-    "cat": "office",
+    "cat": "admin",
     "remote_capable": true,
     "tier": "hospital",
     "loc": "Toronto",
@@ -366,27 +366,6 @@
       "Completion of High School education required Completion of related College diploma and/or certificate (Health "
     ],
     "req": "Union: Non-Union Number of Vacancies: 1 New or Replacement Position: Replacement Site: Krembil Discovery Tower (Toronto Western Hospital) Department: Altum Health Reports to: Manager, Central Administration Wage Range: $20.83 - $26.04 per hour Hours: 37.5 Hours Per Week Shifts: Days, Monday - Friday Status: Temporary Full-time (18-month contract) Closing Date: Open until filled We are currently looking for an experienced Records Management Representative to support our Toronto/Central Administration team. The Records Management Representative performs data entry responsibilities, report uploading, billing activities, inbox management, inputting and maintenance of electronic medical records, and performs cross-functional and other duties consistent with the job classification as required. T",
-    "live": true,
-    "releasedDate": "2026-08-07",
-    "closes": null
-  },
-  {
-    "e": "University Health Network (UHN)",
-    "title": "Clinical Nurse Coordinator - Thoracic Clinic/CTEPH Program",
-    "cat": "office",
-    "remote_capable": true,
-    "tier": "hospital",
-    "loc": "Toronto",
-    "pay": "$45.85-$57.31/hr",
-    "payMin": 45.85,
-    "type": "Contract",
-    "link": "https://jobs.smartrecruiters.com/UniversityHealthNetwork/744000142203911-clinical-nurse-coordinator-thoracic-clinic-cteph-program-?oga=true",
-    "search": "https://www.google.com/search?q=Clinical%20Nurse%20Coordinator%20-%20Thoracic%20Clinic/CTEPH%20Program",
-    "hl": [
-      "Completion of a university, college, or other approved nursing program Current Certificate of Registration wit",
-      "Master\u2019s Degree preferred Relevant clinical experience, preferably in respirology, cardiology, ICU, transplant"
-    ],
-    "req": "Union: Non-Union New or Replacement: Replacement Site: Toronto General Hospital Department: Thoracic Clinic/CTEPH Program Reports to: Manager Wage Range : $45.85 - $57.31 per hour. Hours: 7.5 Hours per Week Shifts: Days Status: Temporary Part-Time (End Date ~ April 1, 2027) Closing Date : August 27, 2026 Job Summary The Chronic Thromboembolic Pulmonary Hypertension (CTEPH) Program Nurse Coordinator is responsible for coordinating and supporting the comprehensive care of patients with suspected or confirmed CTEPH throughout the diagnostic, treatment, and follow-up continuum. The Nurse Coordinator serves as the primary point of contact for patients, caregivers, referring physicians, and the multidisciplinary CTEPH team, ensuring timely access to specialized care and the seamless coordination",
     "live": true,
     "releasedDate": "2026-08-07",
     "closes": null
