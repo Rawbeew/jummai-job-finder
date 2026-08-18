@@ -1,3 +1,10 @@
 __pycache__/
 *.pyc
 .DS_Store
+
+# Personal data — never commit. The repo is anonymized for public hosting;
+# personal files live on your local machine, not here.
+SESSION_REPORT.md
+tailored/
+*.original
+docs/jummai/

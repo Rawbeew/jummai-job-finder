@@ -1,4 +1,6 @@
-# Jummai's Job Finder
+# PSW & Adjacent Job Finder
+
+A static, free, anonymized template for a personal job board: live direct-employer postings for the Greater Toronto Area, refreshed every 2 hours, with only the last 12 hours shown.
 
 A personal job board and ATS resume builder for a Toronto Personal Support Worker.
 Hosted free on both platforms. It refreshes itself every day, and shows **recent,

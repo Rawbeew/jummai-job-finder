@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Personalized PSW & caregiver job finder for Jummai — direct employer postings across the Greater Toronto Area, refreshed daily. Match score, requirements, and apply links in one place.">
+<meta name="description" content="PSW & adjacent job finder for the Greater Toronto Area — direct employer postings refreshed daily. Match score, requirements, and apply links in one place.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<title>PSW & Adjacent Job Finder | Greater Toronto & Environs | Jummai Salami Raji</title>
+<title>PSW & Adjacent Job Finder | Greater Toronto & Environs</title>
 <style>
   :root{
     --canvas:#faf9f5; --card:#fffdfb; --ink:#211d19; --ink-2:#2b2621;
@@ -241,8 +241,8 @@
         <div class="respanel show" style="margin-top:10px;">
           <textarea id="mta"></textarea>
           <div class="rbtns">
-            <button class="btn btn-gold" onclick="downloadDocxFrom('mta','Jummai_Raji_Resume_Pasted.docx')">Download .docx</button>
-            <button class="btn btn-ghost" onclick="downloadTxtFrom('mta','Jummai_Raji_Resume_Pasted.txt')">Download .txt</button>
+            <button class="btn btn-gold" onclick="downloadDocxFrom('mta','Resume.docx')">Download .docx</button>
+            <button class="btn btn-ghost" onclick="downloadTxtFrom('mta','Resume.txt')">Download .txt</button>
           </div>
         </div>
         <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:12px 0 6px;">Your cover letter</div>
@@ -250,8 +250,8 @@
         <div class="respanel show" style="margin-top:10px;">
           <textarea id="mcv"></textarea>
           <div class="rbtns">
-            <button class="btn btn-gold" onclick="downloadDocxFrom('mcv','Jummai_Raji_CoverLetter_Pasted.docx')">Download cover letter .docx</button>
-            <button class="btn btn-ghost" onclick="downloadTxtFrom('mcv','Jummai_Raji_CoverLetter_Pasted.txt')">Download .txt</button>
+            <button class="btn btn-gold" onclick="downloadDocxFrom('mcv','Cover_Letter.docx')">Download cover letter .docx</button>
+            <button class="btn btn-ghost" onclick="downloadTxtFrom('mcv','Cover_Letter.txt')">Download .txt</button>
           </div>
         </div>
       </div>
@@ -294,7 +294,7 @@
 </div>
 
 <footer>
-  <div class="wrap">Jummai's Job Finder · refreshed daily · verify each posting is still open before you apply.</div>
+  <div class="wrap">Direct-employer job board · refreshed every 2 hours · only postings released in the last 12 hours · verify each posting is still open before you apply.</div>
 </footer>
 
 <script>
@@ -337,10 +337,14 @@ const COMMUTE_CHECKS = [
   {id:'c-insurance', label:'Insurance / vehicle insurance required', kw:['insurance','insured','proof of insurance','vehicle insurance','liability']},
 ];
 
+// PROFILE — placeholder. Edit these four fields with your real info and the
+// board builds your resume, cover-letter signature, and ATS self-check
+// against your actual details. Nothing in this file should ever contain
+// personal data committed to the repo.
 const PROFILE = {
-  name: 'JUMMAI SALAMI RAJI',
-  contact: 'North York, ON | (437) 661-5084 | Kaphyrajah@gmail.com',
-  title: 'PERSONAL SUPPORT WORKER (PSW) | CAREGIVER',
+  name: '[YOUR NAME]',
+  contact: '[Your city, province] | [your phone] | [your email]',
+  title: '[YOUR TARGET JOB TITLE]',
   highlights: [
     {t:'Delivered compassionate personal care and daily living support to a family member living with dementia for two years, assisting with hygiene, grooming, mobility, meals, and companionship.', g:['dementia','adl','meals','companion']},
     {t:'Safely executed lifting, transfers, positioning, and repositioning for multiple clients per shift using proper body mechanics and safe-handling techniques.', g:['transfers']},
@@ -881,16 +885,16 @@ function jobHTML(j, idx){
       '<div class="atsline" id="ats-'+idx+'"></div>'+
       '<textarea id="ta-'+idx+'"></textarea>'+
       '<div class="rbtns">'+
-        '<button class="btn btn-gold" onclick="downloadDocxFrom(\'ta-'+idx+'\',\'Jummai_Raji_Resume_'+idx+'.docx\')">Download .docx</button>'+
-        '<button class="btn btn-ghost" onclick="downloadTxtFrom(\'ta-'+idx+'\',\'Jummai_Raji_Resume_'+idx+'.txt\')">Download .txt</button>'+
+        '<button class="btn btn-gold" onclick="downloadDocxFrom(\'ta-'+idx+'\',\'Resume_'+idx+'.docx\')">Download .docx</button>'+
+        '<button class="btn btn-ghost" onclick="downloadTxtFrom(\'ta-'+idx+'\',\'Resume_'+idx+'.txt\')">Download .txt</button>'+
       '</div>'+
     '</div>'+
     '<div class="coverpanel" id="cov-'+idx+'">'+
       '<div class="atsline" id="cc-'+idx+'"></div>'+
       '<textarea id="tc-'+idx+'"></textarea>'+
       '<div class="rbtns">'+
-        '<button class="btn btn-gold" onclick="downloadDocxFrom(\'tc-'+idx+'\',\'Jummai_Raji_CoverLetter_'+idx+'.docx\')">Download cover letter .docx</button>'+
-        '<button class="btn btn-ghost" onclick="downloadTxtFrom(\'tc-'+idx+'\',\'Jummai_Raji_CoverLetter_'+idx+'.txt\')">Download .txt</button>'+
+        '<button class="btn btn-gold" onclick="downloadDocxFrom(\'tc-'+idx+'\',\'CoverLetter_'+idx+'.docx\')">Download cover letter .docx</button>'+
+        '<button class="btn btn-ghost" onclick="downloadTxtFrom(\'tc-'+idx+'\',\'CoverLetter_'+idx+'.txt\')">Download .txt</button>'+
       '</div>'+
     '</div>'+
   '</div>';
@@ -997,7 +1001,7 @@ function buildCoverLetter(j){
   if(rest.length){ parts.push('I also bring experience with '+rest.join(', ')+'.',''); }
   parts.push('I am available for days, evenings, nights, and weekends. My resume is attached. I would be happy to meet you and talk about how I can help your team.','');
   parts.push('Thank you for your time.','');
-  parts.push('Sincerely,','Jummai Salami Raji','(437) 661-5084','Kaphyrajah@gmail.com');
+  parts.push('Sincerely,',PROFILE.name,PROFILE.contact);
   return parts.join('\n');
 }
 function buildCoverLetterFromText(text){
@@ -1016,11 +1020,15 @@ const ACTION_VERBS=/^(Delivered|Safely|Supported|Executed|Maintained|Certified|M
 function gradeATS(text, matchedGroups){
   const tx=text||''; const low=tx.toLowerCase(); const lines=tx.split('\n');
   const checks=[]; const C=(label,ok)=>checks.push({label,ok});
-  C('Full name at the top', low.includes('jummai salami raji'));
-  C('Phone number present', tx.includes('(437) 661-5084'));
-  C('Email address present', low.includes('kaphyrajah@gmail.com'));
-  C('City and province present', low.includes('north york, on'));
   const heads=['PROFESSIONAL SUMMARY','HIGHLIGHTS OF QUALIFICATIONS','RELEVANT SKILLS','RELEVANT EXPERIENCE','EDUCATION','CERTIFICATIONS & TRAINING'];
+  // ATS self-check is keyed off PROFILE so anyone using the template gets
+  // checks against their own name/contact, not someone else's.
+  const nameLow=(PROFILE.name||'').toLowerCase();
+  const contactLow=(PROFILE.contact||'').toLowerCase();
+  C('Full name at the top', !!nameLow && nameLow !== '[your name]' && low.includes(nameLow));
+  C('Phone number present', /\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/.test(tx));
+  C('Email address present', /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i.test(tx));
+  C('City and province present', /[A-Za-z]+,?\s*(ON|Ontario)/.test(tx));
   C('All six standard headings', heads.every(h=>tx.includes(h)));
   C('No first-person pronouns', !/\b(i|me|my|myself)\b/i.test(tx));
   C('No special characters', !/[\u2014\u2013\u2018\u2019\u201C\u201D\t\u00A0]/.test(tx));
@@ -1059,8 +1067,8 @@ function coverGrade(text){
   const greet=(tx.split('\n').find(l=>l.startsWith('Dear '))||'').trim();
   C('Personal greeting used', /^Dear .+,$/.test(greet));
   C('States the job being applied for', /I am applying for/.test(tx));
-  C('Sincerely and full name', tx.includes('Sincerely,') && tx.includes('Jummai Salami Raji'));
-  C('Phone and email included', tx.includes('(437) 661-5084') && tx.includes('Kaphyrajah@gmail.com'));
+  C('Sincerely and full name', tx.includes('Sincerely,') && tx.includes(PROFILE.name) && PROFILE.name !== '[YOUR NAME]');
+  C('Phone and email included', /\(\d{3}\)\s*\d{3}[-.\s]?\d{4}/.test(tx) && /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i.test(tx));
   C('No em or en dashes', !/[\u2014\u2013]/.test(tx));
   const ok=checks.filter(c=>c.ok).length;
   return { score: Math.round(ok/checks.length*100), checks };

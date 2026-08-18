@@ -1,6 +1,6 @@
 ---
 version: alpha
-name: Jummai's Job Finder
+name: PSW & Adjacent Job Finder
 description: Warm, trustworthy, high-contrast job board in service of a job seeker — every decision exists to help one person land a PSW role fast.
 colors:
   primary: "#211D19"
@@ -83,8 +83,8 @@ components:
 
 ## Overview
 
-Jummai's Job Finder is a **single purpose**: help one recently-graduated PSW
-land a well-paying role in Toronto within 30 days of graduating. It is not a
+The board is a **single purpose**: help a job seeker land a well-paying
+PSW (Personal Support Worker) role fast. It is not a
 generic job aggregator — it is a personal, trustworthy board. Every visual
 decision reinforces clarity, warmth, and urgency: calm backgrounds, one strong
 interaction accent (coral), and clear match % so the job seeker sees at a glance
