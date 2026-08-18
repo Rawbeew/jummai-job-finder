@@ -805,6 +805,7 @@ let filter='all', loc='all', sort='priority';
 const REGION_NORTHYORK='north-york';
 const REGION_TTC='ttc-reachable';
 const REGION_GO='gtv-train';
+const REGION_OTHER='other-ontario';
 
 function reqWarnings(text){
   const tx=t(text); const out=[];
@@ -850,6 +851,7 @@ function jobHTML(j, idx){
           (j.region===REGION_NORTHYORK?'<span class="badge" style="color:#1d6f5c;border-color:#71b39c;background:#f0faf6;">North York</span>':'')+
           (j.region===REGION_TTC?'<span class="badge" style="color:#7a5a1f;border-color:#d9b25f;background:#fbf5e5;">TTC ≤40 min</span>':'')+
           (j.region===REGION_GO?'<span class="badge" style="color:#6f6a62;border-color:#d5cfc4;">GO Train reachable</span>':'')+
+          (j.region===REGION_OTHER?'<span class="badge" style="color:#8a5a3a;border-color:#d5b8a3;background:#faf3ec;">other Ontario</span>':'')+
           (j.match==='adjacent'?'<span class="badge" style="color:#35507a;border-color:#8aa7cc;background:#eef3fa;">adjacent skills</span>':'')+'</div>'+
 
         '<div class="meta"><b>'+j.pay+'</b> · '+j.type+' · '+j.loc+' · '+

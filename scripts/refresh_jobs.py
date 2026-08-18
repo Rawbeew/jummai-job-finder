@@ -19,6 +19,7 @@ Freshness rules (this is the important part):
     only. Evergreen employer career pages live in the site's directory.
 """
 import datetime
+import html
 import json
 import os
 import re
@@ -297,6 +298,124 @@ def fetch_bamboohr():
     return out
 
 
+def fetch_jobbank():
+    """Job Bank Canada — the official gov job board, Ontario-wide, keyless.
+
+    Searches PSW/care roles across Ontario (Job Bank is a direct-employer +
+    agency mix; we drop agency markers). Returns entries with title, employer,
+    location (city + region), salary, posting date and the actual posting link.
+    """
+    import re as _re
+    import time as _time
+    UA = {"User-Agent": "jummai-job-finder/1.0"}
+    out = []
+    # fewer, higher-yield queries to stay under Job Bank's rate limit
+    queries = ["personal support worker", "health care aide", "caregiver"]
+    seen_title = set()
+    for qi, q in enumerate(queries):
+        url = ("https://www.jobbank.gc.ca/jobsearch/jobsearch"
+               "?searchstring=" + urllib.parse.quote(q) +
+               "&locationstring=Ontario&sort=D&source=1")
+        data = None
+        for attempt in range(3):  # retry with backoff on 503/timeout
+            try:
+                req = urllib.request.Request(url, headers=UA)
+                data = urllib.request.urlopen(req, timeout=60).read().decode("utf-8", "ignore")
+                break
+            except Exception as e:  # noqa: BLE001
+                _time.sleep(3 * (attempt + 1))
+                if attempt == 2:
+                    print(f"JobBank query '{q}' failed after retries: {e}", file=sys.stderr)
+        if not data:
+            continue
+        _time.sleep(4)  # gentle pause between queries to avoid 429/503
+        articles = _re.findall(r"<article.*?</article>", data, _re.S)
+        for a in articles:
+            title = _re.search(r'noctitle">\s*([^<]+)', a)
+            if not title:
+                continue
+            title = title.group(1).strip()
+            low = title.lower()
+            if not any(k in low for k in CARE_KEYWORDS):
+                continue
+            if any(k in low for k in TITLE_EXCLUDE):
+                continue
+            dedupe_key = (low,)
+            if dedupe_key[0] in seen_title:
+                continue
+            seen_title.add(dedupe_key[0])
+            emp = _re.search(r"<li class=\"business\">\s*(.*?)</li>", a, _re.S)
+            emp = strip_html(emp.group(1)).strip() if emp else "Employer"
+            blob = (title + " " + emp).lower()
+            if any(m in blob for m in AGENCY_MARKERS):
+                continue
+            locm = _re.search(r"<li class=\"location\">.*?<span class=\"wb-inv\">Location</span>\s*(.*?)</li>", a, _re.S)
+            loc = strip_html(locm.group(1)).strip() if locm else "Ontario"
+            # Province enforcement: keep ONLY Ontario roles (drop other provinces)
+            # and skip labels that don't name a place.
+            NON_ON_PROV = ("(ab)", "(bc)", "(mb)", "(nb)", "(nf)", "(nl)", "(ns)", "(pe)", "(sk)", "(qc)", "(yt)", "(nt)", "(nu)",
+                           "(alberta)", "(british columbia)", "(nova scotia)", "(saskatchewan)",
+                           "(manitoba)", "(new brunswick)", "(newfoundland", "(quebec)", "(prince edward)")
+            loc_lower = loc.lower()
+            # The "(ON)" is the province code; anything else as province => drop
+            prov_code = _re.search(r"\(([a-z]{2})\)\s*$", loc_lower) or _re.search(r"\(([a-z]{2})\)", loc_lower)
+            if prov_code:
+                code = prov_code.group(1)
+                if code != "on":
+                    continue  # not Ontario
+            elif any(k in loc_lower for k in NON_ON_PROV):
+                continue
+            paym = _re.search(r"<li class=\"salary\">.*?Salary\s*(.*?)</li>", a, _re.S)
+            pay = strip_html(paym.group(1)).strip() if paym else "See posting"
+            pay_min = None
+            m = _re.search(r"\$(\d{2}(?:\.\d{1,2})?)", pay or "")
+            if m:
+                try:
+                    pay_min = float(m.group(1))
+                except ValueError:
+                    pass
+            datem = _re.search(r"<li class=\"date\">\s*(.*?)</li>", a, _re.S)
+            date_str = strip_html(datem.group(1)).strip() if datem else ""
+            released = None
+            if date_str:
+                for _fmt in ("%B %d, %Y", "%B %d, %Y", "%Y-%m-%d"):
+                    try:
+                        released = datetime.datetime.strptime(date_str.strip(), _fmt).date().isoformat()
+                        break
+                    except ValueError:
+                        continue
+            linkm = _re.search(r'href="([^"]*jobposting/\d+[^"]*)"', a)
+            link = ("https://www.jobbank.gc.ca" + html.unescape(linkm.group(1))) if linkm else ""
+            # region from the location string (North York home base; ≤40min target)
+            region = "unknown"
+            ll = loc.lower()
+            # North York proper
+            if any(k in ll for k in ("north york", "northcliffe", "willowdale", "donalda", "bayview", "yonge and finch", "north york centre")):
+                region = "north-york"
+            # within ~40 min by TTC/GO from North York (city of Toronto + inner suburbs)
+            elif any(k in ll for k in ("toronto", "scarborough", "etobicoke", "york ", " east york", "mississauga", "markham", "richmond hill", "vaughan", "thornhill", "brampton", "ajax", "pickering", "whitby", "oshawa", "concord", "woodbridge", "downsview", "etobicoke")):
+                region = "ttc-reachable"
+            elif any(k in ll for k in ("hamilton", "burlington", "oakville", "milton", "newmarket", "aurora", "barrie", "guelph", "kitchener", "waterloo", "cambridge", "st. catharines", "niagara", "kingston", "london", "ottawa", "windsor", "sudbury", "thunder bay", "sault ste", "quinte", "belleville", "timmins", "north bay", "shelburne", "st. thomas", "waterdown", "apsley", "sundridge", "delhi", "cornwall", "peterborough", "brantford", "sarnia", "chatham", "simcoe", "orillia", "collingwood", "belleville")):
+                region = "other-ontario"
+            elif " (on)" in ll and region == "unknown":
+                # any other Ontario city we don't special-case is still Ontario
+                region = "other-ontario"
+            else:
+                region = "unknown"
+            out.append({
+                "e": emp, "title": title, "cat": cat_of(blob),
+                "remote_capable": False, "tier": "ltco", "loc": loc,
+                "region": region, "match": "direct",
+                "pay": pay, "payMin": pay_min, "type": "See posting",
+                "link": link,
+                "search": "https://www.google.com/search?q=" + urllib.parse.quote(title),
+                "hl": ["Posted on Job Bank Canada"], "req": title + " — apply via Job Bank.",
+                "live": True, "releasedDate": released, "closes": None,
+            })
+    print(f"JobBank: {len(out)} care roles across Ontario")
+    return out
+
+
 def fetch_adzuna():
     if not (APP_ID and APP_KEY):
         return []
@@ -354,7 +473,7 @@ def main():
 
     curated = [j for j in base if j.get("live") is not True] if CURATED_KEEP else []
 
-    fresh = fetch_smartrecruiters() + fetch_bamboohr() + fetch_adzuna()
+    fresh = fetch_smartrecruiters() + fetch_bamboohr() + fetch_jobbank() + fetch_adzuna()
     fresh.sort(key=lambda j: j.get("releasedDate") or "", reverse=True)
 
     seen = set()
