@@ -37,6 +37,22 @@ SMARTRECRUITER_EMPLOYERS = [
     {"slug": "UniversityHealthNetwork", "tier": "hospital", "name": "University Health Network (UHN)"},
 ]
 
+# Remote-capable OFFICE track: admin/scheduler/coordinator/finance roles at
+# DIRECT employers (not agencies). These suit a PSW grad whose second degree
+# is Accounting, and can be hybrid/remote-capable.
+OFFICE_KEYWORDS = [
+    "scheduler", "scheduling", "coordinator", "intake", "client services",
+    "unit clerk", "clerk", "receptionist", "administrative assistant",
+    "accounting", "accounting clerk", "billing", "payroll", "finance",
+    "financial", "data entry", "office assistant", "program assistant",
+    "service coordinator", "operations assistant", "records",
+]
+
+
+def is_office_role(name):
+    low = (name or "").lower()
+    return any(k in low for k in OFFICE_KEYWORDS) and not any(k in low for k in TITLE_EXCLUDE)
+
 BAMBOO_EMPLOYERS = [
     {"subdomain": "betterlivinghealth", "tier": "nonprofit", "name": "Better Living Health & Community Services"},
 ]
@@ -146,15 +162,19 @@ def fetch_smartrecruiters():
             print(f"SmartRecruiters {emp['slug']} list failed: {e}", file=sys.stderr)
             continue
         care = []
+        office = []
         for c in data.get("content", []):
             name = (c.get("name") or "").strip()
             low = name.lower()
             if any(k in low for k in CARE_KEYWORDS) and not any(k in low for k in TITLE_EXCLUDE):
                 care.append(c)
+            elif is_office_role(name):
+                office.append(c)
         details = 0
-        for c in care:
-            if details >= DETAILS_PER_EMPLOYER:
+        for c in care + office:
+            if details >= DETAILS_PER_EMPLOYER * 2:
                 break
+            is_office = c in office
             name = (c.get("name") or "").strip()
             pid = c.get("id")
             try:
@@ -183,7 +203,8 @@ def fetch_smartrecruiters():
             out.append({
                 "e": emp["name"],
                 "title": name,
-                "cat": cat_of(blob),
+                "cat": "admin" if is_office else cat_of(blob),
+                "remote_capable": True if is_office else False,
                 "tier": emp["tier"],
                 "loc": loc,
                 "pay": pay,

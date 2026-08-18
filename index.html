@@ -196,6 +196,7 @@
       <button class="fbtn" data-f="behavioural">Behavioural</button>
       <button class="fbtn" data-f="dsw">DSW</button>
       <button class="fbtn" data-f="admin">Clerical / Admin</button>
+      <button class="fbtn" data-f="remote">Remote / Office</button>
       <button class="fbtn" data-f="restorative">Restorative / Rehab</button>
       <button class="fbtn" data-f="coordination">Coordination</button>
       <span class="lbl" style="margin-left:14px;">Location:</span>
@@ -824,7 +825,8 @@ function jobHTML(j, idx){
         '<div><span class="emp">'+j.e+'</span>'+
           '<span class="badge '+tier.cls+'">'+tier.label+'</span>'+
           '<span class="badge '+cat.cls+'">'+cat.label+'</span>'+
-          (j.live?'<span class="badge" style="color:var(--coral-deep);border-color:#d9a58f;">new</span>':'')+'</div>'+
+          (j.live?'<span class="badge" style="color:var(--coral-deep);border-color:#d9a58f;">new</span>':'')+
+          (j.remote_capable?'<span class="badge" style="color:#1d6f5c;border-color:#71b39c;background:#f0faf6;">remote / hybrid ok</span>':'')+'</div>'+
 
         '<div class="meta"><b>'+j.pay+'</b> · '+j.type+' · '+j.loc+' · '+
           (j.releasedDate?'posted '+fmtDate(j.releasedDate):'')+
@@ -1069,7 +1071,8 @@ function closesSoon(iso){
 }
 function render(){
   let list=JOBS.slice();
-  if(filter!=='all') list=list.filter(j=>j.cat===filter);
+  if(filter==='remote') list=list.filter(j=>j.remote_capable);
+  else if(filter!=='all') list=list.filter(j=>j.cat===filter);
   if(loc!=='all') list=list.filter(j=>j.loc===loc);
   if(sort==='priority') list.sort((a,b)=>{
     const sa=scoreText(a.req).pct*0.7+ (TIERS[a.tier]||{}).w*100*0.3;
