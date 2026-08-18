@@ -7,8 +7,8 @@ Hosted free on both platforms. It refreshes itself every day, and shows **recent
 still-open postings only**, no expired jobs.
 
 **Live sites:**
-- Netlify: https://jummai-job-finder.netlify.app
-- GitHub Pages: https://rawbeew.github.io/jummai-job-finder/
+- Netlify: https://just-hired.netlify.app
+- GitHub Pages: https://rawbeew.github.io/just-hired/
 
 Both stay in sync automatically: the daily workflow refreshes the postings and
 redeploys both.

@@ -1,6 +1,7 @@
 # Cloudflare Worker — fresh Ontario jobs → Netlify
 
-This worker keeps `jummai-job-finder` full of **only fresh, direct-employer jobs**.
+This worker keeps `just-hired` (formerly `jummai-job-finder`) full of
+**only fresh, direct-employer jobs**.
 It runs every 2 hours on Cloudflare (whose IPs Job Bank trusts — GitHub's datacenter
 IPs get blocked), fetches Job Bank + UHN, composes `jobs.json`, and redeploys the
 static site to Netlify.
