@@ -56,7 +56,7 @@
     "pay": "$25.00 to $30.00 hourly (to be negotiated)",
     "payMin": 25.0,
     "type": "See posting",
-    "link": "https://www.jobbank.gc.ca/jobsearch/jobposting/50103053;jsessionid=77BCE557871D3CCBBA6AB1FABCC87052.jobsearch77?source=searchresults",
+    "link": "https://www.jobbank.gc.ca/jobsearch/jobposting/50103053;jsessionid=105027999D08C6291814C9BACE95071C.jobsearch77?source=searchresults",
     "search": "https://www.google.com/search?q=personal%20support%20worker%20-%20home%20support",
     "hl": [
       "Posted on Job Bank Canada"
@@ -67,18 +67,18 @@
     "closes": null
   },
   {
-    "e": "Judith - Private household",
+    "e": "Myra Abainza",
     "title": "home support worker",
     "cat": "psw",
     "remote_capable": false,
     "tier": "ltco",
-    "loc": "Kitchener (ON)",
-    "region": "other-ontario",
+    "loc": "Toronto (ON)",
+    "region": "ttc-reachable",
     "match": "direct",
-    "pay": "$22.60 hourly",
-    "payMin": 22.6,
+    "pay": "$21.00 hourly",
+    "payMin": 21.0,
     "type": "See posting",
-    "link": "https://www.jobbank.gc.ca/jobsearch/jobposting/50103403;jsessionid=654732A439D2212AEAC20FF18959B13E.jobsearch77?source=searchresults",
+    "link": "https://www.jobbank.gc.ca/jobsearch/jobposting/50104264;jsessionid=8087BC886D112468851B2CCD53DAC6DB.jobsearch77?source=searchresults",
     "search": "https://www.google.com/search?q=home%20support%20worker",
     "hl": [
       "Posted on Job Bank Canada"
@@ -89,23 +89,45 @@
     "closes": null
   },
   {
-    "e": "Zachary Burnett",
+    "e": "Tania Markusson, Jeffrey Markusson",
     "title": "child caregiver - private home",
     "cat": "psw",
     "remote_capable": false,
     "tier": "ltco",
-    "loc": "Toronto (ON)",
-    "region": "ttc-reachable",
+    "loc": "North York (ON)",
+    "region": "north-york",
     "match": "direct",
     "pay": "$21.00 hourly",
     "payMin": 21.0,
     "type": "See posting",
-    "link": "https://www.jobbank.gc.ca/jobsearch/jobposting/50102934;jsessionid=654732A439D2212AEAC20FF18959B13E.jobsearch77?source=searchresults",
+    "link": "https://www.jobbank.gc.ca/jobsearch/jobposting/50103883;jsessionid=8087BC886D112468851B2CCD53DAC6DB.jobsearch77?source=searchresults",
     "search": "https://www.google.com/search?q=child%20caregiver%20-%20private%20home",
     "hl": [
       "Posted on Job Bank Canada"
     ],
     "req": "child caregiver - private home \u2014 apply via Job Bank.",
+    "live": true,
+    "releasedDate": "2026-08-18",
+    "closes": null
+  },
+  {
+    "e": "fatemeh abbas hashemi",
+    "title": "live-in caregiver - seniors",
+    "cat": "psw",
+    "remote_capable": false,
+    "tier": "ltco",
+    "loc": "North York (ON)",
+    "region": "north-york",
+    "match": "direct",
+    "pay": "$20.00 to $21.00 hourly (to be negotiated)",
+    "payMin": 20.0,
+    "type": "See posting",
+    "link": "https://www.jobbank.gc.ca/jobsearch/jobposting/50103879;jsessionid=8087BC886D112468851B2CCD53DAC6DB.jobsearch77?source=searchresults",
+    "search": "https://www.google.com/search?q=live-in%20caregiver%20-%20seniors",
+    "hl": [
+      "Posted on Job Bank Canada"
+    ],
+    "req": "live-in caregiver - seniors \u2014 apply via Job Bank.",
     "live": true,
     "releasedDate": "2026-08-18",
     "closes": null
