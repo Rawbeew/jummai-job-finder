@@ -1,6 +1,28 @@
 [
   {
     "e": "University Health Network (UHN)",
+    "title": "Ward Clerk",
+    "cat": "admin",
+    "remote_capable": true,
+    "tier": "hospital",
+    "loc": "Toronto",
+    "region": "ttc-reachable",
+    "match": "adjacent",
+    "pay": "$20.83-$26.04/hr",
+    "payMin": 20.83,
+    "type": "Part-time",
+    "link": "https://jobs.smartrecruiters.com/UniversityHealthNetwork/744000144149269-ward-clerk?oga=true",
+    "search": "https://www.google.com/search?q=Ward%20Clerk",
+    "hl": [
+      "Completion of Grade 12 or equivalent Minimum one (1) year recent related clerical experience General knowledge"
+    ],
+    "req": "Union: CUPE Clerical Bargaining Unit New or Replacement: Replacement Site: Toronto General Hospital Department: Emergency Reports to: Nurse Manager Wage Range: $20.83 - $26.04 per hour. Hours: 7.5 Hours per Week Shifts: Alternating Weekends; Saturday & Sunday; 1530-2330 and Holidays Status: Permanent Part-Time Closing Date: September 3, 2026 Duties Performing reception responsibilities Providing clerical support Organizing and maintaining patient charts, electronic and paper information filing systems Performing patient administration functions including scheduling and coordinating appointments/meetings/events Maintaining written and/or electronic calendar/schedules, etc. Coordinating unit administrative functions Ensuring the efficient operation of the unit, within the scope of authority ",
+    "live": true,
+    "releasedDate": "2026-08-18",
+    "closes": "2026-09-03"
+  },
+  {
+    "e": "University Health Network (UHN)",
     "title": "Administrative Assistant I - Ambulatory Multi Organ Transplant",
     "cat": "admin",
     "remote_capable": true,
@@ -23,45 +45,67 @@
     "closes": "2026-08-27"
   },
   {
-    "e": "Lavlina Puri",
-    "title": "family caregiver",
-    "cat": "psw",
-    "remote_capable": false,
-    "tier": "ltco",
-    "loc": "Mississauga (ON)",
-    "region": "ttc-reachable",
-    "match": "direct",
-    "pay": "$21.00 hourly",
-    "payMin": 21.0,
-    "type": "See posting",
-    "link": "https://www.jobbank.gc.ca/jobsearch/jobposting/50101663;jsessionid=1173307CAEF7862221F0DD26F2694DC6.jobsearch77?source=searchresults",
-    "search": "https://www.google.com/search?q=family%20caregiver",
-    "hl": [
-      "Posted on Job Bank Canada"
-    ],
-    "req": "family caregiver \u2014 apply via Job Bank.",
-    "live": true,
-    "releasedDate": "2026-08-18",
-    "closes": null
-  },
-  {
-    "e": "VON Canada",
+    "e": "Vinod Shah",
     "title": "personal support worker - home support",
     "cat": "psw",
     "remote_capable": false,
     "tier": "ltco",
-    "loc": "Quinte West (ON)",
+    "loc": "Fonthill (ON)",
     "region": "other-ontario",
     "match": "direct",
-    "pay": "$17.71 to $26.55 hourly",
-    "payMin": 17.71,
+    "pay": "$25.00 to $30.00 hourly (to be negotiated)",
+    "payMin": 25.0,
     "type": "See posting",
-    "link": "https://www.jobbank.gc.ca/jobsearch/jobposting/50100487;jsessionid=1173307CAEF7862221F0DD26F2694DC6.jobsearch77?source=searchresults",
+    "link": "https://www.jobbank.gc.ca/jobsearch/jobposting/50103053;jsessionid=77BCE557871D3CCBBA6AB1FABCC87052.jobsearch77?source=searchresults",
     "search": "https://www.google.com/search?q=personal%20support%20worker%20-%20home%20support",
     "hl": [
       "Posted on Job Bank Canada"
     ],
     "req": "personal support worker - home support \u2014 apply via Job Bank.",
+    "live": true,
+    "releasedDate": "2026-08-18",
+    "closes": null
+  },
+  {
+    "e": "Judith - Private household",
+    "title": "home support worker",
+    "cat": "psw",
+    "remote_capable": false,
+    "tier": "ltco",
+    "loc": "Kitchener (ON)",
+    "region": "other-ontario",
+    "match": "direct",
+    "pay": "$22.60 hourly",
+    "payMin": 22.6,
+    "type": "See posting",
+    "link": "https://www.jobbank.gc.ca/jobsearch/jobposting/50103403;jsessionid=654732A439D2212AEAC20FF18959B13E.jobsearch77?source=searchresults",
+    "search": "https://www.google.com/search?q=home%20support%20worker",
+    "hl": [
+      "Posted on Job Bank Canada"
+    ],
+    "req": "home support worker \u2014 apply via Job Bank.",
+    "live": true,
+    "releasedDate": "2026-08-18",
+    "closes": null
+  },
+  {
+    "e": "Zachary Burnett",
+    "title": "child caregiver - private home",
+    "cat": "psw",
+    "remote_capable": false,
+    "tier": "ltco",
+    "loc": "Toronto (ON)",
+    "region": "ttc-reachable",
+    "match": "direct",
+    "pay": "$21.00 hourly",
+    "payMin": 21.0,
+    "type": "See posting",
+    "link": "https://www.jobbank.gc.ca/jobsearch/jobposting/50102934;jsessionid=654732A439D2212AEAC20FF18959B13E.jobsearch77?source=searchresults",
+    "search": "https://www.google.com/search?q=child%20caregiver%20-%20private%20home",
+    "hl": [
+      "Posted on Job Bank Canada"
+    ],
+    "req": "child caregiver - private home \u2014 apply via Job Bank.",
     "live": true,
     "releasedDate": "2026-08-18",
     "closes": null
