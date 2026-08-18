@@ -1,0 +1,7 @@
+name = "jummai-jobs"
+main = "index.js"
+compatibility_date = "2026-01-01"
+
+# Fetch fresh Job Bank + UHN listings every 2 hours and redeploy jobs.json to Netlify
+[triggers]
+crons = ["17 */2 * * *"]
