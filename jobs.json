@@ -1,5 +1,27 @@
 [
   {
+    "e": "VON Canada",
+    "title": "personal support worker - home support",
+    "cat": "psw",
+    "remote_capable": false,
+    "tier": "ltco",
+    "loc": "London (ON)",
+    "region": "other-ontario",
+    "match": "direct",
+    "pay": "$19.01 to $23.29 hourly",
+    "payMin": 19.01,
+    "type": "See posting",
+    "link": "https://www.jobbank.gc.ca/jobsearch/jobposting/50107619;jsessionid=CECECB2174F14D850AC870C4245963A2.jobsearch77?source=searchresults",
+    "search": "https://www.google.com/search?q=personal%20support%20worker%20-%20home%20support",
+    "hl": [
+      "Posted on Job Bank Canada"
+    ],
+    "req": "personal support worker - home support \u2014 apply via Job Bank.",
+    "live": true,
+    "releasedDate": "2026-08-19",
+    "closes": null
+  },
+  {
     "e": "Hudson Manor",
     "title": "personal support worker \u2013 nursing care",
     "cat": "psw",
@@ -11,34 +33,12 @@
     "pay": "$19.62 hourly",
     "payMin": 19.62,
     "type": "See posting",
-    "link": "https://www.jobbank.gc.ca/jobsearch/jobposting/50104287;jsessionid=6DE13DD39C28AA9B3BC1CAC12147F0F1.jobsearch77?source=searchresults",
+    "link": "https://www.jobbank.gc.ca/jobsearch/jobposting/50104287;jsessionid=CECECB2174F14D850AC870C4245963A2.jobsearch77?source=searchresults",
     "search": "https://www.google.com/search?q=personal%20support%20worker%20%E2%80%93%20nursing%20care",
     "hl": [
       "Posted on Job Bank Canada"
     ],
     "req": "personal support worker \u2013 nursing care \u2014 apply via Job Bank.",
-    "live": true,
-    "releasedDate": "2026-08-18",
-    "closes": null
-  },
-  {
-    "e": "Vinod Shah",
-    "title": "personal support worker - home support",
-    "cat": "psw",
-    "remote_capable": false,
-    "tier": "ltco",
-    "loc": "Fonthill (ON)",
-    "region": "other-ontario",
-    "match": "direct",
-    "pay": "$25.00 to $30.00 hourly (to be negotiated)",
-    "payMin": 25.0,
-    "type": "See posting",
-    "link": "https://www.jobbank.gc.ca/jobsearch/jobposting/50103053;jsessionid=6DE13DD39C28AA9B3BC1CAC12147F0F1.jobsearch77?source=searchresults",
-    "search": "https://www.google.com/search?q=personal%20support%20worker%20-%20home%20support",
-    "hl": [
-      "Posted on Job Bank Canada"
-    ],
-    "req": "personal support worker - home support \u2014 apply via Job Bank.",
     "live": true,
     "releasedDate": "2026-08-18",
     "closes": null
@@ -55,7 +55,7 @@
     "pay": "$21.50 hourly",
     "payMin": 21.5,
     "type": "See posting",
-    "link": "https://www.jobbank.gc.ca/jobsearch/jobposting/50106756;jsessionid=57947CB3D2FAE51BE1B0C4943D65A31E.jobsearch77?source=searchresults",
+    "link": "https://www.jobbank.gc.ca/jobsearch/jobposting/50106756;jsessionid=8AE5165023714F3BCE88467533C3A26F.jobsearch77?source=searchresults",
     "search": "https://www.google.com/search?q=child%20caregiver%20-%20private%20home",
     "hl": [
       "Posted on Job Bank Canada"
@@ -77,7 +77,7 @@
     "pay": "$22.60 hourly",
     "payMin": 22.6,
     "type": "See posting",
-    "link": "https://www.jobbank.gc.ca/jobsearch/jobposting/50104299;jsessionid=57947CB3D2FAE51BE1B0C4943D65A31E.jobsearch77?source=searchresults",
+    "link": "https://www.jobbank.gc.ca/jobsearch/jobposting/50104299;jsessionid=8AE5165023714F3BCE88467533C3A26F.jobsearch77?source=searchresults",
     "search": "https://www.google.com/search?q=autism%20support%20worker",
     "hl": [
       "Posted on Job Bank Canada"
@@ -99,7 +99,7 @@
     "pay": "$20.00 to $21.00 hourly (to be negotiated)",
     "payMin": 20.0,
     "type": "See posting",
-    "link": "https://www.jobbank.gc.ca/jobsearch/jobposting/50103879;jsessionid=57947CB3D2FAE51BE1B0C4943D65A31E.jobsearch77?source=searchresults",
+    "link": "https://www.jobbank.gc.ca/jobsearch/jobposting/50103879;jsessionid=8AE5165023714F3BCE88467533C3A26F.jobsearch77?source=searchresults",
     "search": "https://www.google.com/search?q=live-in%20caregiver%20-%20seniors",
     "hl": [
       "Posted on Job Bank Canada"
