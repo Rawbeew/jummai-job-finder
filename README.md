@@ -43,5 +43,13 @@ Netlify Pages serves the board + ATS resume generator (client-side)
 
 **Cost:** $0. Free tier on both Cloudflare (100k req/day) and Netlify (300 build min/mo) — usage sits far below limits.
 
+## What I would improve next
+
+Honest trade-offs in the current design:
+
+1. **Dedup by posting-hash across refreshes** — each 2h refresh recomputes the board from source. A content hash per posting (title+employer+URL) would let the Worker skip re-listing unchanged jobs and keep a stable "first seen" timestamp.
+2. **Alert digest instead of individual pushes** — notifications fire per refresh cycle. A single daily digest (top N new matches, grouped by commute bucket) would be less noisy for the person actually job-hunting.
+3. **Resume-tailoring eval set** — the ATS resume/cover-letter generator is prompt-driven with no regression suite. A small set of (job posting, expected resume emphasis) pairs scored on every prompt change would stop silent quality drift.
+
 ## License
 MIT
