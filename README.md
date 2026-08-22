@@ -14,6 +14,42 @@ This project was built with AI-assisted development (Hermes/Claude) under human 
 The architecture, Cloudflare Worker design, resume/cover letter prompts were directed by a human;
 implementation was done by an LLM under supervision.
 
+## Data pipeline
+
+```
+fetch (SmartRecruiters / BambooHR / Job Bank / Adzuna)
+  → content-hash dedupe (sha256 of title+employer+location, normalized)
+  → SQLite history (jobs.db, via scripts/jobstore.py)
+  → jobs.json (last-12h snapshot)
+  → static site (Netlify / GitHub Pages)
+```
+
+- `scripts/jobstore.py` — SQLite store: `postings` table keyed by a UNIQUE
+  content hash, so the same job re-posted across runs is stored once.
+  Query helpers: `fresh_last_24h()`, `by_region()`, `top_employers(limit)`,
+  `posting_volume_by_day(days)`.
+- `scripts/backfill.py` — loads the existing `jobs.json` snapshot into
+  `jobs.db` (`python scripts/backfill.py`, safe to re-run).
+- `scripts/refresh_jobs.py` — every refresh upserts fetched postings into
+  SQLite *before* composing `jobs.json`, so the site stays a snapshot while
+  the database accumulates full posting history.
+
+Example SQL against `jobs.db`:
+
+```sql
+-- Postings per region, newest week
+SELECT region, COUNT(*) AS n
+FROM postings
+WHERE posted_at >= date('now', '-7 days')
+GROUP BY region ORDER BY n DESC;
+
+-- Top 10 employers by distinct postings
+SELECT employer, COUNT(*) AS n
+FROM postings
+GROUP BY employer
+ORDER BY n DESC LIMIT 10;
+```
+
 ## Live
 - Netlify: https://just-hired.netlify.app
 - GitHub Pages: https://rawbeew.github.io/just-hired/

@@ -28,6 +28,9 @@ import urllib.parse
 import urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+
+from jobstore import JobStore  # noqa: E402  (SQLite history store)
 JSON_PATH = os.path.join(os.path.dirname(HERE), "jobs.json")
 
 MAX_LIVE_AGE_HOURS = 12  # only postings released within the last 12 hours
@@ -490,6 +493,16 @@ def main():
         live_merged.append(j)
 
     merged = (live_merged + curated)[:CAP]
+
+    # Persist every fetched posting into SQLite history before composing
+    # jobs.json — hash-deduped, so repeat runs only refresh fetched_at.
+    try:
+        store = JobStore()
+        ins, dup = store.upsert_many(live_merged, source="refresh")
+        store.close()
+        print(f"SQLite history: {ins} new, {dup} duplicates")
+    except Exception as e:  # noqa: BLE001 - never let stats break the refresh
+        print(f"SQLite history update failed (non-fatal): {e}", file=sys.stderr)
 
     with open(JSON_PATH, "w", encoding="utf-8") as f:
         json.dump(merged, f, indent=2)
